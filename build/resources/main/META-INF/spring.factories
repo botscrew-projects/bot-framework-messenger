@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.botscrew.messenger.cdk.config.MessengerCDKConfiguration
