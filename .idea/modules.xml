@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/messenger.cdk.iml" filepath="$PROJECT_DIR$/messenger.cdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/messenger.cdk_main.iml" filepath="$PROJECT_DIR$/.idea/modules/messenger.cdk_main.iml" group="messenger.cdk" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/messenger.cdk_test.iml" filepath="$PROJECT_DIR$/.idea/modules/messenger.cdk_test.iml" group="messenger.cdk" />
+    </modules>
+  </component>
+</project>
