@@ -41,8 +41,10 @@ import java.util.List;
 public class MessengerCDKConfiguration {
 
     @Bean
-    public TokenizedSender messageSender(RestTemplate restTemplate, MessengerProperties messengerProperties) {
-        return new TokenizedSenderImpl(restTemplate, messengerProperties);
+    public TokenizedSender messageSender(RestTemplate restTemplate,
+                                         MessengerProperties messengerProperties,
+                                         @Qualifier("defaultSenderTaskScheduler") ThreadPoolTaskScheduler scheduler) {
+        return new TokenizedSenderImpl(restTemplate, messengerProperties, scheduler);
     }
 
     @Bean
@@ -125,8 +127,8 @@ public class MessengerCDKConfiguration {
         return executor;
     }
 
-    @Bean
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler (SenderExecutorProperties properties) {
+    @Bean(name = "defaultSenderTaskScheduler")
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler(SenderExecutorProperties properties) {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(properties.getPoolSize());
         scheduler.initialize();
