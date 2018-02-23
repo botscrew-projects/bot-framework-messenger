@@ -1,15 +1,19 @@
 package com.botscrew.messenger.cdk.service.impl;
 
+import com.botscrew.framework.flow.model.Bot;
+import com.botscrew.framework.flow.model.ChatUser;
+import com.botscrew.framework.flow.sender.*;
 import com.botscrew.messenger.cdk.config.property.MessengerProperties;
 import com.botscrew.messenger.cdk.exception.SendAPIException;
+import com.botscrew.messenger.cdk.model.MessengerBot;
 import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.incomming.UserInfo;
 import com.botscrew.messenger.cdk.model.outgoing.*;
+import com.botscrew.messenger.cdk.model.outgoing.Message;
 import com.botscrew.messenger.cdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -35,7 +39,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(message);
+        post(token, message);
     }
 
     @Override
@@ -51,7 +55,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(message);
+        post(token, message);
     }
 
     @Override
@@ -68,7 +72,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(message);
+        post(token, message);
     }
 
     @Override
@@ -85,7 +89,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(message);
+        post(token, message);
     }
 
     @Override
@@ -94,10 +98,10 @@ public class TokenizedSenderImpl implements TokenizedSender {
         return scheduler.schedule(() -> send(token, recipient, elements, quickReplies), when);
     }
 
-    private void post(Object message) {
+    private void post(String token, com.botscrew.framework.flow.sender.Message message) {
         LOGGER.debug("Posting message: \n{0}", message);
         try {
-            restTemplate.postForObject(properties.messagingUrl(), message, String.class);
+            restTemplate.postForObject(properties.buildMessagingUrl(token), message, String.class);
         }catch (HttpClientErrorException|HttpServerErrorException e) {
             throw new SendAPIException(e.getResponseBodyAsString());
         }
@@ -108,5 +112,11 @@ public class TokenizedSenderImpl implements TokenizedSender {
         c.setTime(date);
         c.add(calendarField, amount);
         return c.getTime();
+    }
+
+    @Override
+    public void executeMessage(Bot bot, com.botscrew.framework.flow.sender.Message message) {
+        MessengerBot messengerBot = (MessengerBot)bot;
+        post(messengerBot.getAccessToken(), message);
     }
 }

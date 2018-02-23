@@ -3,14 +3,17 @@ package com.botscrew.messenger.cdk.config;
 import com.botscrew.framework.flow.container.LocationContainer;
 import com.botscrew.framework.flow.container.PostbackContainer;
 import com.botscrew.framework.flow.container.TextContainer;
+import com.botscrew.framework.flow.sender.*;
 import com.botscrew.messenger.cdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messenger.cdk.config.property.MessengerProperties;
 import com.botscrew.messenger.cdk.config.property.SenderExecutorProperties;
 import com.botscrew.messenger.cdk.controller.MessengerEventController;
 import com.botscrew.messenger.cdk.service.*;
+import com.botscrew.messenger.cdk.service.Sender;
 import com.botscrew.messenger.cdk.service.impl.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,11 +27,11 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
 import org.springframework.http.converter.xml.SourceHttpMessageConverter;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +43,12 @@ import java.util.List;
 })
 public class MessengerCDKConfiguration {
 
+    @Autowired
+    private PlatformSender platformSender;
+    @Autowired
+    private TokenizedSender tokenizedSender;
+
+
     @Bean
     public TokenizedSender messageSender(RestTemplate restTemplate,
                                          MessengerProperties messengerProperties,
@@ -49,7 +58,7 @@ public class MessengerCDKConfiguration {
 
     @Bean
     public Sender sender(TokenizedSender tokenizedSender, MessengerProperties messengerProperties) {
-        return new DefaultSender(tokenizedSender, messengerProperties);
+        return new DefaultSender(tokenizedSender, messengerProperties.getAccessToken());
     }
 
     @Bean
@@ -64,12 +73,19 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(value = BotProvider.class)
+    public BotProvider botProvider( MessengerProperties messengerProperties) {
+        return new DefaultBotProvider(messengerProperties.getAccessToken());
+    }
+
+    @Bean
     @ConditionalOnMissingBean(value = EventProcessor.class)
     public EventProcessor eventProcessor(UserProvider userProvider,
+                                         BotProvider botProvider,
                                          TextContainer textContainer,
                                          PostbackContainer postbackContainer,
                                          LocationContainer locationContainer) {
-        return new BotFrameworkEventProcessor(userProvider, textContainer, postbackContainer, locationContainer);
+        return new BotFrameworkEventProcessor(userProvider, botProvider, textContainer, postbackContainer, locationContainer);
     }
 
     @Bean
@@ -132,7 +148,11 @@ public class MessengerCDKConfiguration {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(properties.getPoolSize());
         scheduler.initialize();
-
         return scheduler;
+    }
+
+    @PostConstruct
+    public void addSender(){
+        platformSender.addSender(Platform.FACEBOOK, tokenizedSender);
     }
 }

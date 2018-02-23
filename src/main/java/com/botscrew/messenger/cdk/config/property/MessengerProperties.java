@@ -23,7 +23,6 @@ public class MessengerProperties {
     private String graphHost;
     private int graphPort;
     private String graphApiVersion;
-    private String messagingUrl = null;
 
     public MessengerProperties() {
         verifyToken = "test";
@@ -32,22 +31,17 @@ public class MessengerProperties {
         graphPort = 443;
     }
 
-    public String messagingUrl() {
-        if (messagingUrl == null) {
-            buildMessagingUrl();
-        }
-        return messagingUrl;
-    }
-
-    private void buildMessagingUrl() {
+    public String buildMessagingUrl(String accessToken) {
         String path = "/me/messages";
         String query = "access_token=" + accessToken;
+        String messagingUrl = null;
         try {
             URI uri = new URI(HTTPS, null, graphHost, graphPort, path, query, null);
             messagingUrl = uri.toURL().toString();
         } catch (URISyntaxException | MalformedURLException e) {
             LOGGER.error("Problem with configuring messaging url", e);
         }
+        return messagingUrl;
     }
 
     public String getVerifyToken() {

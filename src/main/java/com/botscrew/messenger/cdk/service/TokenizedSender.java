@@ -7,7 +7,7 @@ import com.botscrew.messenger.cdk.model.outgoing.QuickReply;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
-public interface TokenizedSender {
+public interface TokenizedSender extends com.botscrew.framework.flow.sender.Sender {
 
 
     void send(String token, MessengerUser recipient, String text);

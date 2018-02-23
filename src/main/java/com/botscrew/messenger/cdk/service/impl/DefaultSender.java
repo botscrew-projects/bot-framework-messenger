@@ -1,6 +1,6 @@
 package com.botscrew.messenger.cdk.service.impl;
 
-import com.botscrew.messenger.cdk.config.property.MessengerProperties;
+import com.botscrew.messenger.cdk.model.MessengerBot;
 import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.outgoing.GenericElement;
 import com.botscrew.messenger.cdk.model.outgoing.QuickReply;
@@ -14,26 +14,25 @@ import java.util.List;
 public class DefaultSender implements Sender {
 
     private final TokenizedSender tokenizedSender;
-    private final MessengerProperties messengerProperties;
+    private final String accessToken;
 
     @Override
     public void send(MessengerUser recipient, String text) {
-        tokenizedSender.send(messengerProperties.getAccessToken(), recipient, text);
+        tokenizedSender.send(accessToken, recipient, text);
     }
 
     @Override
     public void send(MessengerUser recipient, String text, List<QuickReply> quickReplies) {
-        tokenizedSender.send(messengerProperties.getAccessToken(), recipient, text, quickReplies);
+        tokenizedSender.send(accessToken, recipient, text, quickReplies);
     }
 
     @Override
     public void send(MessengerUser recipient, List<GenericElement> elements) {
-        tokenizedSender.send(messengerProperties.getAccessToken(), recipient, elements);
+        tokenizedSender.send(accessToken, recipient, elements);
     }
 
     @Override
     public void send(MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies) {
-        tokenizedSender.send(messengerProperties.getAccessToken(), recipient, elements, quickReplies);
+        tokenizedSender.send(accessToken, recipient, elements, quickReplies);
     }
-
 }

@@ -4,11 +4,14 @@ import com.botscrew.framework.flow.container.LocationContainer;
 import com.botscrew.framework.flow.container.PostbackContainer;
 import com.botscrew.framework.flow.container.TextContainer;
 import com.botscrew.framework.flow.model.GeoCoordinates;
+import com.botscrew.messenger.cdk.model.MessengerBot;
 import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.incomming.Coordinates;
 import com.botscrew.messenger.cdk.model.incomming.EventType;
 import com.botscrew.messenger.cdk.model.incomming.Messaging;
+import com.botscrew.messenger.cdk.service.BotProvider;
 import com.botscrew.messenger.cdk.service.EventProcessor;
+import com.botscrew.messenger.cdk.service.UserProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +25,13 @@ public class BotFrameworkEventProcessor implements EventProcessor {
     private final Map<EventType, BiConsumer<MessengerUser, Messaging>> processors;
 
     private final UserProvider userProvider;
+    private final BotProvider botProvider;
 
     private final TextContainer textContainer;
     private final PostbackContainer postbackContainer;
     private final LocationContainer locationContainer;
 
-    public BotFrameworkEventProcessor(UserProvider userProvider, TextContainer textContainer, PostbackContainer postbackContainer, LocationContainer locationContainer) {
+    public BotFrameworkEventProcessor(UserProvider userProvider, BotProvider botProvider, TextContainer textContainer, PostbackContainer postbackContainer, LocationContainer locationContainer) {
         processors = new EnumMap<>(EventType.class);
         processors.put(EventType.TEXT, this::processText);
         processors.put(EventType.QUICK_REPLY, this::processQuickReply);
@@ -35,7 +39,7 @@ public class BotFrameworkEventProcessor implements EventProcessor {
         processors.put(EventType.LOCATION, this::processLocation);
 
         this.userProvider = userProvider;
-
+        this.botProvider = botProvider;
         this.textContainer = textContainer;
         this.postbackContainer = postbackContainer;
         this.locationContainer = locationContainer;
@@ -48,7 +52,8 @@ public class BotFrameworkEventProcessor implements EventProcessor {
             return;
         }
         try {
-            MessengerUser user = userProvider.getByChatId(messaging.getSender().getId());
+            MessengerBot messengerBot = botProvider.findById(messaging.getRecipient().getId());
+            MessengerUser user = userProvider.getByChatIdAndBotId(messaging.getSender().getId(), messengerBot);
             processors.get(type).accept(user, messaging);
         }
         catch (Exception e) {
