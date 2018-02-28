@@ -7,6 +7,7 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
 
     @Override
     public EventType resolve(Messaging messaging) {
+        if(echoAvailable(messaging)) return EventType.ECHO;
         if (quickReplyAvailable(messaging)) return EventType.QUICK_REPLY;
         if (textAvailable(messaging)) return EventType.TEXT;
         if (postbackAvailable(messaging)) return EventType.POSTBACK;
@@ -15,6 +16,12 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
         return EventType.UNDEFINED;
     }
 
+
+
+    private boolean echoAvailable(Messaging messaging) {
+        //todo
+        return false;
+    }
 
     private boolean textAvailable(Messaging messaging) {
         return messaging.getMessage() != null
