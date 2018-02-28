@@ -8,6 +8,8 @@ import com.botscrew.messenger.cdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messenger.cdk.config.property.MessengerProperties;
 import com.botscrew.messenger.cdk.config.property.SenderExecutorProperties;
 import com.botscrew.messenger.cdk.controller.MessengerEventController;
+import com.botscrew.messenger.cdk.domain.MessengerInterceptor;
+import com.botscrew.messenger.cdk.domain.PreMessageProcessingAction;
 import com.botscrew.messenger.cdk.service.*;
 import com.botscrew.messenger.cdk.service.Sender;
 import com.botscrew.messenger.cdk.service.impl.*;
@@ -15,6 +17,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -85,8 +88,8 @@ public class MessengerCDKConfiguration {
                                          TextContainer textContainer,
                                          PostbackContainer postbackContainer,
                                          LocationContainer locationContainer,
-                                         EchoProcessor echoProcessor) {
-        return new BotFrameworkEventProcessor(userProvider, botProvider, textContainer, postbackContainer, locationContainer, echoProcessor);
+                                         @Autowired(required = false) List<MessengerInterceptor<PreMessageProcessingAction>> preInterceptors) {
+        return new BotFrameworkEventProcessor(userProvider, botProvider, textContainer, postbackContainer, locationContainer, preInterceptors);
     }
 
     @Bean
