@@ -10,6 +10,7 @@ import com.botscrew.messenger.cdk.model.incomming.Coordinates;
 import com.botscrew.messenger.cdk.model.incomming.EventType;
 import com.botscrew.messenger.cdk.model.incomming.Messaging;
 import com.botscrew.messenger.cdk.service.BotProvider;
+import com.botscrew.messenger.cdk.service.EchoProcessor;
 import com.botscrew.messenger.cdk.service.EventProcessor;
 import com.botscrew.messenger.cdk.service.UserProvider;
 import org.slf4j.Logger;
@@ -31,12 +32,19 @@ public class BotFrameworkEventProcessor implements EventProcessor {
     private final PostbackContainer postbackContainer;
     private final LocationContainer locationContainer;
 
-    public BotFrameworkEventProcessor(UserProvider userProvider, BotProvider botProvider, TextContainer textContainer, PostbackContainer postbackContainer, LocationContainer locationContainer) {
+    public BotFrameworkEventProcessor(UserProvider userProvider,
+                                      BotProvider botProvider,
+                                      TextContainer textContainer,
+                                      PostbackContainer postbackContainer,
+                                      LocationContainer locationContainer,
+                                      EchoProcessor echoProcessor) {
         processors = new EnumMap<>(EventType.class);
         processors.put(EventType.TEXT, this::processText);
         processors.put(EventType.QUICK_REPLY, this::processQuickReply);
         processors.put(EventType.POSTBACK, this::processPostback);
         processors.put(EventType.LOCATION, this::processLocation);
+        processors.put(EventType.ECHO, echoProcessor::processEcho);
+
 
         this.userProvider = userProvider;
         this.botProvider = botProvider;

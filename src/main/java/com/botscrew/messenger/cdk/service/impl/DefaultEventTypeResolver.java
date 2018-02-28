@@ -19,8 +19,7 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
 
 
     private boolean echoAvailable(Messaging messaging) {
-        //todo
-        return false;
+        return messaging.getMessage() != null && messaging.getMessage().isEcho();
     }
 
     private boolean textAvailable(Messaging messaging) {

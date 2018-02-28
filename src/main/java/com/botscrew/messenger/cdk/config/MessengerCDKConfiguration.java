@@ -84,8 +84,9 @@ public class MessengerCDKConfiguration {
                                          BotProvider botProvider,
                                          TextContainer textContainer,
                                          PostbackContainer postbackContainer,
-                                         LocationContainer locationContainer) {
-        return new BotFrameworkEventProcessor(userProvider, botProvider, textContainer, postbackContainer, locationContainer);
+                                         LocationContainer locationContainer,
+                                         EchoProcessor echoProcessor) {
+        return new BotFrameworkEventProcessor(userProvider, botProvider, textContainer, postbackContainer, locationContainer, echoProcessor);
     }
 
     @Bean
