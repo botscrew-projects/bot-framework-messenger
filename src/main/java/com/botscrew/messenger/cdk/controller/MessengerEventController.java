@@ -27,11 +27,8 @@ public class MessengerEventController {
 
     @RequestMapping(method = RequestMethod.GET)
     private ResponseEntity<String> index(@RequestParam(name = "hub.challenge") String challenge,
-                                         @RequestParam(name = "hub.verify_token") String verifyToken)
-    {
-        String log = String.format("Subscription event with challenge: '%s' and verify token: '%s'",
-                challenge, verifyToken);
-        LOGGER.info(log);
+                                         @RequestParam(name = "hub.verify_token") String verifyToken) {
+        LOGGER.info("Subscription event with challenge: {} and verify token: {}", challenge, verifyToken);
         return subscriptionReviewer.review(challenge, verifyToken);
     }
 }
