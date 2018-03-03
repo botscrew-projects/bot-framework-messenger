@@ -8,16 +8,16 @@ import com.botscrew.messenger.cdk.service.EventProcessor;
 import com.botscrew.messenger.cdk.service.EventTypeResolver;
 import com.botscrew.messenger.cdk.service.ReportHandler;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
 
+@Slf4j
 @RequiredArgsConstructor
 public class DefaultReportHandler implements ReportHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReportHandler.class);
-
     private final EventTypeResolver typeResolver;
     private final EventProcessor eventProcessor;
     private final TaskExecutor taskExecutor;
@@ -25,7 +25,7 @@ public class DefaultReportHandler implements ReportHandler {
     @Override
     public void handle(Report report) {
         taskExecutor.execute(() -> {
-            LOGGER.debug("Messenger report: {0}", report);
+            log.debug("Messenger report: {}", report);
             for (MessagingBundle bundle : report.getEntry()) {
                 handleMessagingBundle(bundle);
             }

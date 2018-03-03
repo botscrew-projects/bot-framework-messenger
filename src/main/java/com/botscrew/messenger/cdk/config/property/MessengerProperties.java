@@ -1,6 +1,7 @@
 package com.botscrew.messenger.cdk.config.property;
 
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,12 +10,10 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@ConfigurationProperties(prefix = "facebook.messenger")
+@Slf4j
 @ToString
+@ConfigurationProperties(prefix = "facebook.messenger")
 public class MessengerProperties {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessengerProperties.class);
-
     private static final String HTTP = "http";
     private static final String HTTPS = "https";
 
@@ -46,7 +45,7 @@ public class MessengerProperties {
             URI uri = new URI(HTTPS, null, graphHost, graphPort, path, query, null);
             messagingUrl = uri.toURL().toString();
         } catch (URISyntaxException | MalformedURLException e) {
-            LOGGER.error("Problem with configuring messaging url", e);
+            log.error("Problem with configuring messaging url", e);
         }
     }
 

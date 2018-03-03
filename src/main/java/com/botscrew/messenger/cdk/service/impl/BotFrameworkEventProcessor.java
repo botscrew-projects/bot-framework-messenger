@@ -9,16 +9,14 @@ import com.botscrew.messenger.cdk.model.incomming.Coordinates;
 import com.botscrew.messenger.cdk.model.incomming.EventType;
 import com.botscrew.messenger.cdk.model.incomming.Messaging;
 import com.botscrew.messenger.cdk.service.EventProcessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+@Slf4j
 public class BotFrameworkEventProcessor implements EventProcessor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BotFrameworkEventProcessor.class);
-
     private final Map<EventType, BiConsumer<MessengerUser, Messaging>> processors;
 
     private final UserProvider userProvider;
@@ -44,7 +42,7 @@ public class BotFrameworkEventProcessor implements EventProcessor {
     @Override
     public void process(EventType type, Messaging messaging) {
         if (type == EventType.UNDEFINED) {
-            LOGGER.warn("Messaging with type: UNDEFINED, {0}", messaging);
+            log.warn("Messaging with type: UNDEFINED, {}", messaging);
             return;
         }
         try {
@@ -52,7 +50,7 @@ public class BotFrameworkEventProcessor implements EventProcessor {
             processors.get(type).accept(user, messaging);
         }
         catch (Exception e) {
-            LOGGER.error("Error during processing messaging: " + messaging.toString(), e);
+            log.error("Error during processing messaging: " + messaging.toString(), e);
         }
     }
 

@@ -7,6 +7,7 @@ import com.botscrew.messenger.cdk.model.incomming.UserInfo;
 import com.botscrew.messenger.cdk.model.outgoing.*;
 import com.botscrew.messenger.cdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,10 +21,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
+@Slf4j
 @RequiredArgsConstructor
 public class TokenizedSenderImpl implements TokenizedSender {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReportHandler.class);
-
     private final RestTemplate restTemplate;
     private final MessengerProperties properties;
     private final ThreadPoolTaskScheduler scheduler;
@@ -34,7 +34,6 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .message(new Message(text))
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
-
         post(message);
     }
 
@@ -95,7 +94,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
     }
 
     private void post(Object message) {
-        LOGGER.debug("Posting message: \n{0}", message);
+        log.debug("Posting message: \n{0}", message);
         try {
             restTemplate.postForObject(properties.messagingUrl(), message, String.class);
         }catch (HttpClientErrorException|HttpServerErrorException e) {
