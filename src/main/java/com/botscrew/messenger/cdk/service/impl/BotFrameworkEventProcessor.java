@@ -9,6 +9,7 @@ import com.botscrew.messenger.cdk.model.incomming.Coordinates;
 import com.botscrew.messenger.cdk.model.incomming.EventType;
 import com.botscrew.messenger.cdk.model.incomming.Messaging;
 import com.botscrew.messenger.cdk.service.EventProcessor;
+import com.botscrew.messenger.cdk.service.UserProvider;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.EnumMap;
