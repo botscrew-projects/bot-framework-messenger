@@ -8,6 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 public class SenderExecutorProperties {
-
     private Integer poolSize = 10;
 }

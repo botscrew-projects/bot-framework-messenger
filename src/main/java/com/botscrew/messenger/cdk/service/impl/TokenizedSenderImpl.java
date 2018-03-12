@@ -20,13 +20,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
+
 @RequiredArgsConstructor
 public class TokenizedSenderImpl implements TokenizedSender {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReportHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenizedSenderImpl.class);
 
     private final RestTemplate restTemplate;
     private final MessengerProperties properties;
     private final ThreadPoolTaskScheduler scheduler;
+
+    @Override
+    public void send(String token, Request request) {
+        post(token, request);
+    }
 
     @Override
     public void send(String token, MessengerUser recipient, String text) {
@@ -95,29 +101,24 @@ public class TokenizedSenderImpl implements TokenizedSender {
     }
 
     @Override
-    public void send(String token, Request request) {
-        post(token, request);
-    }
-
-    @Override
     public ScheduledFuture send(String token, Request request, Integer delayMillis) {
         Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
         return scheduler.schedule(() -> send(token, request), when);
     }
 
     private void post(String token, Request message) {
-        LOGGER.debug("Posting message: \n{0}", message);
+        LOGGER.debug("Posting message: \n{}", message);
         try {
             restTemplate.postForObject(properties.getMessagingUrl(token), message, String.class);
-        }catch (HttpClientErrorException|HttpServerErrorException e) {
-            throw new SendAPIException(e.getResponseBodyAsString());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            throw new SendAPIException(e.getResponseBodyAsString(), e);
         }
     }
 
     private Date addToDate(Date date, int calendarField, int amount) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(calendarField, amount);
-        return c.getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(calendarField, amount);
+        return calendar.getTime();
     }
 }

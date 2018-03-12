@@ -2,16 +2,13 @@ package com.botscrew.messenger.cdk.config.property;
 
 import com.botscrew.messenger.cdk.util.URL;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-@ConfigurationProperties(prefix = "facebook.messenger")
 @ToString
+@ConfigurationProperties(prefix = "facebook.messenger")
 public class MessengerProperties {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessengerProperties.class);
@@ -70,8 +67,6 @@ public class MessengerProperties {
                 .getValue();
     }
 
-
-
     public String getVerifyToken() {
         return verifyToken;
     }
@@ -102,5 +97,9 @@ public class MessengerProperties {
 
     public void setGraphApiVersion(String graphApiVersion) {
         this.graphApiVersion = graphApiVersion;
+    }
+
+    public int getGraphPort() {
+        return graphPort;
     }
 }
