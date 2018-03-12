@@ -1,6 +1,8 @@
-package com.botscrew.messenger.cdk.model.outgoing;
+package com.botscrew.messenger.cdk.model.outgoing.request;
 
 import com.botscrew.messenger.cdk.model.incomming.UserInfo;
+import com.botscrew.messenger.cdk.model.outgoing.Message;
+import com.botscrew.messenger.cdk.model.outgoing.MessagingType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
