@@ -1,16 +1,17 @@
 package com.botscrew.messenger.cdk.test;
 
-import com.botscrew.framework.flow.annotation.ChatActionsProcessor;
-import com.botscrew.framework.flow.annotation.Text;
+import com.botscrew.botframework.annotation.ChatEventsProcessor;
+import com.botscrew.botframework.annotation.Text;
 import com.botscrew.messenger.cdk.model.MessengerUser;
-import com.botscrew.messenger.cdk.model.outgoing.*;
+import com.botscrew.messenger.cdk.model.outgoing.GenericElement;
+import com.botscrew.messenger.cdk.model.outgoing.QuickReply;
+import com.botscrew.messenger.cdk.model.outgoing.WebButton;
 import com.botscrew.messenger.cdk.service.Sender;
-import com.botscrew.messenger.cdk.service.TokenizedSender;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 
-@ChatActionsProcessor
+@ChatEventsProcessor
 public class TestService {
 
     @Autowired

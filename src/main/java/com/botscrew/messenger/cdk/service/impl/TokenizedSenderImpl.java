@@ -5,11 +5,11 @@ import com.botscrew.messenger.cdk.exception.SendAPIException;
 import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.incomming.UserInfo;
 import com.botscrew.messenger.cdk.model.outgoing.*;
+import com.botscrew.messenger.cdk.model.outgoing.request.Request;
 import com.botscrew.messenger.cdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -92,6 +92,17 @@ public class TokenizedSenderImpl implements TokenizedSender {
     public ScheduledFuture send(String token, MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies, Integer delayMillis) {
         Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
         return scheduler.schedule(() -> send(token, recipient, elements, quickReplies), when);
+    }
+
+    @Override
+    public void send(String token, Request request) {
+        post(request);
+    }
+
+    @Override
+    public ScheduledFuture send(String token, Request request, Integer delayMillis) {
+        Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
+        return scheduler.schedule(() -> send(token, request), when);
     }
 
     private void post(Object message) {

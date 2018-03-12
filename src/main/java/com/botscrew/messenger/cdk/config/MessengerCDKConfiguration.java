@@ -1,8 +1,8 @@
 package com.botscrew.messenger.cdk.config;
 
-import com.botscrew.framework.flow.container.LocationContainer;
-import com.botscrew.framework.flow.container.PostbackContainer;
-import com.botscrew.framework.flow.container.TextContainer;
+import com.botscrew.botframework.container.LocationContainer;
+import com.botscrew.botframework.container.PostbackContainer;
+import com.botscrew.botframework.container.TextContainer;
 import com.botscrew.messenger.cdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messenger.cdk.config.property.MessengerProperties;
 import com.botscrew.messenger.cdk.config.property.SenderExecutorProperties;
@@ -24,7 +24,6 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
 import org.springframework.http.converter.xml.SourceHttpMessageConverter;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;

@@ -1,9 +1,9 @@
 package com.botscrew.messenger.cdk.service.impl;
 
-import com.botscrew.framework.flow.container.LocationContainer;
-import com.botscrew.framework.flow.container.PostbackContainer;
-import com.botscrew.framework.flow.container.TextContainer;
-import com.botscrew.framework.flow.model.GeoCoordinates;
+import com.botscrew.botframework.container.LocationContainer;
+import com.botscrew.botframework.container.PostbackContainer;
+import com.botscrew.botframework.container.TextContainer;
+import com.botscrew.botframework.model.GeoCoordinates;
 import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.incomming.Coordinates;
 import com.botscrew.messenger.cdk.model.incomming.EventType;
