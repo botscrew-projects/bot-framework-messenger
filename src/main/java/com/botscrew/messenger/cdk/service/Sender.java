@@ -1,6 +1,5 @@
 package com.botscrew.messenger.cdk.service;
 
-import com.botscrew.messenger.cdk.model.outgoing.Request;
 import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.outgoing.GenericElement;
 import com.botscrew.messenger.cdk.model.outgoing.QuickReply;

@@ -5,7 +5,6 @@ import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.outgoing.GenericElement;
 import com.botscrew.messenger.cdk.model.outgoing.QuickReply;
 import com.botscrew.messenger.cdk.model.outgoing.request.Request;
->>>>>>> src/main/java/com/botscrew/messenger/cdk/service/impl/DefaultSender.java
 import com.botscrew.messenger.cdk.service.Sender;
 import com.botscrew.messenger.cdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
