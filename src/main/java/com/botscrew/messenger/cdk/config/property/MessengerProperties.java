@@ -1,5 +1,6 @@
 package com.botscrew.messenger.cdk.config.property;
 
+import com.botscrew.messenger.cdk.util.URL;
 import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +19,17 @@ public class MessengerProperties {
     private static final String HTTP = "http";
     private static final String HTTPS = "https";
 
+    private static final String ACCESS_TOKEN_PARAM = "access_token";
+
     private String verifyToken;
     private String accessToken;
     private String graphHost;
     private int graphPort;
     private String graphApiVersion;
     private String messagingUrl = null;
+
+    private URL.Builder messagingUrlBuilder = null;
+    private String defaultMessagingUrl = null;
 
     public MessengerProperties() {
         verifyToken = "test";
@@ -32,23 +38,39 @@ public class MessengerProperties {
         graphPort = 443;
     }
 
-    public String messagingUrl() {
-        if (messagingUrl == null) {
-            buildMessagingUrl();
+    public String getMessagingUrl() {
+        if (messagingUrlBuilder == null) {
+            createMessagingUrlBuilder();
+            createDefaultMessagingUrl();
         }
-        return messagingUrl;
+        return defaultMessagingUrl;
     }
 
-    private void buildMessagingUrl() {
-        String path = "/me/messages";
-        String query = "access_token=" + accessToken;
-        try {
-            URI uri = new URI(HTTPS, null, graphHost, graphPort, path, query, null);
-            messagingUrl = uri.toURL().toString();
-        } catch (URISyntaxException | MalformedURLException e) {
-            LOGGER.error("Problem with configuring messaging url", e);
+    public String getMessagingUrl(String token) {
+        if (messagingUrlBuilder == null) {
+            createMessagingUrlBuilder();
         }
+        return messagingUrlBuilder
+                .param(ACCESS_TOKEN_PARAM, token)
+                .build()
+                .getValue();
     }
+
+    private void createMessagingUrlBuilder() {
+        messagingUrlBuilder = new URL.Builder()
+                .protocol(HTTPS)
+                .host(graphHost)
+                .path("/me/messages");
+    }
+
+    private void createDefaultMessagingUrl() {
+        defaultMessagingUrl = messagingUrlBuilder
+                .param(ACCESS_TOKEN_PARAM, accessToken)
+                .build()
+                .getValue();
+    }
+
+
 
     public String getVerifyToken() {
         return verifyToken;

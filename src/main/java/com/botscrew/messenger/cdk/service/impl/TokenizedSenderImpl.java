@@ -35,7 +35,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(message);
+        post(token, message);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(message);
+        post(token, message);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(message);
+        post(token, message);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(message);
+        post(token, message);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public void send(String token, Request request) {
-        post(request);
+        post(token, request);
     }
 
     @Override
@@ -105,10 +105,10 @@ public class TokenizedSenderImpl implements TokenizedSender {
         return scheduler.schedule(() -> send(token, request), when);
     }
 
-    private void post(Object message) {
+    private void post(String token, Request message) {
         LOGGER.debug("Posting message: \n{0}", message);
         try {
-            restTemplate.postForObject(properties.messagingUrl(), message, String.class);
+            restTemplate.postForObject(properties.getMessagingUrl(token), message, String.class);
         }catch (HttpClientErrorException|HttpServerErrorException e) {
             throw new SendAPIException(e.getResponseBodyAsString());
         }
