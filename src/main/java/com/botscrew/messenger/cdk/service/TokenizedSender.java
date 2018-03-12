@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
 public interface TokenizedSender {
-
-
     void send(String token, MessengerUser recipient, String text);
     ScheduledFuture send(String token, MessengerUser recipient, String text, Integer delayMillis);
 
@@ -21,5 +19,4 @@ public interface TokenizedSender {
 
     void send(String token, MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies);
     ScheduledFuture send(String token, MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies, Integer delayMillis);
-
 }

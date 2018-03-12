@@ -1,8 +1,8 @@
 package com.botscrew.messenger.cdk.config;
 
-import com.botscrew.framework.flow.container.LocationContainer;
-import com.botscrew.framework.flow.container.PostbackContainer;
-import com.botscrew.framework.flow.container.TextContainer;
+import com.botscrew.botframework.container.LocationContainer;
+import com.botscrew.botframework.container.PostbackContainer;
+import com.botscrew.botframework.container.TextContainer;
 import com.botscrew.messenger.cdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messenger.cdk.config.property.MessengerProperties;
 import com.botscrew.messenger.cdk.config.property.SenderExecutorProperties;
@@ -122,7 +122,6 @@ public class MessengerCDKConfiguration {
         executor.setQueueCapacity(properties.getQueueCapacity());
         executor.setKeepAliveSeconds(properties.getKeepAliveSeconds());
         executor.initialize();
-
         return executor;
     }
 
@@ -131,7 +130,6 @@ public class MessengerCDKConfiguration {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(properties.getPoolSize());
         scheduler.initialize();
-
         return scheduler;
     }
 }

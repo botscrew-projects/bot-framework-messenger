@@ -12,7 +12,6 @@ public class DefaultUserProvider implements UserProvider {
                 return chatId;
             }
 
-            @Override
             public String getState() {
                 return "default";
             }

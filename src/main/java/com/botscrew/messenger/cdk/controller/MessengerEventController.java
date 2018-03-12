@@ -17,12 +17,12 @@ public class MessengerEventController {
     private final SubscriptionReviewer subscriptionReviewer;
 
     @RequestMapping(method = RequestMethod.POST)
-    private void index(@RequestBody(required = false) Report report) {
+    public void index(@RequestBody(required = false) Report report) {
         handler.handle(report);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    private ResponseEntity<String> index(@RequestParam(name = "hub.challenge") String challenge,
+    public ResponseEntity<String> index(@RequestParam(name = "hub.challenge") String challenge,
                                          @RequestParam(name = "hub.verify_token") String verifyToken) {
         log.info("Subscription event with challenge: {} and verify token: {}", challenge, verifyToken);
         return subscriptionReviewer.review(challenge, verifyToken);

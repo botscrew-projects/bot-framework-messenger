@@ -8,9 +8,6 @@ import com.botscrew.messenger.cdk.model.outgoing.*;
 import com.botscrew.messenger.cdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -94,7 +91,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
     }
 
     private void post(Object message) {
-        log.debug("Posting message: \n{0}", message);
+        log.debug("Posting message: \n{}", message);
         try {
             restTemplate.postForObject(properties.messagingUrl(), message, String.class);
         }catch (HttpClientErrorException|HttpServerErrorException e) {
