@@ -122,7 +122,6 @@ public class MessengerCDKConfiguration {
         executor.setQueueCapacity(properties.getQueueCapacity());
         executor.setKeepAliveSeconds(properties.getKeepAliveSeconds());
         executor.initialize();
-
         return executor;
     }
 
@@ -131,7 +130,6 @@ public class MessengerCDKConfiguration {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(properties.getPoolSize());
         scheduler.initialize();
-
         return scheduler;
     }
 }

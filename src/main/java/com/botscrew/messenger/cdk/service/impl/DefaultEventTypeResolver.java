@@ -7,11 +7,18 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
 
     @Override
     public EventType resolve(Messaging messaging) {
-        if (quickReplyAvailable(messaging)) return EventType.QUICK_REPLY;
-        if (textAvailable(messaging)) return EventType.TEXT;
-        if (postbackAvailable(messaging)) return EventType.POSTBACK;
-        if (locationAvailable(messaging)) return EventType.LOCATION;
-
+        if (quickReplyAvailable(messaging)) {
+            return EventType.QUICK_REPLY;
+        }
+        if (textAvailable(messaging)) {
+            return EventType.TEXT;
+        }
+        if (postbackAvailable(messaging)) {
+            return EventType.POSTBACK;
+        }
+        if (locationAvailable(messaging)) {
+            return EventType.LOCATION;
+        }
         return EventType.UNDEFINED;
     }
 
@@ -44,5 +51,4 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
     private boolean isNullOrEmpty(String string) {
         return string == null || string.isEmpty();
     }
-
 }

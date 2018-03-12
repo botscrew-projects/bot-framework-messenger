@@ -5,9 +5,11 @@ import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.outgoing.GenericElement;
 import com.botscrew.messenger.cdk.model.outgoing.QuickReply;
 import com.botscrew.messenger.cdk.model.outgoing.request.Request;
+>>>>>>> src/main/java/com/botscrew/messenger/cdk/service/impl/DefaultSender.java
 import com.botscrew.messenger.cdk.service.Sender;
 import com.botscrew.messenger.cdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
+
 
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
@@ -18,7 +20,6 @@ public class DefaultSender implements Sender {
     private final TokenizedSender tokenizedSender;
     private final MessengerProperties properties;
 
-    @Override
     public void send(MessengerUser recipient, String text) {
         tokenizedSender.send(properties.getAccessToken(), recipient, text);
     }

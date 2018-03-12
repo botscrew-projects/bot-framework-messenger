@@ -1,23 +1,13 @@
 package com.botscrew.messenger.cdk.config.property;
 
 import lombok.ToString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-@ConfigurationProperties(prefix = "facebook.messenger")
+@Slf4j
 @ToString
+@ConfigurationProperties(prefix = "facebook.messenger")
 public class MessengerProperties {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessengerProperties.class);
-
-    private static final String HTTP = "http";
-    private static final String HTTPS = "https";
-
     private String verifyToken;
     private String accessToken;
     private String graphHost;
@@ -30,24 +20,6 @@ public class MessengerProperties {
         graphHost = "graph.facebook.com";
         graphApiVersion = "2.6";
         graphPort = 443;
-    }
-
-    public String messagingUrl() {
-        if (messagingUrl == null) {
-            buildMessagingUrl();
-        }
-        return messagingUrl;
-    }
-
-    private void buildMessagingUrl() {
-        String path = "/me/messages";
-        String query = "access_token=" + accessToken;
-        try {
-            URI uri = new URI(HTTPS, null, graphHost, graphPort, path, query, null);
-            messagingUrl = uri.toURL().toString();
-        } catch (URISyntaxException | MalformedURLException e) {
-            LOGGER.error("Problem with configuring messaging url", e);
-        }
     }
 
     public String getVerifyToken() {
@@ -80,5 +52,9 @@ public class MessengerProperties {
 
     public void setGraphApiVersion(String graphApiVersion) {
         this.graphApiVersion = graphApiVersion;
+    }
+
+    public int getGraphPort() {
+        return graphPort;
     }
 }
