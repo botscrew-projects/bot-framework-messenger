@@ -35,5 +35,4 @@ public class DefaultSender implements Sender {
     public void send(MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies) {
         tokenizedSender.send(messengerProperties.getAccessToken(), recipient, elements, quickReplies);
     }
-
 }
