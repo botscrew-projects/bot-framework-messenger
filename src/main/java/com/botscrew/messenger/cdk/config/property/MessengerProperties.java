@@ -49,7 +49,6 @@ public class MessengerProperties {
         }
         return messagingUrlBuilder
                 .param(ACCESS_TOKEN_PARAM, token)
-                .port(graphPort)
                 .build()
                 .getValue();
     }
