@@ -4,7 +4,7 @@ import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.incomming.UserInfo;
 
 public abstract class RequestBuilder<T> {
-    UserInfo user;
+    private UserInfo user;
 
     public T recipient(MessengerUser user) {
         this.user = new UserInfo(user.getChatId());

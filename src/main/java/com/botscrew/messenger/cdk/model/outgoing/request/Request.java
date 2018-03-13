@@ -30,4 +30,8 @@ public class Request {
     public static ListTemplateBuilder listTemplate() {
         return new ListTemplateBuilder();
     }
+
+    public static ButtonTemplateBuilder buttonTemplate() {
+        return new ButtonTemplateBuilder();
+    }
 }

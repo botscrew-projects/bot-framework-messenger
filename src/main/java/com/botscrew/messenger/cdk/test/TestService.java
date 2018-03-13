@@ -53,6 +53,8 @@ public class TestService {
             sendGenericTemplate(user);
         } else if (text.equals("d")) {
             sendListTemplate(user);
+        } else if (text.equals("e")) {
+            sendButtonTemplate(user);
         }
     }
 
@@ -98,6 +100,17 @@ public class TestService {
                 .recipient(user)
                 .build();
 
+        sender.send(request);
+    }
+
+    public void sendButtonTemplate(MessengerUser user) {
+        Request request = Request.buttonTemplate()
+                .text("What do you choose")
+                .button(new PostbackButton("Red", "RED_POSTBACK"))
+                .button(new PostbackButton("Green", "GREEN_POSTBACK"))
+                .button(new PostbackButton("Blue", "BLUE_POSTBACK"))
+                .recipient(user)
+                .build();
         sender.send(request);
     }
 }
