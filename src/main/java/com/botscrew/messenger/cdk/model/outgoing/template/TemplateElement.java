@@ -1,17 +1,15 @@
-package com.botscrew.messenger.cdk.model.outgoing;
+package com.botscrew.messenger.cdk.model.outgoing.template;
 
+import com.botscrew.messenger.cdk.model.outgoing.button.Button;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Singular;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
 @Builder
-public class GenericElement {
+public class TemplateElement {
     private String title;
     private String subtitle;
     @JsonProperty("image_url")

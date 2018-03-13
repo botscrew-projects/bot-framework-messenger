@@ -8,7 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Attachment {
-
     private String type;
 
     public Attachment(String type) {

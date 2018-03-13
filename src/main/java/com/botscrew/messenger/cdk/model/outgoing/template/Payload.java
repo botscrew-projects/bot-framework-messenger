@@ -1,4 +1,4 @@
-package com.botscrew.messenger.cdk.model.outgoing;
+package com.botscrew.messenger.cdk.model.outgoing.template;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

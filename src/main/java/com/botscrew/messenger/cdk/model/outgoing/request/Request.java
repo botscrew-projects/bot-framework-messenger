@@ -11,11 +11,23 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(builderClassName = "PlainRequestBuilder")
 public class Request {
 
     @JsonProperty("messaging_type")
     private MessagingType messagingType;
     private UserInfo recipient;
     private Message message;
+
+    public static QuickReplyBuilder quickReply() {
+        return new QuickReplyBuilder();
+    }
+
+    public static GenericTemplateBuilder genericTemplate() {
+        return new GenericTemplateBuilder();
+    }
+
+    public static ListTemplateBuilder listTemplate() {
+        return new ListTemplateBuilder();
+    }
 }

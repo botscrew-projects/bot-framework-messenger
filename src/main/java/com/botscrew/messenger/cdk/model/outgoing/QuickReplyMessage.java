@@ -12,12 +12,12 @@ import java.util.List;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QuickRepliesMessage extends Message {
+public class QuickReplyMessage extends Message {
 
     @JsonProperty("quick_replies")
     private List<QuickReply> quickReplies;
 
-    public QuickRepliesMessage(String text, List<QuickReply> quickReplies) {
+    public QuickReplyMessage(String text, List<QuickReply> quickReplies) {
         super(text);
         this.quickReplies = quickReplies;
     }
