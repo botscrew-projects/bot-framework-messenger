@@ -2,7 +2,6 @@ package com.botscrew.messenger.cdk.config.property;
 
 import com.botscrew.messenger.cdk.util.URL;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,7 +20,7 @@ public class MessengerProperties {
     private String verifyToken;
     private String accessToken;
     private String graphHost;
-    private int graphPort;
+    private Integer graphPort;
     private String graphApiVersion;
     private String messagingUrl = null;
 
