@@ -4,14 +4,15 @@ import com.botscrew.botframework.annotation.ChatEventsProcessor;
 import com.botscrew.botframework.annotation.Text;
 import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.incomming.UserInfo;
-import com.botscrew.messenger.cdk.model.outgoing.*;
+import com.botscrew.messenger.cdk.model.outgoing.QuickReply;
 import com.botscrew.messenger.cdk.model.outgoing.button.PostbackButton;
 import com.botscrew.messenger.cdk.model.outgoing.button.WebButton;
 import com.botscrew.messenger.cdk.model.outgoing.request.Request;
-import com.botscrew.messenger.cdk.model.outgoing.template.*;
+import com.botscrew.messenger.cdk.model.outgoing.template.TemplateAttachment;
+import com.botscrew.messenger.cdk.model.outgoing.template.TemplateElement;
 import com.botscrew.messenger.cdk.model.outgoing.template.generic.GenericTemplateMessage;
 import com.botscrew.messenger.cdk.model.outgoing.template.generic.GenericTemplatePayload;
-import com.botscrew.messenger.cdk.model.outgoing.template.list.ListTemplatePayload;
+import com.botscrew.messenger.cdk.model.outgoing.template.list.TopElementStyle;
 import com.botscrew.messenger.cdk.service.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -93,7 +94,7 @@ public class TestService {
                 .element(listTemplateElement)
                 .element(listTemplateElement)
                 .button(new PostbackButton("Read more", "READ_MORE_POSTBACK"))
-                .topElementStyle(ListTemplatePayload.TopElementStyle.LARGE)
+                .topElementStyle(TopElementStyle.LARGE)
                 .recipient(user)
                 .build();
 

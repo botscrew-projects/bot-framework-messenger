@@ -24,9 +24,4 @@ public class ListTemplatePayload extends Payload {
         this.buttons = buttons;
         this.topElementStyle = topElementStyle;
     }
-
-    public enum TopElementStyle {
-        LARGE,
-        COMPACT
-    }
 }
