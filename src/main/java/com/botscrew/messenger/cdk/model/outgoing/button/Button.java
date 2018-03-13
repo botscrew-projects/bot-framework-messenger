@@ -1,4 +1,4 @@
-package com.botscrew.messenger.cdk.model.outgoing;
+package com.botscrew.messenger.cdk.model.outgoing.button;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -6,6 +6,10 @@ import com.botscrew.messenger.cdk.model.MessengerUser;
 import com.botscrew.messenger.cdk.model.incomming.UserInfo;
 import com.botscrew.messenger.cdk.model.outgoing.*;
 import com.botscrew.messenger.cdk.model.outgoing.request.Request;
+import com.botscrew.messenger.cdk.model.outgoing.template.generic.GenericTemplateMessage;
+import com.botscrew.messenger.cdk.model.outgoing.template.generic.GenericTemplatePayload;
+import com.botscrew.messenger.cdk.model.outgoing.template.TemplateAttachment;
+import com.botscrew.messenger.cdk.model.outgoing.template.TemplateElement;
 import com.botscrew.messenger.cdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -53,7 +57,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
     @Override
     public void send(String token, MessengerUser recipient, String text, List<QuickReply> quickReplies) {
         Request message = Request.builder()
-                .message(new QuickRepliesMessage(text, quickReplies))
+                .message(new QuickReplyMessage(text, quickReplies))
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
@@ -67,8 +71,8 @@ public class TokenizedSenderImpl implements TokenizedSender {
     }
 
     @Override
-    public void send(String token, MessengerUser recipient, List<GenericElement> elements) {
-        TemplateAttachment templateAttachment = new TemplateAttachment(new TemplatePayload(elements));
+    public void send(String token, MessengerUser recipient, List<TemplateElement> elements) {
+        TemplateAttachment templateAttachment = new TemplateAttachment(new GenericTemplatePayload(elements));
         Request message = Request.builder()
                 .message(new GenericTemplateMessage(templateAttachment))
                 .recipient(new UserInfo(recipient.getChatId()))
@@ -78,14 +82,14 @@ public class TokenizedSenderImpl implements TokenizedSender {
     }
 
     @Override
-    public ScheduledFuture send(String token, MessengerUser recipient, List<GenericElement> elements, Integer delayMillis) {
+    public ScheduledFuture send(String token, MessengerUser recipient, List<TemplateElement> elements, Integer delayMillis) {
         Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
         return scheduler.schedule(() -> send(token, recipient, elements), when);
     }
 
     @Override
-    public void send(String token, MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies) {
-        TemplateAttachment templateAttachment = new TemplateAttachment(new TemplatePayload(elements));
+    public void send(String token, MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies) {
+        TemplateAttachment templateAttachment = new TemplateAttachment(new GenericTemplatePayload(elements));
         Request message = Request.builder()
                 .message(new GenericTemplateMessage(quickReplies, templateAttachment))
                 .recipient(new UserInfo(recipient.getChatId()))
@@ -95,7 +99,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
     }
 
     @Override
-    public ScheduledFuture send(String token, MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies, Integer delayMillis) {
+    public ScheduledFuture send(String token, MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies, Integer delayMillis) {
         Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
         return scheduler.schedule(() -> send(token, recipient, elements, quickReplies), when);
     }
