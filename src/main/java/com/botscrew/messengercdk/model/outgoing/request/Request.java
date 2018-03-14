@@ -1,6 +1,6 @@
 package com.botscrew.messengercdk.model.outgoing.request;
 
-import com.botscrew.messengercdk.model.incomming.UserInfo;
+import com.botscrew.messenger.cdk.model.incomming.UserInfo;
 import com.botscrew.messengercdk.model.outgoing.Message;
 import com.botscrew.messengercdk.model.outgoing.MessagingType;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,5 +29,9 @@ public class Request {
 
     public static ListTemplateBuilder listTemplate() {
         return new ListTemplateBuilder();
+    }
+
+    public static ButtonTemplateBuilder buttonTemplate() {
+        return new ButtonTemplateBuilder();
     }
 }

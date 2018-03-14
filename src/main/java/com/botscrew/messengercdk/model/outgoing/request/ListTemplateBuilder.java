@@ -5,6 +5,7 @@ import com.botscrew.messengercdk.model.outgoing.template.TemplateAttachment;
 import com.botscrew.messengercdk.model.outgoing.template.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.template.list.ListTemplateMessage;
 import com.botscrew.messengercdk.model.outgoing.template.list.ListTemplatePayload;
+import com.botscrew.messengercdk.model.outgoing.template.list.TopElementStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public class ListTemplateBuilder extends RequestBuilder<ListTemplateBuilder> {
     private List<TemplateElement> elements = new ArrayList<>();
     private List<Button> buttons = new ArrayList<>();
-    private ListTemplatePayload.TopElementStyle topElementStyle;
+    private TopElementStyle topElementStyle;
 
     public ListTemplateBuilder elements(List<TemplateElement> elements) {
         this.elements = elements;
@@ -34,7 +35,7 @@ public class ListTemplateBuilder extends RequestBuilder<ListTemplateBuilder> {
         return this;
     }
 
-    public ListTemplateBuilder topElementStyle(ListTemplatePayload.TopElementStyle style) {
+    public ListTemplateBuilder topElementStyle(TopElementStyle style) {
         this.topElementStyle = style;
         return this;
     }

@@ -1,10 +1,10 @@
 package com.botscrew.messengercdk.model.outgoing.request;
 
-import com.botscrew.messengercdk.model.MessengerUser;
-import com.botscrew.messengercdk.model.incomming.UserInfo;
+import com.botscrew.messenger.cdk.model.MessengerUser;
+import com.botscrew.messenger.cdk.model.incomming.UserInfo;
 
 public abstract class RequestBuilder<T> {
-    UserInfo user;
+    private UserInfo user;
 
     public T recipient(MessengerUser user) {
         this.user = new UserInfo(user.getChatId());

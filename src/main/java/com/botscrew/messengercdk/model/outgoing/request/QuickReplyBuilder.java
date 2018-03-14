@@ -1,6 +1,5 @@
 package com.botscrew.messengercdk.model.outgoing.request;
 
-
 import com.botscrew.messengercdk.model.outgoing.QuickReply;
 import com.botscrew.messengercdk.model.outgoing.QuickReplyMessage;
 
