@@ -1,7 +1,8 @@
 package com.botscrew.messengercdk.model.outgoing.request;
 
-import com.botscrew.messenger.cdk.model.MessengerUser;
-import com.botscrew.messenger.cdk.model.incomming.UserInfo;
+
+import com.botscrew.messengercdk.model.MessengerUser;
+import com.botscrew.messengercdk.model.incomming.UserInfo;
 
 public abstract class RequestBuilder<T> {
     private UserInfo user;

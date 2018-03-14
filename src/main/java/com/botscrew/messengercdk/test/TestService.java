@@ -13,6 +13,7 @@ import com.botscrew.messengercdk.model.outgoing.template.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.template.generic.GenericTemplateMessage;
 import com.botscrew.messengercdk.model.outgoing.template.generic.GenericTemplatePayload;
 import com.botscrew.messengercdk.model.outgoing.template.list.ListTemplatePayload;
+import com.botscrew.messengercdk.model.outgoing.template.list.TopElementStyle;
 import com.botscrew.messengercdk.service.Sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -94,7 +95,7 @@ public class TestService {
                 .element(listTemplateElement)
                 .element(listTemplateElement)
                 .button(new PostbackButton("Read more", "READ_MORE_POSTBACK"))
-                .topElementStyle(ListTemplatePayload.TopElementStyle.LARGE)
+                .topElementStyle(TopElementStyle.LARGE)
                 .recipient(user)
                 .build();
 
