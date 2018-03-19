@@ -27,13 +27,10 @@ import java.util.Collections;
 public class TestService {
 
     @Autowired
-    private ObjectMapper mapper;
-
-    @Autowired
     private Sender sender;
 
     @Text
-    public void text(MessengerUser user, @Text String text) throws JsonProcessingException {
+    public void text(MessengerUser user, @Text String text) {
         if (text == null || text.equals("a")) {
             QuickReply postback = QuickReply.postback("Title", "Postback");
             TemplateElement build = TemplateElement.builder()
@@ -82,7 +79,7 @@ public class TestService {
         sender.send(request);
     }
 
-    public void sendListTemplate(MessengerUser user) throws JsonProcessingException {
+    public void sendListTemplate(MessengerUser user) {
         TemplateElement listTemplateElement = TemplateElement.builder()
                 .title("TITLE")
                 .subtitle("SUBTITLE")

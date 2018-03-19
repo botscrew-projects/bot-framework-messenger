@@ -3,6 +3,10 @@ package com.botscrew.messengercdk.service.impl;
 import com.botscrew.botframework.container.LocationContainer;
 import com.botscrew.botframework.container.PostbackContainer;
 import com.botscrew.botframework.container.TextContainer;
+import com.botscrew.botframework.domain.ArgumentKit;
+import com.botscrew.botframework.domain.SimpleArgumentKit;
+import com.botscrew.botframework.domain.SimpleArgumentWrapper;
+import com.botscrew.botframework.model.ArgumentType;
 import com.botscrew.botframework.model.GeoCoordinates;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.Coordinates;
@@ -57,20 +61,24 @@ public class BotFrameworkEventProcessor implements EventProcessor {
     }
 
     private void processText(MessengerUser user, Messaging messaging) {
-        textContainer.processText(messaging.getMessage().getText(), user);
+        ArgumentKit kit = new SimpleArgumentKit();
+        kit.put(ArgumentType.TEXT, new SimpleArgumentWrapper(messaging.getMessage().getText()));
+        textContainer.process(user, kit);
     }
 
     private void processQuickReply(MessengerUser user, Messaging messaging) {
-        postbackContainer.processPostback(messaging.getMessage().getQuickReply().getPayload(), user);
+        postbackContainer.process(user, messaging.getMessage().getQuickReply().getPayload(), new SimpleArgumentKit());
     }
 
     private void processPostback(MessengerUser user, Messaging messaging) {
-        postbackContainer.processPostback(messaging.getPostback().getPayload(), user);
+        postbackContainer.process(user, messaging.getPostback().getPayload(), new SimpleArgumentKit());
     }
 
     private void processLocation(MessengerUser user, Messaging messaging) {
         Coordinates coordinates = messaging.getMessage().getAttachments().get(0).getPayload().getCoordinates();
-        GeoCoordinates geo = new GeoCoordinates(coordinates.getLatitude(), coordinates.getLongitude());
-        locationContainer.processLocation(geo, user);
+        ArgumentKit kit = new SimpleArgumentKit();
+        kit.put(ArgumentType.COORDINATES, new SimpleArgumentWrapper(coordinates));
+
+        locationContainer.process(user, kit);
     }
 }
