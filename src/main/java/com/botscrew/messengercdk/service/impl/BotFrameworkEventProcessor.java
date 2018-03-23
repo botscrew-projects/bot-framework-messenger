@@ -3,6 +3,8 @@ package com.botscrew.messengercdk.service.impl;
 import com.botscrew.botframework.container.LocationContainer;
 import com.botscrew.botframework.container.PostbackContainer;
 import com.botscrew.botframework.container.TextContainer;
+import com.botscrew.messengercdk.domain.MessengerInterceptor;
+import com.botscrew.messengercdk.domain.PreMessageProcessingAction;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.Coordinates;
 import com.botscrew.messengercdk.model.incomming.EventType;
@@ -11,13 +13,17 @@ import com.botscrew.messengercdk.service.BotProvider;
 import com.botscrew.messengercdk.service.EventProcessor;
 import com.botscrew.messengercdk.service.UserProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-@Slf4j
 public class BotFrameworkEventProcessor implements EventProcessor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BotFrameworkEventProcessor.class);
+
     private final Map<EventType, BiConsumer<MessengerUser, Messaging>> processors;
 
     private final UserProvider userProvider;
@@ -26,9 +32,6 @@ public class BotFrameworkEventProcessor implements EventProcessor {
     private final TextContainer textContainer;
     private final PostbackContainer postbackContainer;
     private final LocationContainer locationContainer;
-
-    public BotFrameworkEventProcessor(UserProvider userProvider, TextContainer textContainer,
-                                      PostbackContainer postbackContainer, LocationContainer locationContainer) {
     private final List<MessengerInterceptor<PreMessageProcessingAction>> preInterceptors;
 
     public BotFrameworkEventProcessor(UserProvider userProvider,
@@ -36,8 +39,7 @@ public class BotFrameworkEventProcessor implements EventProcessor {
                                       TextContainer textContainer,
                                       PostbackContainer postbackContainer,
                                       LocationContainer locationContainer,
-                                      List<MessengerInterceptor<PreMessageProcessingAction>> preMessagingInterceptors
-                                      ) {
+                                      List<MessengerInterceptor<PreMessageProcessingAction>> preMessagingInterceptors) {
         processors = new EnumMap<>(EventType.class);
         processors.put(EventType.TEXT, this::processText);
         processors.put(EventType.QUICK_REPLY, this::processQuickReply);
