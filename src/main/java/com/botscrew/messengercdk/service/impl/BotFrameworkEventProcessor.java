@@ -7,6 +7,7 @@ import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.Coordinates;
 import com.botscrew.messengercdk.model.incomming.EventType;
 import com.botscrew.messengercdk.model.incomming.Messaging;
+import com.botscrew.messengercdk.service.BotProvider;
 import com.botscrew.messengercdk.service.EventProcessor;
 import com.botscrew.messengercdk.service.UserProvider;
 import lombok.extern.slf4j.Slf4j;
