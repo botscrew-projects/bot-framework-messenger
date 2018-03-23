@@ -1,7 +1,7 @@
-package com.botscrew.messengercdk.service.impl;
+package com.botscrew.messenger.cdk.service.impl;
 
-import com.botscrew.messengercdk.model.incomming.*;
-import com.botscrew.messengercdk.service.EventTypeResolver;
+import com.botscrew.messenger.cdk.model.incomming.*;
+import com.botscrew.messenger.cdk.service.EventTypeResolver;
 
 public class DefaultEventTypeResolver implements EventTypeResolver {
 
@@ -51,4 +51,5 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
     private boolean isNullOrEmpty(String string) {
         return string == null || string.isEmpty();
     }
+
 }

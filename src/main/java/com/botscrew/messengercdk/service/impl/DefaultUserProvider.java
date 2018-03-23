@@ -1,9 +1,9 @@
-package com.botscrew.messengercdk.service.impl;
+package com.botscrew.messenger.cdk.service.impl;
 
-import com.botscrew.messengercdk.model.MessengerUser;
-import com.botscrew.messengercdk.service.UserProvider;
+import com.botscrew.messenger.cdk.model.MessengerUser;
 
 public class DefaultUserProvider implements UserProvider {
+
     @Override
     public MessengerUser getByChatId(Long chatId) {
         return new MessengerUser() {
@@ -12,6 +12,7 @@ public class DefaultUserProvider implements UserProvider {
                 return chatId;
             }
 
+            @Override
             public String getState() {
                 return "default";
             }

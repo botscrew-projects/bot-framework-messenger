@@ -6,5 +6,6 @@ public enum EventType {
     QUICK_REPLY,
     LOCATION,
     POSTBACK,
+    ECHO,
     UNDEFINED,
 }

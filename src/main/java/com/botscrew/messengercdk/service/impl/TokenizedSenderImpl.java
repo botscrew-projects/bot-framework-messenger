@@ -1,19 +1,15 @@
-package com.botscrew.messengercdk.service.impl;
+package com.botscrew.messenger.cdk.service.impl;
 
-import com.botscrew.messengercdk.config.property.MessengerProperties;
-import com.botscrew.messengercdk.exception.SendAPIException;
-import com.botscrew.messengercdk.model.MessengerUser;
-import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.*;
-import com.botscrew.messengercdk.model.outgoing.request.Request;
-import com.botscrew.messengercdk.model.outgoing.template.TemplateAttachment;
-import com.botscrew.messengercdk.model.outgoing.template.TemplateElement;
-import com.botscrew.messengercdk.model.outgoing.template.generic.GenericTemplateMessage;
-import com.botscrew.messengercdk.model.outgoing.template.generic.GenericTemplatePayload;
-import com.botscrew.messengercdk.service.TokenizedSender;
+import com.botscrew.messenger.cdk.config.property.MessengerProperties;
+import com.botscrew.messenger.cdk.exception.SendAPIException;
+import com.botscrew.messenger.cdk.model.MessengerUser;
+import com.botscrew.messenger.cdk.model.incomming.UserInfo;
+import com.botscrew.messenger.cdk.model.outgoing.*;
+import com.botscrew.messenger.cdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -24,10 +20,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
-
 @RequiredArgsConstructor
 public class TokenizedSenderImpl implements TokenizedSender {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TokenizedSenderImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReportHandler.class);
 
     private final RestTemplate restTemplate;
     private final MessengerProperties properties;
@@ -45,7 +40,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(token, message);
+        post(message);
     }
 
     @Override
@@ -57,11 +52,11 @@ public class TokenizedSenderImpl implements TokenizedSender {
     @Override
     public void send(String token, MessengerUser recipient, String text, List<QuickReply> quickReplies) {
         Request message = Request.builder()
-                .message(new QuickReplyMessage(text, quickReplies))
+                .message(new QuickRepliesMessage(text, quickReplies))
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(token, message);
+        post(message);
     }
 
     @Override
@@ -71,35 +66,35 @@ public class TokenizedSenderImpl implements TokenizedSender {
     }
 
     @Override
-    public void send(String token, MessengerUser recipient, List<TemplateElement> elements) {
-        TemplateAttachment templateAttachment = new TemplateAttachment(new GenericTemplatePayload(elements));
+    public void send(String token, MessengerUser recipient, List<GenericElement> elements) {
+        TemplateAttachment templateAttachment = new TemplateAttachment(new TemplatePayload(elements));
         Request message = Request.builder()
                 .message(new GenericTemplateMessage(templateAttachment))
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(token, message);
+        post(message);
     }
 
     @Override
-    public ScheduledFuture send(String token, MessengerUser recipient, List<TemplateElement> elements, Integer delayMillis) {
+    public ScheduledFuture send(String token, MessengerUser recipient, List<GenericElement> elements, Integer delayMillis) {
         Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
         return scheduler.schedule(() -> send(token, recipient, elements), when);
     }
 
     @Override
-    public void send(String token, MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies) {
-        TemplateAttachment templateAttachment = new TemplateAttachment(new GenericTemplatePayload(elements));
+    public void send(String token, MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies) {
+        TemplateAttachment templateAttachment = new TemplateAttachment(new TemplatePayload(elements));
         Request message = Request.builder()
                 .message(new GenericTemplateMessage(quickReplies, templateAttachment))
                 .recipient(new UserInfo(recipient.getChatId()))
                 .build();
 
-        post(token, message);
+        post(message);
     }
 
     @Override
-    public ScheduledFuture send(String token, MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies, Integer delayMillis) {
+    public ScheduledFuture send(String token, MessengerUser recipient, List<GenericElement> elements, List<QuickReply> quickReplies, Integer delayMillis) {
         Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
         return scheduler.schedule(() -> send(token, recipient, elements, quickReplies), when);
     }
@@ -113,16 +108,22 @@ public class TokenizedSenderImpl implements TokenizedSender {
     private void post(String token, Request message) {
         LOGGER.debug("Posting message: \n{}", message);
         try {
-            restTemplate.postForObject(properties.getMessagingUrl(token), message, String.class);
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            throw new SendAPIException(e.getResponseBodyAsString(), e);
+            restTemplate.postForObject(properties.messagingUrl(), message, String.class);
+        }catch (HttpClientErrorException|HttpServerErrorException e) {
+            throw new SendAPIException(e.getResponseBodyAsString());
         }
     }
 
     private Date addToDate(Date date, int calendarField, int amount) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(calendarField, amount);
-        return calendar.getTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(calendarField, amount);
+        return c.getTime();
+    }
+
+    @Override
+    public void executeMessage(Bot bot, com.botscrew.framework.flow.sender.Message message) {
+        MessengerBot messengerBot = (MessengerBot)bot;
+        post(messengerBot.getAccessToken(), message);
     }
 }
