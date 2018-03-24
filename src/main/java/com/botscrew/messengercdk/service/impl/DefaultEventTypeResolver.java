@@ -1,7 +1,11 @@
-package com.botscrew.messenger.cdk.service.impl;
+package com.botscrew.messengercdk.service.impl;
 
-import com.botscrew.messenger.cdk.model.incomming.*;
-import com.botscrew.messenger.cdk.service.EventTypeResolver;
+
+import com.botscrew.messengercdk.model.incomming.EventType;
+import com.botscrew.messengercdk.model.incomming.Message;
+import com.botscrew.messengercdk.model.incomming.Messaging;
+import com.botscrew.messengercdk.model.incomming.Payload;
+import com.botscrew.messengercdk.service.EventTypeResolver;
 
 public class DefaultEventTypeResolver implements EventTypeResolver {
 
@@ -24,19 +28,16 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
 
 
     private boolean textAvailable(Messaging messaging) {
-        return messaging.getMessage() != null
-                && !isNullOrEmpty(messaging.getMessage().getText());
+        return messaging.getMessage() != null && isNotNullAndEmpty(messaging.getMessage().getText());
     }
 
     private boolean postbackAvailable(Messaging messaging) {
-        return messaging.getPostback() != null
-                && !isNullOrEmpty(messaging.getPostback().getPayload());
+        return messaging.getPostback() != null && isNotNullAndEmpty(messaging.getPostback().getPayload());
     }
 
     private boolean quickReplyAvailable(Messaging messaging) {
         Message m = messaging.getMessage();
-        return m != null && m.getQuickReply() != null
-                && !isNullOrEmpty(m.getQuickReply().getPayload());
+        return m != null && m.getQuickReply() != null && isNotNullAndEmpty(m.getQuickReply().getPayload());
     }
 
     private boolean locationAvailable(Messaging messaging) {
@@ -48,8 +49,8 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
         return false;
     }
 
-    private boolean isNullOrEmpty(String string) {
-        return string == null || string.isEmpty();
+    private boolean isNotNullAndEmpty(String string) {
+        return string != null && !string.isEmpty();
     }
 
 }

@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(builderClassName = "PlainRequestBuilder")
-public class Request {
+public class Request implements com.botscrew.botframework.sender.Message {
 
     @JsonProperty("messaging_type")
     private MessagingType messagingType;

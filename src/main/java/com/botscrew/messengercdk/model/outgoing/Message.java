@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Message implements com.botscrew.framework.flow.sender.Message{
+public class Message {
     private String text;
 
     public Message() {}

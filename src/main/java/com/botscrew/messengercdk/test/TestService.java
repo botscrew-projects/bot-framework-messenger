@@ -12,11 +12,8 @@ import com.botscrew.messengercdk.model.outgoing.template.TemplateAttachment;
 import com.botscrew.messengercdk.model.outgoing.template.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.template.generic.GenericTemplateMessage;
 import com.botscrew.messengercdk.model.outgoing.template.generic.GenericTemplatePayload;
-import com.botscrew.messengercdk.model.outgoing.template.list.ListTemplatePayload;
 import com.botscrew.messengercdk.model.outgoing.template.list.TopElementStyle;
 import com.botscrew.messengercdk.service.Sender;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 

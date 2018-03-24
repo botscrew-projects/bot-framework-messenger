@@ -1,7 +1,7 @@
 package com.botscrew.messengercdk.util;
 
 
-import com.botscrew.messengercdk.exception.SystemException;
+import com.botscrew.messengercdk.exception.MessengerCDKException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -70,7 +70,7 @@ public class URL {
             try {
                 return new URL(uriComponents.toUri().toURL().toString());
             } catch (MalformedURLException e) {
-                throw new SystemException("Cannot build messaging url!");
+                throw new MessengerCDKException("Cannot build messaging url!");
             }
         }
 
@@ -82,7 +82,7 @@ public class URL {
                     .reduce((p1, p2) -> p1 + "&" + p2);
 
             if (!resultOpt.isPresent()) {
-                throw new SystemException("Cannot build params: " + parameters);
+                throw new MessengerCDKException("Cannot build params: " + parameters);
             }
 
             return resultOpt.get();

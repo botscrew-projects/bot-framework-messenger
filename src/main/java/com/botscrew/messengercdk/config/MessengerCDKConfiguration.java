@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -37,6 +38,7 @@ import java.util.List;
         HandlerTaskExecutorProperties.class,
         SenderExecutorProperties.class
 })
+@Import(EventHandlersConfiguration.class)
 public class MessengerCDKConfiguration {
 
     @Bean
@@ -63,20 +65,19 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(value = EventProcessor.class)
-    public EventProcessor eventProcessor(UserProvider userProvider,
-                                         TextContainer textContainer,
-                                         PostbackContainer postbackContainer,
-                                         LocationContainer locationContainer) {
-        return new BotFrameworkEventProcessor(userProvider, textContainer, postbackContainer, locationContainer);
+    @ConditionalOnMissingBean(value = BotProvider.class)
+    public BotProvider botProvider(MessengerProperties messengerProperties) {
+        return new DefaultBotProvider(messengerProperties.getAccessToken());
     }
 
     @Bean
     @ConditionalOnMissingBean(value = ReportHandler.class)
     public ReportHandler reportHandler(EventTypeResolver eventTypeResolver,
-                                       EventProcessor eventProcessor,
-                                       @Qualifier("defaultReportHandlerTaskExecutor") TaskExecutor taskExecutor) {
-        return new DefaultReportHandler(eventTypeResolver, eventProcessor, taskExecutor);
+                                       @Qualifier("defaultReportHandlerTaskExecutor") TaskExecutor taskExecutor,
+                                       List<EventHandler> eventHandlers,
+                                       BotProvider botProvider,
+                                       UserProvider userProvider) {
+        return new DefaultReportHandler(eventTypeResolver, taskExecutor, eventHandlers, botProvider, userProvider);
     }
 
     @Bean

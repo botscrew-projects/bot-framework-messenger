@@ -1,8 +1,7 @@
 package com.botscrew.messengercdk.service;
 
-import com.botscrew.botframework.domain.user.Bot;
-import com.botscrew.botframework.domain.user.Chat;
+import com.botscrew.messengercdk.model.MessengerBot;
 
 public interface BotProvider {
-    Bot getById(Long id);
+    MessengerBot getById(Long id);
 }

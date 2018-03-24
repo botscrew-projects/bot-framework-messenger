@@ -1,12 +1,20 @@
-package com.botscrew.messenger.cdk.service.impl;
+package com.botscrew.messengercdk.service.impl;
 
-import com.botscrew.messenger.cdk.model.MessengerUser;
+import com.botscrew.botframework.domain.user.Bot;
+import com.botscrew.messengercdk.model.MessengerBot;
+import com.botscrew.messengercdk.model.MessengerUser;
+import com.botscrew.messengercdk.service.UserProvider;
 
 public class DefaultUserProvider implements UserProvider {
 
     @Override
-    public MessengerUser getByChatId(Long chatId) {
+    public MessengerUser getByChatIdAndBotId(Long chatId, Long botId) {
         return new MessengerUser() {
+            @Override
+            public Bot getBot() {
+                return new MessengerBot(botId, null);
+            }
+
             @Override
             public Long getChatId() {
                 return chatId;
