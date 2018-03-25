@@ -18,20 +18,4 @@ public class Request implements com.botscrew.botframework.sender.Message {
     private MessagingType messagingType;
     private UserInfo recipient;
     private Message message;
-
-    public static QuickReplyBuilder quickReply() {
-        return new QuickReplyBuilder();
-    }
-
-    public static GenericTemplateBuilder genericTemplate() {
-        return new GenericTemplateBuilder();
-    }
-
-    public static ListTemplateBuilder listTemplate() {
-        return new ListTemplateBuilder();
-    }
-
-    public static ButtonTemplateBuilder buttonTemplate() {
-        return new ButtonTemplateBuilder();
-    }
 }

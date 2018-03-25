@@ -2,7 +2,7 @@ package com.botscrew.messengercdk.service.impl;
 
 import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.model.MessengerUser;
-import com.botscrew.messengercdk.model.outgoing.QuickReply;
+import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
 import com.botscrew.messengercdk.service.Sender;

@@ -3,7 +3,7 @@ package com.botscrew.messengercdk.model.outgoing.builder;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
 import com.botscrew.messengercdk.model.outgoing.MessagingType;
-import com.botscrew.messengercdk.model.outgoing.QuickReply;
+import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
 import com.botscrew.messengercdk.model.outgoing.message.QuickReplyMessage;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 
