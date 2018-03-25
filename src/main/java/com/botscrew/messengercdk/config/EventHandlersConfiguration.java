@@ -10,8 +10,6 @@ import com.botscrew.messengercdk.service.impl.handler.BotFrameworkTextEventHandl
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-
 @Configuration
 public class EventHandlersConfiguration {
 

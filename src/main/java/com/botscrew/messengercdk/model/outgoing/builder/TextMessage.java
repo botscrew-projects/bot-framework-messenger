@@ -2,8 +2,8 @@ package com.botscrew.messengercdk.model.outgoing.builder;
 
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.message.Message;
 import com.botscrew.messengercdk.model.outgoing.MessagingType;
+import com.botscrew.messengercdk.model.outgoing.message.Message;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 public class TextMessage {

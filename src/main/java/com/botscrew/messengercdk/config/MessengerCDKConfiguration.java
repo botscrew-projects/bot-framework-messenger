@@ -1,8 +1,5 @@
 package com.botscrew.messengercdk.config;
 
-import com.botscrew.botframework.container.LocationContainer;
-import com.botscrew.botframework.container.PostbackContainer;
-import com.botscrew.botframework.container.TextContainer;
 import com.botscrew.messengercdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.config.property.SenderExecutorProperties;

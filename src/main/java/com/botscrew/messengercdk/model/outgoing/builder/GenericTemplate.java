@@ -3,12 +3,12 @@ package com.botscrew.messengercdk.model.outgoing.builder;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
 import com.botscrew.messengercdk.model.outgoing.MessagingType;
-import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
-import com.botscrew.messengercdk.model.outgoing.request.Request;
 import com.botscrew.messengercdk.model.outgoing.attachment.TemplateAttachment;
 import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
+import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
 import com.botscrew.messengercdk.model.outgoing.message.GenericTemplateMessage;
 import com.botscrew.messengercdk.model.outgoing.payload.GenericTemplatePayload;
+import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 import java.util.ArrayList;
 import java.util.List;

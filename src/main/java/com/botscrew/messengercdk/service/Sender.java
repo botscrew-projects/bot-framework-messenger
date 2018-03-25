@@ -1,9 +1,9 @@
 package com.botscrew.messengercdk.service;
 
 import com.botscrew.messengercdk.model.MessengerUser;
+import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
-import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
 
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
