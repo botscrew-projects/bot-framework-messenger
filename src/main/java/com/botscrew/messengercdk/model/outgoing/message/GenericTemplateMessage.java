@@ -1,8 +1,7 @@
-package com.botscrew.messengercdk.model.outgoing.template.generic;
+package com.botscrew.messengercdk.model.outgoing.message;
 
-import com.botscrew.messengercdk.model.outgoing.Attachment;
+import com.botscrew.messengercdk.model.outgoing.attachment.Attachment;
 import com.botscrew.messengercdk.model.outgoing.QuickReply;
-import com.botscrew.messengercdk.model.outgoing.QuickReplyMessage;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

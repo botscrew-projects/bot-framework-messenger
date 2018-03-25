@@ -1,8 +1,8 @@
-package com.botscrew.messengercdk.model.outgoing.template.list;
+package com.botscrew.messengercdk.model.outgoing.payload;
 
-import com.botscrew.messengercdk.model.outgoing.button.Button;
-import com.botscrew.messengercdk.model.outgoing.template.Payload;
-import com.botscrew.messengercdk.model.outgoing.template.TemplateElement;
+import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
+import com.botscrew.messengercdk.model.outgoing.style.TopElementStyle;
+import com.botscrew.messengercdk.model.outgoing.element.button.Button;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ListTemplatePayload extends Payload {
+public class ListTemplatePayload extends TemplatePayload {
     private List<TemplateElement> elements;
     private List<Button> buttons;
 

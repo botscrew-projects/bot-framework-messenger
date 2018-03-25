@@ -1,7 +1,6 @@
 package com.botscrew.messengercdk.model.incomming;
 
-import com.botscrew.messengercdk.model.outgoing.button.Button;
-import com.botscrew.messengercdk.model.outgoing.template.TemplateElement;
+import com.botscrew.messengercdk.model.outgoing.element.button.Button;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

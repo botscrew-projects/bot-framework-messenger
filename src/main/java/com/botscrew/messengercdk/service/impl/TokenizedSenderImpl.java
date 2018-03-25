@@ -5,14 +5,14 @@ import com.botscrew.messengercdk.exception.SendAPIException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.Message;
+import com.botscrew.messengercdk.model.outgoing.message.Message;
 import com.botscrew.messengercdk.model.outgoing.QuickReply;
-import com.botscrew.messengercdk.model.outgoing.QuickReplyMessage;
+import com.botscrew.messengercdk.model.outgoing.message.QuickReplyMessage;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
-import com.botscrew.messengercdk.model.outgoing.template.TemplateAttachment;
-import com.botscrew.messengercdk.model.outgoing.template.TemplateElement;
-import com.botscrew.messengercdk.model.outgoing.template.generic.GenericTemplateMessage;
-import com.botscrew.messengercdk.model.outgoing.template.generic.GenericTemplatePayload;
+import com.botscrew.messengercdk.model.outgoing.attachment.TemplateAttachment;
+import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
+import com.botscrew.messengercdk.model.outgoing.message.GenericTemplateMessage;
+import com.botscrew.messengercdk.model.outgoing.payload.GenericTemplatePayload;
 import com.botscrew.messengercdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -52,8 +52,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public ScheduledFuture send(String token, MessengerUser recipient, String text, Integer delayMillis) {
-        Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
-        return scheduler.schedule(() -> send(token, recipient, text), when);
+        return scheduler.schedule(() -> send(token, recipient, text), currentDatePlusMillis(delayMillis));
     }
 
     @Override
@@ -68,8 +67,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public ScheduledFuture send(String token, MessengerUser recipient, String text, List<QuickReply> quickReplies, Integer delayMillis) {
-        Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
-        return scheduler.schedule(() -> send(token, recipient, text, quickReplies), when);
+        return scheduler.schedule(() -> send(token, recipient, text, quickReplies), currentDatePlusMillis(delayMillis));
     }
 
     @Override
@@ -85,8 +83,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public ScheduledFuture send(String token, MessengerUser recipient, List<TemplateElement> elements, Integer delayMillis) {
-        Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
-        return scheduler.schedule(() -> send(token, recipient, elements), when);
+        return scheduler.schedule(() -> send(token, recipient, elements), currentDatePlusMillis(delayMillis));
     }
 
     @Override
@@ -102,14 +99,12 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public ScheduledFuture send(String token, MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies, Integer delayMillis) {
-        Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
-        return scheduler.schedule(() -> send(token, recipient, elements, quickReplies), when);
+        return scheduler.schedule(() -> send(token, recipient, elements, quickReplies), currentDatePlusMillis(delayMillis));
     }
 
     @Override
     public ScheduledFuture send(String token, Request request, Integer delayMillis) {
-        Date when = addToDate(new Date(), Calendar.MILLISECOND, delayMillis);
-        return scheduler.schedule(() -> send(token, request), when);
+        return scheduler.schedule(() -> send(token, request), currentDatePlusMillis(delayMillis));
     }
 
     private void post(String token, Request message) {
@@ -119,6 +114,10 @@ public class TokenizedSenderImpl implements TokenizedSender {
         }catch (HttpClientErrorException|HttpServerErrorException e) {
             throw new SendAPIException(e.getResponseBodyAsString());
         }
+    }
+
+    private Date currentDatePlusMillis(Integer millis) {
+        return addToDate(new Date(), Calendar.MILLISECOND, millis);
     }
 
     private Date addToDate(Date date, int calendarField, int amount) {

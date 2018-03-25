@@ -1,7 +1,6 @@
-package com.botscrew.messengercdk.model.outgoing.template.button;
+package com.botscrew.messengercdk.model.outgoing.payload;
 
-import com.botscrew.messengercdk.model.outgoing.button.Button;
-import com.botscrew.messengercdk.model.outgoing.template.Payload;
+import com.botscrew.messengercdk.model.outgoing.element.button.Button;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ButtonTemplatePayload extends Payload {
+public class ButtonTemplatePayload extends TemplatePayload {
     private String text;
     private List<Button> buttons;
 

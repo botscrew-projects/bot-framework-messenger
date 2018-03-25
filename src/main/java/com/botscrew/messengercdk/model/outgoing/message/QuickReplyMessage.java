@@ -1,5 +1,6 @@
-package com.botscrew.messengercdk.model.outgoing;
+package com.botscrew.messengercdk.model.outgoing.message;
 
+import com.botscrew.messengercdk.model.outgoing.QuickReply;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
