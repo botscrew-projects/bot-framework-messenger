@@ -56,7 +56,7 @@ public class DefaultReportHandler implements ReportHandler {
     private void handleMessagingBundle(MessagingBundle bundle) {
         for (Messaging messaging : bundle.getMessaging()) {
             MessengerBot messengerBot = botProvider.getById(messaging.getRecipient().getId());
-            MessengerUser user = userProvider.getByChatIdAndBotId(messaging.getSender().getId(), messengerBot.getId());
+            MessengerUser user = userProvider.getByChatIdAndBotId(messaging.getSender().getId(), messengerBot.getAppId());
 
             EventType type = typeResolver.resolve(messaging);
             eventHandlers.get(type).handle(user, messaging);

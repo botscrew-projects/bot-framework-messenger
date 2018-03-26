@@ -1,5 +1,6 @@
 package com.botscrew.messengercdk.service.impl;
 
+import com.botscrew.messengercdk.model.DefaultMessengerBot;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.service.BotProvider;
 
@@ -12,6 +13,6 @@ public class DefaultBotProvider implements BotProvider {
 
     @Override
     public MessengerBot getById(Long id) {
-        return new MessengerBot(id, defaultAccessToken);
+        return new DefaultMessengerBot(id, defaultAccessToken);
     }
 }

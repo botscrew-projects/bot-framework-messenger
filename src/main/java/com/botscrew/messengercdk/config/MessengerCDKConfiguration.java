@@ -1,5 +1,7 @@
 package com.botscrew.messengercdk.config;
 
+import com.botscrew.botframework.domain.user.Platform;
+import com.botscrew.botframework.sender.PlatformSender;
 import com.botscrew.messengercdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.config.property.SenderExecutorProperties;
@@ -8,6 +10,7 @@ import com.botscrew.messengercdk.service.*;
 import com.botscrew.messengercdk.service.impl.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,6 +29,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,8 +45,11 @@ public class MessengerCDKConfiguration {
     @Bean
     public TokenizedSender messageSender(RestTemplate restTemplate,
                                          MessengerProperties messengerProperties,
-                                         @Qualifier("defaultSenderTaskScheduler") ThreadPoolTaskScheduler scheduler) {
-        return new TokenizedSenderImpl(restTemplate, messengerProperties, scheduler);
+                                         @Qualifier("defaultSenderTaskScheduler") ThreadPoolTaskScheduler scheduler,
+                                         PlatformSender platformSender) {
+        TokenizedSender tokenizedSender = new TokenizedSenderImpl(restTemplate, messengerProperties, scheduler);
+        platformSender.addSender(Platform.FB_MESSENGER, tokenizedSender);
+        return tokenizedSender;
     }
 
     @Bean
