@@ -34,7 +34,6 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
         return messaging.getMessage() != null && messaging.getMessage().isEcho();
     }
 
-
     private boolean textAvailable(Messaging messaging) {
         return messaging.getMessage() != null && isNotNullAndEmpty(messaging.getMessage().getText());
     }

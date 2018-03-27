@@ -56,7 +56,7 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "facebook.messenger.access_token")
+    @ConditionalOnProperty(name = "facebook.messenger.access-token")
     public Sender sender(TokenizedSender tokenizedSender, MessengerProperties messengerProperties) {
         return new DefaultSender(tokenizedSender, messengerProperties);
     }
