@@ -1,5 +1,7 @@
 package com.botscrew.messengercdk.service.impl;
 
+import com.botscrew.messengercdk.domain.MessengerInterceptor;
+import com.botscrew.messengercdk.domain.PreMessageProcessingAction;
 import com.botscrew.messengercdk.exception.MessengerCDKException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
@@ -22,17 +24,20 @@ public class DefaultReportHandler implements ReportHandler {
     private final BotProvider botProvider;
     private final UserProvider userProvider;
     private final Map<EventType, EventHandler> eventHandlers;
+    private final List<MessengerInterceptor<PreMessageProcessingAction>> preMessageProcessingInterceptors;
 
     public DefaultReportHandler(EventTypeResolver typeResolver,
                                 TaskExecutor taskExecutor,
                                 List<EventHandler> handlers,
                                 BotProvider botProvider,
-                                UserProvider userProvider) {
+                                UserProvider userProvider,
+                                List<MessengerInterceptor<PreMessageProcessingAction>> preMessageProcessingActions) {
         this.typeResolver = typeResolver;
         this.taskExecutor = taskExecutor;
         this.botProvider = botProvider;
         this.userProvider = userProvider;
         this.eventHandlers = new EnumMap<>(EventType.class);
+        this.preMessageProcessingInterceptors = preMessageProcessingActions;
 
         for (EventHandler handler : handlers) {
             EventType handlingEventType = handler.getHandlingEventType();
@@ -55,6 +60,10 @@ public class DefaultReportHandler implements ReportHandler {
 
     private void handleMessagingBundle(MessagingBundle bundle) {
         for (Messaging messaging : bundle.getMessaging()) {
+            preMessageProcessingInterceptors.forEach(i -> {
+                i.onAction(new PreMessageProcessingAction(messaging));
+            });
+
             EventType type = typeResolver.resolve(messaging);
 
             Long pageId = getPageId(messaging);
