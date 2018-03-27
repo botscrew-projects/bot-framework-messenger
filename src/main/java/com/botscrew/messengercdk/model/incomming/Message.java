@@ -20,4 +20,6 @@ public class Message {
 	private List<Attachment> attachments;
 	@JsonProperty("quick_reply")
 	private Postback quickReply;
+	@JsonProperty("app_id")
+	private Long appId;
 }

@@ -7,7 +7,7 @@ public interface MessengerBot extends Bot {
     @Override
     default Platform getPlatform() {return Platform.FB_MESSENGER;}
 
-    Long getAppId();
+    Long getPageId();
 
     String getAccessToken();
 }

@@ -12,7 +12,7 @@ public class DefaultMessengerBot implements MessengerBot {
         this.accessToken = accessToken;
     }
     @Override
-    public Long getAppId() {
+    public Long getPageId() {
         return appId;
     }
 

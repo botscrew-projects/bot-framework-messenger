@@ -55,11 +55,29 @@ public class DefaultReportHandler implements ReportHandler {
 
     private void handleMessagingBundle(MessagingBundle bundle) {
         for (Messaging messaging : bundle.getMessaging()) {
-            MessengerBot messengerBot = botProvider.getById(messaging.getRecipient().getId());
-            MessengerUser user = userProvider.getByChatIdAndBotId(messaging.getSender().getId(), messengerBot.getAppId());
-
             EventType type = typeResolver.resolve(messaging);
+
+            Long pageId = getPageId(messaging);
+            Long userId = getUserId(messaging);
+
+            MessengerBot messengerBot = botProvider.getById(pageId);
+            if (messengerBot == null) throw new MessengerCDKException("Bot provider returns NULL for page id: " + pageId);
+            MessengerUser user = userProvider.getByChatIdAndBotId(userId, messengerBot.getPageId());
             eventHandlers.get(type).handle(user, messaging);
         }
+    }
+
+    private Long getUserId(Messaging messaging) {
+        if (messaging.getMessage() != null && messaging.getMessage().isEcho()) {
+            return messaging.getRecipient().getId();
+        }
+        return messaging.getSender().getId();
+    }
+
+    private Long getPageId(Messaging messaging) {
+        if (messaging.getMessage() != null && messaging.getMessage().isEcho()) {
+            return messaging.getSender().getId();
+        }
+        return messaging.getRecipient().getId();
     }
 }
