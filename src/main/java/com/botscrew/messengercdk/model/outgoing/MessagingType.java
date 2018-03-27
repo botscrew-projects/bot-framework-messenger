@@ -18,8 +18,4 @@ public enum MessagingType {
 //    messaging window with a message tag.
 //    The message must match the allowed use case for the tag.
     MESSAGE_TAG,
-
-//    Message is non-promotional, and is being sent under the subscription messaging policy
-//    by a bot with the pages_messaging_subscriptions permission.
-    NON_PROMOTIONAL_SUBSCRIPTION
 }
