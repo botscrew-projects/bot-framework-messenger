@@ -13,6 +13,7 @@ import com.botscrew.messengercdk.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.TaskExecutor;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,9 @@ public class DefaultReportHandler implements ReportHandler {
         this.botProvider = botProvider;
         this.userProvider = userProvider;
         this.eventHandlers = new EnumMap<>(EventType.class);
-        this.preMessageProcessingInterceptors = preMessageProcessingActions;
+        this.preMessageProcessingInterceptors = preMessageProcessingActions != null
+                ? preMessageProcessingActions
+                : new ArrayList<>();
 
         for (EventHandler handler : handlers) {
             EventType handlingEventType = handler.getHandlingEventType();

@@ -85,7 +85,7 @@ public class MessengerCDKConfiguration {
                                        List<EventHandler> eventHandlers,
                                        BotProvider botProvider,
                                        UserProvider userProvider,
-                                       List<MessengerInterceptor<PreMessageProcessingAction>> preMessagingProcessingInterceptors) {
+                                       @Autowired(required = false) List<MessengerInterceptor<PreMessageProcessingAction>> preMessagingProcessingInterceptors) {
         return new DefaultReportHandler(eventTypeResolver, taskExecutor, eventHandlers, botProvider, userProvider, preMessagingProcessingInterceptors);
     }
 

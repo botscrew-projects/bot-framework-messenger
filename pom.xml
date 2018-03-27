@@ -5,7 +5,7 @@
 
 	<groupId>com.botscrew</groupId>
 	<artifactId>messenger-cdk</artifactId>
-	<version>1.0.0-SNAPSHOT-7</version>
+	<version>1.0.0-SNAPSHOT-8</version>
 	<packaging>jar</packaging>
 
 	<name>messenger-cdk</name>
@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>com.botscrew</groupId>
 			<artifactId>bot-framework-spring-boot-starter</artifactId>
-			<version>1.0.0-SNAPSHOT-18</version>
+			<version>1.0.0-SNAPSHOT-20</version>
 			<scope>compile</scope>
 		</dependency>
 
