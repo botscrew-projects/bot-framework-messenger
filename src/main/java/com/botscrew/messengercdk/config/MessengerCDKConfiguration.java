@@ -6,6 +6,8 @@ import com.botscrew.messengercdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.config.property.SenderExecutorProperties;
 import com.botscrew.messengercdk.controller.MessengerEventController;
+import com.botscrew.messengercdk.domain.MessengerInterceptor;
+import com.botscrew.messengercdk.domain.PreMessageProcessingAction;
 import com.botscrew.messengercdk.service.*;
 import com.botscrew.messengercdk.service.impl.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -82,8 +84,9 @@ public class MessengerCDKConfiguration {
                                        @Qualifier("defaultReportHandlerTaskExecutor") TaskExecutor taskExecutor,
                                        List<EventHandler> eventHandlers,
                                        BotProvider botProvider,
-                                       UserProvider userProvider) {
-        return new DefaultReportHandler(eventTypeResolver, taskExecutor, eventHandlers, botProvider, userProvider);
+                                       UserProvider userProvider,
+                                       List<MessengerInterceptor<PreMessageProcessingAction>> preMessagingProcessingInterceptors) {
+        return new DefaultReportHandler(eventTypeResolver, taskExecutor, eventHandlers, botProvider, userProvider, preMessagingProcessingInterceptors);
     }
 
     @Bean

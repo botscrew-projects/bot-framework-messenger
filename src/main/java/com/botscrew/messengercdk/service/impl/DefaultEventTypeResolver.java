@@ -5,6 +5,7 @@ import com.botscrew.messengercdk.model.incomming.EventType;
 import com.botscrew.messengercdk.model.incomming.Message;
 import com.botscrew.messengercdk.model.incomming.Messaging;
 import com.botscrew.messengercdk.model.incomming.Payload;
+import com.botscrew.messengercdk.service.EventHandler;
 import com.botscrew.messengercdk.service.EventTypeResolver;
 
 public class DefaultEventTypeResolver implements EventTypeResolver {
@@ -23,7 +24,14 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
         if (locationAvailable(messaging)) {
             return EventType.LOCATION;
         }
+        if (echoAvailable(messaging)) {
+            return EventType.ECHO;
+        }
         return EventType.UNDEFINED;
+    }
+
+    private boolean echoAvailable(Messaging messaging) {
+        return messaging.getMessage() != null && messaging.getMessage().isEcho();
     }
 
 
