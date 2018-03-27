@@ -9,6 +9,6 @@ public interface MessengerUser extends PlatformUser {
 
     @Override
     default Bot getBot() {
-        return new MessengerBot(null, null);
+        return new DefaultMessengerBot(null, null);
     }
 }
