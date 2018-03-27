@@ -71,7 +71,7 @@ public class DefaultReportHandler implements ReportHandler {
 
             MessengerBot messengerBot = botProvider.getById(pageId);
             if (messengerBot == null) throw new MessengerCDKException("Bot provider returns NULL for page id: " + pageId);
-            MessengerUser user = userProvider.getByChatIdAndBotId(userId, messengerBot.getId());
+            MessengerUser user = userProvider.getByChatIdAndBotId(userId, messengerBot.getPageId());
 
             EventHandler handler = eventHandlers.get(type);
             if (handler != null){
