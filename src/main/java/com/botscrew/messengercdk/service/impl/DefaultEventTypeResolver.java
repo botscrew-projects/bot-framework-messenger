@@ -12,6 +12,9 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
 
     @Override
     public EventType resolve(Messaging messaging) {
+        if (echoAvailable(messaging)) {
+            return EventType.ECHO;
+        }
         if (quickReplyAvailable(messaging)) {
             return EventType.QUICK_REPLY;
         }
@@ -23,9 +26,6 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
         }
         if (locationAvailable(messaging)) {
             return EventType.LOCATION;
-        }
-        if (echoAvailable(messaging)) {
-            return EventType.ECHO;
         }
         return EventType.UNDEFINED;
     }
