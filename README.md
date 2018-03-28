@@ -50,8 +50,8 @@ method handlers).
 * You can autowire `com.botscrew.messengercdk.service.TokenizedSender`
     to send messages with your custom access token
 
-
-## Messenger CDK is under development and for now it supports next types of events from Facebook Messenger:
+## Development
+*Messenger CDK is under development and for now it supports next types of events from Facebook Messenger:*
 * Text
 * Postback
 * Location
