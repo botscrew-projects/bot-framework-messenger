@@ -2,6 +2,10 @@
 
 Messenger CDK is quick integration with Facebook Messenger chatbots based on Bot Framework
 
+If you would like to know more about working with Bot Framework read it here:
+
+https://gitlab.com/bots-crew/bot-framework/blob/boot-starter/README.md
+
 # Getting Started
 
 * Add repository path to your build configuration
