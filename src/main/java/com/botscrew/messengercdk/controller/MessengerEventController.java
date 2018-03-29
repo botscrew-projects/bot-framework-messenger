@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/messenger/events")
+@RequestMapping("${facebook.messenger.events-path:/messenger/events}")
 @RequiredArgsConstructor
 public class MessengerEventController {
     private final ReportHandler handler;
     private final SubscriptionReviewer subscriptionReviewer;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void index(@RequestBody(required = false) Report report) {
+    @PostMapping
+    public void index(@RequestBody Report report) {
         handler.handle(report);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<String> index(@RequestParam(name = "hub.challenge") String challenge,
                                          @RequestParam(name = "hub.verify_token") String verifyToken) {
         log.info("Subscription event with challenge: {} and verify token: {}", challenge, verifyToken);

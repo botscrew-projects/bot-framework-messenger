@@ -5,7 +5,6 @@ import com.botscrew.messengercdk.model.incomming.EventType;
 import com.botscrew.messengercdk.model.incomming.Message;
 import com.botscrew.messengercdk.model.incomming.Messaging;
 import com.botscrew.messengercdk.model.incomming.Payload;
-import com.botscrew.messengercdk.service.EventHandler;
 import com.botscrew.messengercdk.service.EventTypeResolver;
 
 public class DefaultEventTypeResolver implements EventTypeResolver {

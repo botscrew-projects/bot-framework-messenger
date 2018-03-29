@@ -20,6 +20,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.Ordered;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -32,7 +33,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 
@@ -95,7 +95,8 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
-    public MessengerEventController messengerEventController(ReportHandler reportHandler, SubscriptionReviewer subscriptionReviewer) {
+    public MessengerEventController messengerEventController(ReportHandler reportHandler,
+                                                             SubscriptionReviewer subscriptionReviewer) {
         return new MessengerEventController(reportHandler, subscriptionReviewer);
     }
 

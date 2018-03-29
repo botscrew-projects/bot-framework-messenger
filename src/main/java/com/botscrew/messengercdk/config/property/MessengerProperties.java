@@ -17,22 +17,17 @@ public class MessengerProperties {
 
     private static final String ACCESS_TOKEN_PARAM = "access_token";
 
-    private String verifyToken;
+    private String verifyToken = "test";
     private String accessToken;
-    private String graphHost;
-    private Integer graphPort;
-    private String graphApiVersion;
-    private String messagingUrl = null;
+    private String graphHost = "graph.facebook.com";
+    private Integer graphPort = 443;
+    private String graphApiVersion = "2.6";
+    private String messagingPath = "/me/messages";
+    private String graphProtocol = HTTPS;
+    private String eventsPath = "/messenger/events";
 
     private URL.Builder messagingUrlBuilder = null;
     private String defaultMessagingUrl = null;
-
-    public MessengerProperties() {
-        verifyToken = "test";
-        graphHost = "graph.facebook.com";
-        graphApiVersion = "2.6";
-        graphPort = 443;
-    }
 
     public String getMessagingUrl() {
         if (messagingUrlBuilder == null) {
@@ -54,10 +49,10 @@ public class MessengerProperties {
 
     private void createMessagingUrlBuilder() {
         messagingUrlBuilder = new URL.Builder()
-                .protocol(HTTPS)
+                .protocol(graphProtocol)
                 .host(graphHost)
                 .port(graphPort)
-                .path("/me/messages");
+                .path(messagingPath);
     }
 
     private void createDefaultMessagingUrl() {
@@ -92,6 +87,14 @@ public class MessengerProperties {
         this.graphHost = graphHost;
     }
 
+    public Integer getGraphPort() {
+        return graphPort;
+    }
+
+    public void setGraphPort(Integer graphPort) {
+        this.graphPort = graphPort;
+    }
+
     public String getGraphApiVersion() {
         return graphApiVersion;
     }
@@ -100,7 +103,27 @@ public class MessengerProperties {
         this.graphApiVersion = graphApiVersion;
     }
 
-    public int getGraphPort() {
-        return graphPort;
+    public String getMessagingPath() {
+        return messagingPath;
+    }
+
+    public void setMessagingPath(String messagingPath) {
+        this.messagingPath = messagingPath;
+    }
+
+    public String getGraphProtocol() {
+        return graphProtocol;
+    }
+
+    public void setGraphProtocol(String graphProtocol) {
+        this.graphProtocol = graphProtocol;
+    }
+
+    public String getEventsPath() {
+        return eventsPath;
+    }
+
+    public void setEventsPath(String eventsPath) {
+        this.eventsPath = eventsPath;
     }
 }
