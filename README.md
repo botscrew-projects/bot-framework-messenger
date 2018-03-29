@@ -91,6 +91,7 @@ Each component responsible for processing some type of event from Facebook Messe
 Messenger CDK contains default implementations which trigger Bot Framework.
 
 If you need to take care for processing some type of event, you can define your own implementation of `EventHandler` and define it as Spring Bean.
+Be careful with this feature, in this case you're not adding logic to the existing one, but overriding it.
 
 
 # Sending messages 
