@@ -73,11 +73,11 @@ You can change it in property `facebook.messenger.events-path`
 
 ### User
 
-* You can implement MessengerUser interface to define your own user.
+You can implement MessengerUser interface to define your own user.
 
 ### UserProvider
 
-* To take control over users who is writing to your bot you can implement
+To take control over users who are writing to your bot you can implement
 `UserProvider` interface and define it as Spring Bean. It will pass user chat id
 and page id to your implementation(you will be able to get this user in your 
 method handlers).
