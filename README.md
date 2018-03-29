@@ -93,6 +93,10 @@ Messenger CDK contains default implementations which trigger Bot Framework.
 If you need to take care for processing some type of event, you can define your own implementation of `EventHandler` and define it as Spring Bean.
 Be careful with this feature, in this case you're not adding logic to the existing one, but overriding it.
 
+### Rest template
+Messenger CDK depends on Spring's `RestTemplate` and has its own configurations for `RestTemplate` and `ObjectMapper`. 
+In case you define your own configurations Messenger CDK will not create own and will use yours.
+
 
 # Sending messages 
 * You can autowire `com.botscrew.messengercdk.service.Sender` 
