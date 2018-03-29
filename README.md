@@ -35,8 +35,6 @@ it to project by yourself
 
 # Customization
 
-### Messenger properties
-
 #### Page access token
 
 You can set `facebook.messenger.access-token`. It is required if you want to use `Sender` 
