@@ -63,9 +63,8 @@ public class DefaultReportHandler implements ReportHandler {
 
     private void handleMessagingBundle(MessagingBundle bundle) {
         for (Messaging messaging : bundle.getMessaging()) {
-            preMessageProcessingInterceptors.forEach(i -> {
-                i.onAction(new PreMessageProcessingAction(messaging));
-            });
+            preMessageProcessingInterceptors.forEach(i ->
+                    i.onAction(new PreMessageProcessingAction(messaging)));
 
             EventType type = typeResolver.resolve(messaging);
 

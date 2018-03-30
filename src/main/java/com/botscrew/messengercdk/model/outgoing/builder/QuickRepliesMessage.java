@@ -12,6 +12,8 @@ import java.util.List;
 
 public class QuickRepliesMessage {
 
+    private QuickRepliesMessage() {}
+
     public static Builder builder() {
         return new Builder();
     }

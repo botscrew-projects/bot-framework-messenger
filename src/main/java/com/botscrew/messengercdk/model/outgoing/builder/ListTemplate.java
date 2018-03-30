@@ -16,6 +16,8 @@ import java.util.List;
 
 public class ListTemplate {
 
+    private ListTemplate() {}
+
     public static Builder builder() {
         return new Builder();
     }
@@ -59,7 +61,7 @@ public class ListTemplate {
         }
 
         public Builder topElementStyle(TopElementStyle style) {
-            this.topElementStyle = topElementStyle;
+            this.topElementStyle = style;
             return this;
         }
 

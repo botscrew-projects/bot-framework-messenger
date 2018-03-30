@@ -15,6 +15,8 @@ import java.util.List;
 
 public class GenericTemplate {
 
+    private GenericTemplate() {}
+
     public static Builder builder() {
         return new Builder();
     }

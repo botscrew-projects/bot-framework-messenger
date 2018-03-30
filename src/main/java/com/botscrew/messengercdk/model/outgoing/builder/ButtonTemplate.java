@@ -15,6 +15,8 @@ import java.util.List;
 
 public class ButtonTemplate {
 
+    private ButtonTemplate() {}
+
     public static Builder builder() {
         return new Builder();
     }

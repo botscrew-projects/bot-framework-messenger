@@ -8,6 +8,8 @@ import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 public class TextMessage {
 
+    private TextMessage() {}
+
     public static Builder builder() {
         return new Builder();
     }
