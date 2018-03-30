@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import javax.annotation.PostConstruct;
+
 @ToString
 @ConfigurationProperties(prefix = "facebook.messenger")
 public class MessengerProperties {
@@ -25,22 +27,67 @@ public class MessengerProperties {
     private String messagingPath = "/me/messages";
     private String graphProtocol = HTTPS;
     private String eventsPath = "/messenger/events";
+    private String[] profileFields = {"first_name", "last_name", "profile_pic", "gender", "locale", "timezone"};
 
-    private URL.Builder messagingUrlBuilder = null;
-    private String defaultMessagingUrl = null;
+    private URL.Builder messagingUrlBuilder;
+    private String defaultMessagingUrl;
+
+    private URL.Builder profileUrlBuilder;
+    private URL.Builder pageProfileUrlBuilder;
+
+    @PostConstruct
+    public void init() {
+        createMessagingUrlBuilder();
+        createDefaultMessagingUrl();
+        createProfileUrlBuilder();
+        createPageProfileUrlBuilder();
+    }
 
     public String getMessagingUrl() {
-        if (messagingUrlBuilder == null) {
-            createMessagingUrlBuilder();
-            createDefaultMessagingUrl();
-        }
         return defaultMessagingUrl;
     }
 
+    public String getPageProfileUrl() {
+        return getPageProfileUrl(this.getAccessToken());
+    }
+
+    public String getPageProfileUrl(String token) {
+        return pageProfileUrlBuilder
+                .param(ACCESS_TOKEN_PARAM, token)
+                .build().getValue();
+    }
+
+    public String getProfileUrl(String id) {
+        return profileUrlBuilder
+                .path("v" + graphApiVersion + "/" + id)
+                .param(ACCESS_TOKEN_PARAM, this.accessToken)
+                .build().getValue();
+    }
+
+    public String getProfileUrl(String id, String token) {
+        return profileUrlBuilder
+                .path("v" + graphApiVersion + "/" + id)
+                .param(ACCESS_TOKEN_PARAM, token)
+                .build().getValue();
+    }
+
+    private void createProfileUrlBuilder() {
+        profileUrlBuilder = new URL.Builder()
+                .protocol(graphProtocol)
+                .host(graphHost)
+                .port(graphPort)
+                .param("fields", String.join(",", profileFields));
+    }
+
+    private void createPageProfileUrlBuilder() {
+        pageProfileUrlBuilder = new URL.Builder()
+                .protocol(graphProtocol)
+                .host(graphHost)
+                .port(graphPort)
+                .path("v" + graphApiVersion + "/me/messenger_profile");
+    }
+
     public String getMessagingUrl(String token) {
-        if (messagingUrlBuilder == null) {
-            createMessagingUrlBuilder();
-        }
         return messagingUrlBuilder
                 .param(ACCESS_TOKEN_PARAM, token)
                 .build()
@@ -125,5 +172,13 @@ public class MessengerProperties {
 
     public void setEventsPath(String eventsPath) {
         this.eventsPath = eventsPath;
+    }
+
+    public String[] getProfileFields() {
+        return profileFields;
+    }
+
+    public void setProfileFields(String[] profileFields) {
+        this.profileFields = profileFields;
     }
 }

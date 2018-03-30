@@ -20,7 +20,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.Ordered;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -44,6 +43,11 @@ import java.util.List;
 })
 @Import(EventHandlersConfiguration.class)
 public class MessengerCDKConfiguration {
+
+    @Bean
+    public Messenger messenger(RestTemplate restTemplate, MessengerProperties messengerProperties) {
+        return new MessengerImpl(restTemplate, messengerProperties);
+    }
 
     @Bean
     public TokenizedSender messageSender(RestTemplate restTemplate,
