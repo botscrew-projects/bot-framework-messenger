@@ -4,14 +4,11 @@ import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.exception.SendAPIException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
-import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.attachment.TemplateAttachment;
+import com.botscrew.messengercdk.model.outgoing.builder.GenericTemplate;
+import com.botscrew.messengercdk.model.outgoing.builder.QuickRepliesMessage;
+import com.botscrew.messengercdk.model.outgoing.builder.TextMessage;
 import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
-import com.botscrew.messengercdk.model.outgoing.message.GenericTemplateMessage;
-import com.botscrew.messengercdk.model.outgoing.message.Message;
-import com.botscrew.messengercdk.model.outgoing.message.QuickReplyMessage;
-import com.botscrew.messengercdk.model.outgoing.payload.GenericTemplatePayload;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 import com.botscrew.messengercdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
@@ -42,12 +39,12 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public void send(String token, MessengerUser recipient, String text) {
-        Request message = Request.builder()
-                .message(new Message(text))
-                .recipient(new UserInfo(recipient.getChatId()))
+        Request request = TextMessage.builder()
+                .user(recipient)
+                .text(text)
                 .build();
 
-        post(token, message);
+        post(token, request);
     }
 
     @Override
@@ -57,12 +54,13 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public void send(String token, MessengerUser recipient, String text, List<QuickReply> quickReplies) {
-        Request message = Request.builder()
-                .message(new QuickReplyMessage(text, quickReplies))
-                .recipient(new UserInfo(recipient.getChatId()))
+        Request request = QuickRepliesMessage.builder()
+                .user(recipient)
+                .quickReplies(quickReplies)
+                .text(text)
                 .build();
 
-        post(token, message);
+        post(token, request);
     }
 
     @Override
@@ -72,13 +70,12 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public void send(String token, MessengerUser recipient, List<TemplateElement> elements) {
-        TemplateAttachment templateAttachment = new TemplateAttachment(new GenericTemplatePayload(elements));
-        Request message = Request.builder()
-                .message(new GenericTemplateMessage(templateAttachment))
-                .recipient(new UserInfo(recipient.getChatId()))
+        Request request = GenericTemplate.builder()
+                .user(recipient)
+                .elements(elements)
                 .build();
 
-        post(token, message);
+        post(token, request);
     }
 
     @Override
@@ -88,13 +85,13 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public void send(String token, MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies) {
-        TemplateAttachment templateAttachment = new TemplateAttachment(new GenericTemplatePayload(elements));
-        Request message = Request.builder()
-                .message(new GenericTemplateMessage(quickReplies, templateAttachment))
-                .recipient(new UserInfo(recipient.getChatId()))
+        Request request = GenericTemplate.builder()
+                .user(recipient)
+                .elements(elements)
+                .quickReplies(quickReplies)
                 .build();
 
-        post(token, message);
+        post(token, request);
     }
 
     @Override
@@ -111,7 +108,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
         LOGGER.debug("Posting message: \n{}", message);
         try {
             restTemplate.postForObject(properties.getMessagingUrl(token), message, String.class);
-        }catch (HttpClientErrorException|HttpServerErrorException e) {
+        } catch (HttpClientErrorException|HttpServerErrorException e) {
             throw new SendAPIException(e.getResponseBodyAsString());
         }
     }

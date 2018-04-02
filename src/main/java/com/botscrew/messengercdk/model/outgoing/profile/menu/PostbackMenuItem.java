@@ -1,7 +1,5 @@
 package com.botscrew.messengercdk.model.outgoing.profile.menu;
 
-import lombok.Builder;
-
 public class PostbackMenuItem extends MenuItem {
     private String payload;
 
