@@ -53,8 +53,9 @@ public class MessengerCDKConfiguration {
     public TokenizedSender messageSender(RestTemplate restTemplate,
                                          MessengerProperties messengerProperties,
                                          @Qualifier("defaultSenderTaskScheduler") ThreadPoolTaskScheduler scheduler,
-                                         PlatformSender platformSender) {
-        TokenizedSender tokenizedSender = new TokenizedSenderImpl(restTemplate, messengerProperties, scheduler);
+                                         PlatformSender platformSender,
+                                         @Qualifier("defaultReportHandlerTaskExecutor") TaskExecutor taskExecutor) {
+        TokenizedSender tokenizedSender = new TokenizedSenderImpl(restTemplate, messengerProperties, scheduler, taskExecutor);
         platformSender.addSender(Platform.FB_MESSENGER, tokenizedSender);
         return tokenizedSender;
     }

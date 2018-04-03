@@ -1,6 +1,7 @@
 package com.botscrew.messengercdk.service.impl;
 
 import com.botscrew.messengercdk.config.property.MessengerProperties;
+import com.botscrew.messengercdk.domain.internal.LockingQueue;
 import com.botscrew.messengercdk.exception.SendAPIException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
@@ -14,23 +15,41 @@ import com.botscrew.messengercdk.service.TokenizedSender;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-@RequiredArgsConstructor
+
 public class TokenizedSenderImpl implements TokenizedSender {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReportHandler.class);
 
     private final RestTemplate restTemplate;
     private final MessengerProperties properties;
     private final ThreadPoolTaskScheduler scheduler;
+
+    private final TaskExecutor taskExecutor;
+    private Map<Long, LockingQueue<Request>> lockingRequests;
+
+    public TokenizedSenderImpl(RestTemplate restTemplate,
+                               MessengerProperties properties,
+                               ThreadPoolTaskScheduler scheduler,
+                               TaskExecutor taskExecutor) {
+        this.restTemplate = restTemplate;
+        this.properties = properties;
+        this.scheduler = scheduler;
+        this.taskExecutor = taskExecutor;
+
+        lockingRequests = new ConcurrentHashMap<>();
+    }
 
     @Override
     public void send(String token, Request request) {
@@ -104,13 +123,33 @@ public class TokenizedSenderImpl implements TokenizedSender {
         return scheduler.schedule(() -> send(token, request), currentDatePlusMillis(delayMillis));
     }
 
-    private void post(String token, Request message) {
-        LOGGER.debug("Posting message: \n{}", message);
-        try {
-            restTemplate.postForObject(properties.getMessagingUrl(token), message, String.class);
-        } catch (HttpClientErrorException|HttpServerErrorException e) {
-            throw new SendAPIException(e.getResponseBodyAsString());
-        }
+    private void post(String token, Request request) {
+        LOGGER.debug("Posting message: \n{}", request);
+
+        Long id = request.getRecipient().getId();
+        LockingQueue<Request> queue = lockingRequests.computeIfAbsent(id, k -> new LockingQueue<>());
+        queue.push(request);
+
+        if (!queue.isLocked()) runRequest(token, queue);
+    }
+
+    private void runRequest(String token, LockingQueue<Request> lockingQueue) {
+        taskExecutor.execute(() -> {
+            if (lockingQueue.tryLock()) {
+                while (true) {
+                    if (!lockingQueue.hasNext()) {
+                        lockingQueue.unlock();
+                        break;
+                    }
+                    Request top = lockingQueue.poll();
+                    try {
+                        restTemplate.postForObject(properties.getMessagingUrl(token), top, String.class);
+                    } catch (HttpClientErrorException | HttpServerErrorException e) {
+                        throw new SendAPIException(e.getResponseBodyAsString());
+                    }
+                }
+            }
+        });
     }
 
     private Date currentDatePlusMillis(Integer millis) {
