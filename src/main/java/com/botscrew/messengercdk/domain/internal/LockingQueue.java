@@ -14,7 +14,7 @@ public class LockingQueue<T> {
         queue = new ConcurrentLinkedQueue<>();
     }
 
-    public synchronized void push(T t) {
+    public void push(T t) {
         queue.add(t);
     }
 
@@ -34,7 +34,7 @@ public class LockingQueue<T> {
         return lock.isLocked();
     }
 
-    public synchronized boolean hasNext() {
+    public boolean hasNext() {
         return !queue.isEmpty();
     }
 }
