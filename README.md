@@ -1,5 +1,30 @@
 # Messenger CDK Spring Boot Starter
 
+
+### 1. [*Getting started*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#getting-started)
+### 2. [*Customization*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#customization)
+[*Page access token*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#page-access-token)
+
+[*Verification token*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#verification-token)
+
+[*Messaging url*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#messaging-url)
+
+[*Executor*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#executor)
+
+[*Webhook*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#subscribe-webhook)
+
+[*Page profile*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#update-your-page-profile)
+
+[*User*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#user)
+
+[*Event handlers*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#event-handlers)
+
+[*Rest template*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#rest-template)
+### 3. [*Sending messages*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#sending-messages)
+### 4. [*Development*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#development)
+
+
+
 Messenger CDK is quick integration with Facebook Messenger chatbots based on Bot Framework
 
 If you would like to know more about working with Bot Framework read it here:
@@ -72,17 +97,69 @@ By default path for events from Messenger is `/messenger/events`.
 
 You can change it in property `facebook.messenger.events-path`
 
+#### Update your page profile
+There a few page profile properties which you can edit(f.e. Get started button, persistent menu, etc.)
+
+You can do it via `Messenger` component. Here is an example:
+```
+@Autowired
+private Messenger messenger;
+
+@PostConstruct
+public void initMessengerProfile() {
+    messenger.setGetStartedButton(new GetStartedButton("GET_STARTED"));
+
+        messenger.setGreeting(new Greeting("HI!"));
+
+        PersistentMenu menu = new PersistentMenu(
+                Arrays.asList(
+                        new PostbackMenuItem("Postback", "MENU_POSTBACK"),
+                        new WebMenuItem("Web", "https://google.com"),
+                        NestedMenuItem.builder()
+                                .title("Nested")
+                        .addMenuItem(PostbackMenuItem.builder().title("Postback").payload("PAYLOAD").build())
+                        .build()
+                )
+        );
+
+        messenger.setPersistentMenu(menu);
+}
+```
 
 ### User
 
 You can implement MessengerUser interface to define your own user.
 
-### UserProvider
+Also if you need to get user profile information, you can use `Messenger` component.
+
+```
+@Autowired 
+private Messenger messenger;
+
+@Text
+public void handleTextDefault(User user) {
+    ...
+    Profile userProfile = messenger.getProfile(user.getChatId());
+    ...
+}
+```
+
+###### UserProvider
 
 To take control over users who are writing to your bot you can implement
 `UserProvider` interface and define it as Spring Bean. It will pass user chat id
 and page id to your implementation(you will be able to get this user in your 
 method handlers).
+
+```
+@Component
+public class UserService implements UserProvider {
+    @Override
+    public MessengerUser getByChatIdAndPageId(Long chatId, Long botId) {
+        return ...
+    }
+}
+```
 
 ### Event handlers
 
