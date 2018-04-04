@@ -13,6 +13,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.List;
 
 public class MessengerImpl implements Messenger {
     private final RestTemplate restTemplate;
@@ -79,6 +80,19 @@ public class MessengerImpl implements Messenger {
     public void setGreeting(Greeting greeting, String token) {
         MessengerProfile profile = new MessengerProfile();
         profile.setGreetings(Collections.singletonList(greeting));
+
+        trySetMessengerProfile(profile, token);
+    }
+
+    @Override
+    public void setWhitelistedDomains(List<String> domains) {
+        setWhitelistedDomains(domains, this.properties.getAccessToken());
+    }
+
+    @Override
+    public void setWhitelistedDomains(List<String> domains, String token) {
+        MessengerProfile profile = new MessengerProfile();
+        profile.setWhitelistedDomains(domains);
 
         trySetMessengerProfile(profile, token);
     }
