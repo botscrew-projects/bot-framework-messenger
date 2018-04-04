@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
@@ -48,8 +49,10 @@ public class TokenizedSenderImplTests {
     private final Random random = new Random();
 
     @Test
+    @Repeat(100)
     public void shouldSendMessagesInTheWayTheyAreComing() {
         when(restTemplate.postForObject(anyString(), any(), any())).then(invocation -> {
+            Thread.sleep(10);
             Request argument = invocation.getArgument(1);
             requests.add(argument);
             return "";
@@ -57,7 +60,7 @@ public class TokenizedSenderImplTests {
 
         List<MessengerUser> users = new ArrayList<>();
         Map<Long, Integer> userIdAndCurrentMessageIndexes = new HashMap<>();
-        for (int i = 0; i < 5000; i++) {
+        for (int i = 0; i < 100; i++) {
             users.add(createMockUser(i));
             userIdAndCurrentMessageIndexes.put((long) i, 0);
         }
@@ -93,7 +96,7 @@ public class TokenizedSenderImplTests {
             Integer index = userIdAndCurrentMessageIndexes.get(id);
 
             assertEquals(index + "", top.getMessage().getText());
-            System.out.println(i + " - is ok");
+            System.out.println(id + " - " + top.getMessage().getText() + " - is ok");
             userIdAndCurrentMessageIndexes.put(id, index + 1);
         }
     }
