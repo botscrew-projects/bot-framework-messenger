@@ -1,27 +1,27 @@
 # Messenger CDK Spring Boot Starter
 
 
-### 1. [*Getting started*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#getting-started)
-### 2. [*Customization*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#customization)
-[*Page access token*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#page-access-token)
+### 1. [*Getting started*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#getting-started)
+### 2. [*Customization*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#customization)
+[*Page access token*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#page-access-token)
 
-[*Verification token*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#verification-token)
+[*Verification token*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#verification-token)
 
-[*Messaging url*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#messaging-url)
+[*Messaging url*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#messaging-url)
 
-[*Executor*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#executor)
+[*Executor*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#executor)
 
-[*Webhook*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#subscribe-webhook)
+[*Webhook*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#subscribe-webhook)
 
-[*Page profile*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#update-your-page-profile)
+[*Page profile*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#update-your-page-profile)
 
-[*User*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#user)
+[*User*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#user)
 
-[*Event handlers*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#event-handlers)
+[*Event handlers*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#event-handlers)
 
-[*Rest template*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#rest-template)
-### 3. [*Sending messages*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#sending-messages)
-### 4. [*Development*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#development)
+[*Rest template*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#rest-template)
+### 3. [*Sending messages*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#sending-messages)
+### 4. [*Development*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#development)
 
 
 
