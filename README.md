@@ -72,10 +72,52 @@ By default path for events from Messenger is `/messenger/events`.
 
 You can change it in property `facebook.messenger.events-path`
 
+#### Update your page profile
+There a few page profile properties which you can edit(f.e. Get started button, persistent menu, etc.)
+
+You can do it via `Messenger` component. Here is an example:
+```
+@Autowired
+private Messenger messenger;
+
+@PostConstruct
+public void initMessengerProfile() {
+    messenger.setGetStartedButton(new GetStartedButton("GET_STARTED"));
+
+        messenger.setGreeting(new Greeting("HI!"));
+
+        PersistentMenu menu = new PersistentMenu(
+                Arrays.asList(
+                        new PostbackMenuItem("Postback", "MENU_POSTBACK"),
+                        new WebMenuItem("Web", "https://google.com"),
+                        NestedMenuItem.builder()
+                                .title("Nested")
+                        .addMenuItem(PostbackMenuItem.builder().title("Postback").payload("PAYLOAD").build())
+                        .build()
+                )
+        );
+
+        messenger.setPersistentMenu(menu);
+}
+```
 
 ### User
 
 You can implement MessengerUser interface to define your own user.
+
+Also if you need to get user profile information, you can use `Messenger` component.
+
+```
+@Autowired 
+private Messenger messenger;
+
+@Text
+public void handleTextDefault(User user) {
+    ...
+    Profile userProfile = messenger.getProfile(user.getChatId());
+    ...
+}
+```
 
 ### UserProvider
 
