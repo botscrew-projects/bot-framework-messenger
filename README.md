@@ -1,5 +1,8 @@
 # Messenger CDK Spring Boot Starter
 
+
+## 1. [Customization] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/edit/develop/README.md#customization)
+
 Messenger CDK is quick integration with Facebook Messenger chatbots based on Bot Framework
 
 If you would like to know more about working with Bot Framework read it here:
