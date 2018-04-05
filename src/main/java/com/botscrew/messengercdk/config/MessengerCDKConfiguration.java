@@ -2,9 +2,10 @@ package com.botscrew.messengercdk.config;
 
 import com.botscrew.botframework.domain.user.Platform;
 import com.botscrew.botframework.sender.PlatformSender;
+import com.botscrew.messengercdk.config.property.ExecutorProperties;
 import com.botscrew.messengercdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messengercdk.config.property.MessengerProperties;
-import com.botscrew.messengercdk.config.property.SenderExecutorProperties;
+import com.botscrew.messengercdk.config.property.SenderTaskExecutorProperties;
 import com.botscrew.messengercdk.controller.MessengerEventController;
 import com.botscrew.messengercdk.domain.MessengerInterceptor;
 import com.botscrew.messengercdk.domain.PreMessageProcessingAction;
@@ -39,7 +40,8 @@ import java.util.List;
 @EnableConfigurationProperties(value = {
         MessengerProperties.class,
         HandlerTaskExecutorProperties.class,
-        SenderExecutorProperties.class
+        SenderTaskExecutorProperties.class
+
 })
 @Import(EventHandlersConfiguration.class)
 public class MessengerCDKConfiguration {
@@ -54,7 +56,7 @@ public class MessengerCDKConfiguration {
                                          MessengerProperties messengerProperties,
                                          @Qualifier("defaultSenderTaskScheduler") ThreadPoolTaskScheduler scheduler,
                                          PlatformSender platformSender,
-                                         @Qualifier("defaultReportHandlerTaskExecutor") TaskExecutor taskExecutor) {
+                                         @Qualifier("tokenizedSenderTaskExecutor") TaskExecutor taskExecutor) {
         TokenizedSender tokenizedSender = new TokenizedSenderImpl(restTemplate, messengerProperties, scheduler, taskExecutor);
         platformSender.addSender(Platform.FB_MESSENGER, tokenizedSender);
         return tokenizedSender;
@@ -131,7 +133,16 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean(name = "defaultReportHandlerTaskExecutor")
-    public TaskExecutor taskExecutor(HandlerTaskExecutorProperties properties) {
+    public TaskExecutor eventHandlingTaskExecutor(HandlerTaskExecutorProperties properties) {
+        return createExecutorWithProperties(properties);
+    }
+
+    @Bean(name = "tokenizedSenderTaskExecutor")
+    public TaskExecutor messageSendingTaskExecutor(SenderTaskExecutorProperties properties) {
+        return createExecutorWithProperties(properties);
+    }
+
+    private TaskExecutor createExecutorWithProperties(ExecutorProperties properties) {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(properties.getCorePoolSize());
         executor.setMaxPoolSize(properties.getMaxPoolSize());
@@ -142,9 +153,9 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean(name = "defaultSenderTaskScheduler")
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler(SenderExecutorProperties properties) {
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(properties.getPoolSize());
+        scheduler.setPoolSize(5);
         scheduler.initialize();
         return scheduler;
     }

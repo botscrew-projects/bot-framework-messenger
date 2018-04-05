@@ -1,5 +1,6 @@
 package com.botscrew.messengercdk.domain.internal;
 
+import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantLock;
@@ -7,10 +8,12 @@ import java.util.concurrent.locks.ReentrantLock;
 public class LockingQueue<T> {
 
     private ReentrantLock lock;
+    private ReentrantLock internalLock;
     private Queue<T> queue;
 
     public LockingQueue() {
         lock = new ReentrantLock();
+        internalLock = new ReentrantLock();
         queue = new ConcurrentLinkedQueue<>();
     }
 
@@ -18,23 +21,27 @@ public class LockingQueue<T> {
         queue.add(t);
     }
 
-    public T poll() {
-        return queue.poll();
-    }
-
     public boolean tryLock() {
         return lock.tryLock();
     }
 
-    public void unlock() {
-        lock.unlock();
-    }
-
     public boolean isLocked() {
-        return lock.isLocked();
+        internalLock.lock();
+        boolean result = lock.isLocked();
+        internalLock.unlock();
+        return result;
     }
 
-    public boolean hasNext() {
-        return !queue.isEmpty();
+    public Optional<T> getNextOrUnlock() {
+        internalLock.lock();
+        if (!queue.isEmpty()) {
+            internalLock.unlock();
+            return Optional.of(queue.poll());
+        }
+        else {
+            lock.unlock();
+        }
+        internalLock.unlock();
+        return Optional.empty();
     }
 }

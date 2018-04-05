@@ -49,7 +49,6 @@ public class TokenizedSenderImplTests {
     private final Random random = new Random();
 
     @Test
-    @Repeat(100)
     public void shouldSendMessagesInTheWayTheyAreComing() {
         when(restTemplate.postForObject(anyString(), any(), any())).then(invocation -> {
             Thread.sleep(10);
@@ -88,7 +87,6 @@ public class TokenizedSenderImplTests {
 
         tryToSleep(3000);
 
-        System.out.println(requests.size());
         int size = requests.size();
         for (int i = 0; i < size; i++) {
             Request top = requests.poll();
@@ -96,7 +94,6 @@ public class TokenizedSenderImplTests {
             Integer index = userIdAndCurrentMessageIndexes.get(id);
 
             assertEquals(index + "", top.getMessage().getText());
-            System.out.println(id + " - " + top.getMessage().getText() + " - is ok");
             userIdAndCurrentMessageIndexes.put(id, index + 1);
         }
     }

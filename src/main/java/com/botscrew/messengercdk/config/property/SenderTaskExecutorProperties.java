@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "facebook.messenger.events-executor")
-public class HandlerTaskExecutorProperties implements ExecutorProperties {
+@ConfigurationProperties(prefix = "facebook.messenger.sender-executor")
+public class SenderTaskExecutorProperties implements ExecutorProperties {
     private Integer corePoolSize = 5;
     private Integer maxPoolSize = 25;
     private Integer queueCapacity = 500;

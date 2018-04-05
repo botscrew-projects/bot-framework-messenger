@@ -137,11 +137,10 @@ public class TokenizedSenderImpl implements TokenizedSender {
         taskExecutor.execute(() -> {
             if (lockingQueue.tryLock()) {
                 while (true) {
-                    if (!lockingQueue.hasNext()) {
-                        lockingQueue.unlock();
-                        break;
-                    }
-                    Request top = lockingQueue.poll();
+                    Optional<Request> requestOpt = lockingQueue.getNextOrUnlock();
+                    if (!requestOpt.isPresent()) break;
+
+                    Request top = requestOpt.get();
                     try {
                         restTemplate.postForObject(properties.getMessagingUrl(token), top, String.class);
                     } catch (HttpClientErrorException | HttpServerErrorException e) {

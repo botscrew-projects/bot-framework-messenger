@@ -18,6 +18,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
+	<repositories>
+		<repository>
+			<id>MyGet</id>
+			<url>https://www.myget.org/F/bots-crew/maven</url>
+		</repository>
+	</repositories>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -64,7 +71,7 @@
 		<dependency>
 			<groupId>com.botscrew</groupId>
 			<artifactId>bot-framework-spring-boot-starter</artifactId>
-			<version>1.0.0-RC1</version>
+			<version>1.0.0-SNAPSHOT-2</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -73,6 +80,20 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.25</version>
             <scope>compile</scope>
+		</dependency>
+
+		<!--Need to be removed-->
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-core</artifactId>
+			<version>1.20</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-generator-annprocess</artifactId>
+			<version>1.20</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
