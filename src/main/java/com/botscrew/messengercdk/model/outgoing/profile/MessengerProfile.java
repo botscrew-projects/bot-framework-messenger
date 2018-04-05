@@ -15,6 +15,8 @@ public class MessengerProfile {
     private List<PersistentMenu> persistentMenus;
     @JsonProperty("greeting")
     private List<Greeting> greetings;
+    @JsonProperty("whitelisted_domains")
+    private List<String> whitelistedDomains;
 
     public GetStartedButton getGetStartedButton() {
         return getStartedButton;
@@ -38,5 +40,13 @@ public class MessengerProfile {
 
     public void setGreetings(List<Greeting> greetings) {
         this.greetings = greetings;
+    }
+
+    public List<String> getWhitelistedDomains() {
+        return whitelistedDomains;
+    }
+
+    public void setWhitelistedDomains(List<String> whitelistedDomains) {
+        this.whitelistedDomains = whitelistedDomains;
     }
 }
