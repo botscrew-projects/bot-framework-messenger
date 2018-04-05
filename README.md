@@ -123,6 +123,11 @@ public void initMessengerProfile() {
         );
 
         messenger.setPersistentMenu(menu);
+        
+        List<String> domains = new ArrayList<>();
+        domains.add("https://facebook.com/");
+
+        messenger.setWhitelistedDomains(domains);
 }
 ```
 
