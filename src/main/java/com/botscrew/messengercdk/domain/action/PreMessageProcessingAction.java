@@ -1,4 +1,4 @@
-package com.botscrew.messengercdk.domain;
+package com.botscrew.messengercdk.domain.action;
 
 import com.botscrew.messengercdk.model.incomming.Messaging;
 

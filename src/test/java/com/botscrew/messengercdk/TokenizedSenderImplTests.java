@@ -6,6 +6,7 @@ import com.botscrew.botframework.container.TextContainer;
 import com.botscrew.botframework.sender.PlatformSender;
 import com.botscrew.messengercdk.config.MessengerCDKConfiguration;
 import com.botscrew.messengercdk.model.MessengerUser;
+import com.botscrew.messengercdk.model.incomming.Response;
 import com.botscrew.messengercdk.model.outgoing.builder.TextMessage;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 import com.botscrew.messengercdk.service.TokenizedSender;
@@ -53,7 +54,7 @@ public class TokenizedSenderImplTests {
             Thread.sleep(10);
             Request argument = invocation.getArgument(1);
             requests.add(argument);
-            return "";
+            return new Response();
         });
 
         List<MessengerUser> users = new ArrayList<>();

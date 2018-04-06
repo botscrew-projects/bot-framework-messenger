@@ -8,7 +8,7 @@ import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.config.property.SenderTaskExecutorProperties;
 import com.botscrew.messengercdk.controller.MessengerEventController;
 import com.botscrew.messengercdk.domain.MessengerInterceptor;
-import com.botscrew.messengercdk.domain.PreMessageProcessingAction;
+import com.botscrew.messengercdk.domain.action.*;
 import com.botscrew.messengercdk.service.*;
 import com.botscrew.messengercdk.service.impl.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -33,6 +33,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,8 +57,15 @@ public class MessengerCDKConfiguration {
                                          MessengerProperties messengerProperties,
                                          @Qualifier("defaultSenderTaskScheduler") ThreadPoolTaskScheduler scheduler,
                                          PlatformSender platformSender,
-                                         @Qualifier("tokenizedSenderTaskExecutor") TaskExecutor taskExecutor) {
-        TokenizedSender tokenizedSender = new TokenizedSenderImpl(restTemplate, messengerProperties, scheduler, taskExecutor);
+                                         @Qualifier("tokenizedSenderTaskExecutor") TaskExecutor taskExecutor,
+                                         InterceptorsTrigger interceptorsTrigger) {
+        TokenizedSender tokenizedSender = new TokenizedSenderImpl(
+                restTemplate,
+                messengerProperties,
+                scheduler,
+                taskExecutor,
+                interceptorsTrigger);
+
         platformSender.addSender(Platform.FB_MESSENGER, tokenizedSender);
         return tokenizedSender;
     }
@@ -86,14 +94,49 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(value = ExceptionHandler.class)
+    public ExceptionHandler defaultExceptionHandler() {
+        return new DefaultExceptionHandler();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(value = InterceptorsTrigger.class)
+    public InterceptorsTrigger defaultInterceptorsTrigger(
+            @Autowired(required = false) List<MessengerInterceptor<GetEvent>> getEventInterceptors,
+            @Autowired(required = false) List<MessengerInterceptor<ProcessedEvent>> processedEventInterceptors,
+            @Autowired(required = false) List<MessengerInterceptor<BeforeSendMessage>> beforeSendInterceptors,
+            @Autowired(required = false) List<MessengerInterceptor<AfterSendMessage>> afterSendInterceptors)
+    {
+        return new DefaultInterceptorsTrigger(
+                getThisOrEmptyIfNull(getEventInterceptors),
+                getThisOrEmptyIfNull(processedEventInterceptors),
+                getThisOrEmptyIfNull(beforeSendInterceptors),
+                getThisOrEmptyIfNull(afterSendInterceptors));
+    }
+
+    private List getThisOrEmptyIfNull(List list) {
+        if (list != null) {
+            return list;
+        } else return new ArrayList();
+    }
+
+    @Bean
     @ConditionalOnMissingBean(value = ReportHandler.class)
     public ReportHandler reportHandler(EventTypeResolver eventTypeResolver,
                                        @Qualifier("defaultReportHandlerTaskExecutor") TaskExecutor taskExecutor,
                                        List<EventHandler> eventHandlers,
                                        BotProvider botProvider,
                                        UserProvider userProvider,
-                                       @Autowired(required = false) List<MessengerInterceptor<PreMessageProcessingAction>> preMessagingProcessingInterceptors) {
-        return new DefaultReportHandler(eventTypeResolver, taskExecutor, eventHandlers, botProvider, userProvider, preMessagingProcessingInterceptors);
+                                       InterceptorsTrigger interceptorsTrigger,
+                                       @Autowired(required = false) ExceptionHandler exceptionHandler) {
+        return new DefaultReportHandler(
+                eventTypeResolver,
+                taskExecutor,
+                eventHandlers,
+                botProvider,
+                userProvider,
+                interceptorsTrigger,
+                exceptionHandler);
     }
 
     @Bean

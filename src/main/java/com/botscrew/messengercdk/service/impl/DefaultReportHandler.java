@@ -1,7 +1,7 @@
 package com.botscrew.messengercdk.service.impl;
 
-import com.botscrew.messengercdk.domain.MessengerInterceptor;
-import com.botscrew.messengercdk.domain.PreMessageProcessingAction;
+import com.botscrew.messengercdk.domain.action.GetEvent;
+import com.botscrew.messengercdk.domain.action.ProcessedEvent;
 import com.botscrew.messengercdk.exception.MessengerCDKException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
@@ -13,7 +13,6 @@ import com.botscrew.messengercdk.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.TaskExecutor;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -25,22 +24,24 @@ public class DefaultReportHandler implements ReportHandler {
     private final BotProvider botProvider;
     private final UserProvider userProvider;
     private final Map<EventType, EventHandler> eventHandlers;
-    private final List<MessengerInterceptor<PreMessageProcessingAction>> preMessageProcessingInterceptors;
+    private final InterceptorsTrigger interceptorsTrigger;
+    private final ExceptionHandler exceptionHandler;
 
     public DefaultReportHandler(EventTypeResolver typeResolver,
                                 TaskExecutor taskExecutor,
                                 List<EventHandler> handlers,
                                 BotProvider botProvider,
                                 UserProvider userProvider,
-                                List<MessengerInterceptor<PreMessageProcessingAction>> preMessageProcessingActions) {
+                                InterceptorsTrigger interceptorsTrigger,
+                                ExceptionHandler exceptionHandler) {
         this.typeResolver = typeResolver;
         this.taskExecutor = taskExecutor;
         this.botProvider = botProvider;
         this.userProvider = userProvider;
         this.eventHandlers = new EnumMap<>(EventType.class);
-        this.preMessageProcessingInterceptors = preMessageProcessingActions != null
-                ? preMessageProcessingActions
-                : new ArrayList<>();
+        this.interceptorsTrigger = interceptorsTrigger;
+        this.exceptionHandler = exceptionHandler;
+
 
         for (EventHandler handler : handlers) {
             EventType handlingEventType = handler.getHandlingEventType();
@@ -54,35 +55,53 @@ public class DefaultReportHandler implements ReportHandler {
     @Override
     public void handle(Report report) {
         taskExecutor.execute(() -> {
-            log.debug("Messenger report: {}", report);
-            for (MessagingBundle bundle : report.getEntry()) {
-                handleMessagingBundle(bundle);
+            try {
+                log.debug("Messenger report: {}", report);
+                for (MessagingBundle bundle : report.getEntry()) {
+                    handleMessagingBundle(bundle);
+                }
+            } catch (Exception e) {
+                boolean handled = exceptionHandler.handle(e);
+                if (!handled) throw e;
             }
         });
     }
 
     private void handleMessagingBundle(MessagingBundle bundle) {
         for (Messaging messaging : bundle.getMessaging()) {
-            preMessageProcessingInterceptors.forEach(i ->
-                    i.onAction(new PreMessageProcessingAction(messaging)));
-
             EventType type = typeResolver.resolve(messaging);
 
             Long pageId = getPageId(messaging);
             Long userId = getUserId(messaging);
 
             MessengerBot messengerBot = botProvider.getById(pageId);
-            if (messengerBot == null) throw new MessengerCDKException("Bot provider returns NULL for page id: " + pageId);
+            if (messengerBot == null)
+                throw new MessengerCDKException("Bot provider returns NULL for page id: " + pageId);
+
             MessengerUser user = userProvider.getByChatIdAndPageId(userId, messengerBot.getPageId());
 
+            triggerGetEventInterceptors(messaging, type, user, messengerBot);
             EventHandler handler = eventHandlers.get(type);
-            if (handler != null){
+            if (handler != null) {
                 handler.handle(user, messaging);
-            }
-            else {
+                triggerProcessedEventInterceptors(messaging, type, user, messengerBot);
+            } else {
                 log.warn("No handler for type: " + type + " registered!");
             }
         }
+    }
+
+    private void triggerGetEventInterceptors(Messaging messaging,
+                                             EventType type,
+                                             MessengerUser messengerUser,
+                                             MessengerBot messengerBot) {
+        GetEvent getEvent = new GetEvent(messaging, type, messengerUser, messengerBot);
+        interceptorsTrigger.trigger(getEvent);
+    }
+
+    private void triggerProcessedEventInterceptors(Messaging messaging, EventType type, MessengerUser user, MessengerBot messengerBot) {
+        ProcessedEvent processedEvent = new ProcessedEvent(messaging, type, user, messengerBot);
+        interceptorsTrigger.trigger(processedEvent);
     }
 
     private Long getUserId(Messaging messaging) {
