@@ -2,6 +2,7 @@ package com.botscrew.messengercdk.model.outgoing.request;
 
 import com.botscrew.messengercdk.model.incomming.UserInfo;
 import com.botscrew.messengercdk.model.outgoing.MessagingType;
+import com.botscrew.messengercdk.model.outgoing.SenderAction;
 import com.botscrew.messengercdk.model.outgoing.message.Message;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -18,4 +19,7 @@ public class Request implements com.botscrew.botframework.sender.Message {
     private MessagingType messagingType;
     private UserInfo recipient;
     private Message message;
+
+    @JsonProperty("sender_action")
+    private SenderAction senderAction;
 }

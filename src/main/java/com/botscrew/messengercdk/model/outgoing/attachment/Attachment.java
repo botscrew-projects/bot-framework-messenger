@@ -1,5 +1,6 @@
 package com.botscrew.messengercdk.model.outgoing.attachment;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,9 +9,22 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Attachment {
-    private String type;
+    private Type type;
 
-    public Attachment(String type) {
+    Attachment(Type type) {
         this.type = type;
+    }
+
+    public enum Type {
+        AUDIO,
+        VIDEO,
+        IMAGE,
+        FILE,
+        TEMPLATE;
+
+        @JsonValue
+        public String toString() {
+            return this.name().toLowerCase();
+        }
     }
 }
