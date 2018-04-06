@@ -6,7 +6,7 @@ import com.botscrew.messengercdk.exception.SendAPIException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.outgoing.builder.GenericTemplate;
-import com.botscrew.messengercdk.model.outgoing.builder.QuickRepliesMessage;
+import com.botscrew.messengercdk.model.outgoing.builder.QuickReplies;
 import com.botscrew.messengercdk.model.outgoing.builder.TextMessage;
 import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
@@ -69,7 +69,7 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     @Override
     public void send(String token, MessengerUser recipient, String text, List<QuickReply> quickReplies) {
-        Request request = QuickRepliesMessage.builder()
+        Request request = QuickReplies.builder()
                 .user(recipient)
                 .quickReplies(quickReplies)
                 .text(text)

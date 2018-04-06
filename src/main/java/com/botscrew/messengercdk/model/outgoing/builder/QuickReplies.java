@@ -10,9 +10,9 @@ import com.botscrew.messengercdk.model.outgoing.request.Request;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuickRepliesMessage {
+public class QuickReplies {
 
-    private QuickRepliesMessage() {}
+    private QuickReplies() {}
 
     public static Builder builder() {
         return new Builder();
