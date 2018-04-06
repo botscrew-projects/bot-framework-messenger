@@ -12,7 +12,7 @@ public class TemplateAttachment extends Attachment {
     private TemplatePayload payload;
 
     public TemplateAttachment(TemplatePayload payload) {
-        super("template");
+        super(Type.TEMPLATE);
         this.payload = payload;
     }
 }
