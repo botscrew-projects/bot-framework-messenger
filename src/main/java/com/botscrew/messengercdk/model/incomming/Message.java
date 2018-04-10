@@ -12,14 +12,14 @@ import java.util.List;
 @ToString
 public class Message {
 
-	@JsonProperty("is_echo")
-	private boolean isEcho;
-	private String mid;
-	private Integer seq;
-	private String text;
-	private List<Attachment> attachments;
-	@JsonProperty("quick_reply")
-	private Postback quickReply;
-	@JsonProperty("app_id")
-	private Long appId;
+    @JsonProperty("is_echo")
+    private boolean isEcho;
+    private String mid;
+    private Integer seq;
+    private String text;
+    private List<Attachment> attachments;
+    @JsonProperty("quick_reply")
+    private Postback quickReply;
+    @JsonProperty("app_id")
+    private Long appId;
 }

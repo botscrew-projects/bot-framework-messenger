@@ -8,5 +8,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Postback {
-	private String payload;
+    private String payload;
 }

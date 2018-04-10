@@ -1,13 +1,13 @@
-package com.botscrew.messengercdk.model.outgoing;
+package com.botscrew.messengercdk.model.outgoing.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum SenderAction {
-    TYPING_ON,
-    TYPING_OFF,
-    MARK_SEEN;
+public enum TopElementStyle {
+    LARGE,
+    COMPACT;
 
     @JsonValue
+    @Override
     public String toString() {
         return this.name().toLowerCase();
     }

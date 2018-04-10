@@ -9,10 +9,10 @@ import lombok.ToString;
 @ToString
 public class Messaging {
 
-	private UserInfo sender;
-	private UserInfo recipient;
-	private Long timestamp;
-	private Message message;
-	private Postback postback;
+    private UserInfo sender;
+    private UserInfo recipient;
+    private Long timestamp;
+    private Message message;
+    private Postback postback;
 
 }

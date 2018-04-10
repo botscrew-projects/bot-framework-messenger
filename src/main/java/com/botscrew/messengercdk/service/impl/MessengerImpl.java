@@ -39,8 +39,7 @@ public class MessengerImpl implements Messenger {
     private Profile tryToGetProfile(String profileUrl) {
         try {
             return restTemplate.getForObject(profileUrl, Profile.class);
-        }
-        catch (HttpClientErrorException | HttpServerErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             throw new MessengerCDKException(e.getResponseBodyAsString());
         }
     }
@@ -101,8 +100,7 @@ public class MessengerImpl implements Messenger {
         String url = properties.getPageProfileUrl(token);
         try {
             restTemplate.postForObject(url, profile, String.class);
-        }
-        catch (HttpClientErrorException | HttpServerErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             throw new MessengerCDKException(e.getResponseBodyAsString());
         }
     }

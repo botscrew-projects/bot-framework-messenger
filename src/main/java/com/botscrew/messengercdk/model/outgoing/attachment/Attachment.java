@@ -23,6 +23,7 @@ public class Attachment {
         TEMPLATE;
 
         @JsonValue
+        @Override
         public String toString() {
             return this.name().toLowerCase();
         }

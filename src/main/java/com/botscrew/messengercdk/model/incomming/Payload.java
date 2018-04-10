@@ -12,9 +12,9 @@ import java.util.List;
 @Setter
 @ToString
 public class Payload {
-	private String url;
-	private Coordinates coordinates;
-	@JsonProperty("template_type")
-	private String templateType;
-	private List<Button> buttons;
+    private String url;
+    private Coordinates coordinates;
+    @JsonProperty("template_type")
+    private String templateType;
+    private List<Button> buttons;
 }

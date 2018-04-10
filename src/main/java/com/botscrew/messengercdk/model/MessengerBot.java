@@ -5,7 +5,9 @@ import com.botscrew.botframework.domain.user.Platform;
 
 public interface MessengerBot extends Bot {
     @Override
-    default Platform getPlatform() {return Platform.FB_MESSENGER;}
+    default Platform getPlatform() {
+        return Platform.FB_MESSENGER;
+    }
 
     Long getPageId();
 

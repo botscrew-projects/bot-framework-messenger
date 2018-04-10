@@ -7,10 +7,12 @@ package com.botscrew.messengercdk.model;
 public class DefaultMessengerBot implements MessengerBot {
     private String accessToken;
     private Long appId;
-    public DefaultMessengerBot(Long appId, String accessToken){
+
+    public DefaultMessengerBot(Long appId, String accessToken) {
         this.appId = appId;
         this.accessToken = accessToken;
     }
+
     @Override
     public Long getPageId() {
         return appId;

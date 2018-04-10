@@ -10,9 +10,9 @@ import lombok.ToString;
 @ToString
 public class Coordinates {
 
-	@JsonProperty("long")
-	private Double longitude;
-	@JsonProperty("lat")
-	private Double latitude;
-	
+    @JsonProperty("long")
+    private Double longitude;
+    @JsonProperty("lat")
+    private Double latitude;
+
 }

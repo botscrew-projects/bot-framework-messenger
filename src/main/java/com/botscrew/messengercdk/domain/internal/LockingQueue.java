@@ -37,8 +37,7 @@ public class LockingQueue<T> {
         if (!queue.isEmpty()) {
             internalLock.unlock();
             return Optional.of(queue.poll());
-        }
-        else {
+        } else {
             lock.unlock();
         }
         internalLock.unlock();

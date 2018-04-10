@@ -1,6 +1,5 @@
 package com.botscrew.messengercdk.model.outgoing.payload;
 
-import com.botscrew.messengercdk.model.outgoing.attachment.ContentAttachment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ public class ContentPayload {
 
     /**
      * Only attachments that were uploaded with the is_reusable property
-     *  set to true can be sent to other message recipients
+     * set to true can be sent to other message recipients
      */
     @JsonProperty("is_reusable")
     private boolean isReusable;

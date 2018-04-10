@@ -2,13 +2,15 @@ package com.botscrew.messengercdk.model.outgoing.builder;
 
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.MessagingType;
+import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.Message;
+import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 public class TextMessage {
 
-    private TextMessage() {}
+    private TextMessage() {
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -35,7 +37,7 @@ public class TextMessage {
         }
 
         public Request build() {
-            Request request = new Request();
+            MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
             request.setMessage(new Message(text));

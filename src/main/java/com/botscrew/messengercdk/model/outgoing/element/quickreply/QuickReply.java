@@ -11,11 +11,11 @@ import lombok.ToString;
 @ToString
 @Builder
 public class QuickReply {
-	@JsonProperty(value = "content_type")
+    @JsonProperty(value = "content_type")
     private String contentType;
 
-	protected QuickReply(String contentType) {
-		this.contentType = contentType;
-	}
+    protected QuickReply(String contentType) {
+        this.contentType = contentType;
+    }
 
 }

@@ -14,17 +14,22 @@ import java.util.concurrent.ScheduledFuture;
 public interface TokenizedSender extends Sender<MessengerBot, Request> {
 
     void send(String token, MessengerUser recipient, String text);
+
     ScheduledFuture send(String token, MessengerUser recipient, String text, Integer delayMillis);
 
     void send(String token, MessengerUser recipient, String text, List<QuickReply> quickReplies);
+
     ScheduledFuture send(String token, MessengerUser recipient, String text, List<QuickReply> quickReplies, Integer delayMillis);
 
     void send(String token, MessengerUser recipient, List<TemplateElement> elements);
+
     ScheduledFuture send(String token, MessengerUser recipient, List<TemplateElement> elements, Integer delayMillis);
 
     void send(String token, MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies);
+
     ScheduledFuture send(String token, MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies, Integer delayMillis);
 
     void send(String token, Request request);
+
     ScheduledFuture send(String token, Request request, Integer delayMillis);
 }

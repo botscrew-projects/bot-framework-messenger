@@ -11,8 +11,8 @@ import java.util.List;
 @ToString
 public class MessagingBundle {
 
-	private String id;
-	private Long time;
-	private List<Messaging> messaging;
+    private String id;
+    private Long time;
+    private List<Messaging> messaging;
 
 }

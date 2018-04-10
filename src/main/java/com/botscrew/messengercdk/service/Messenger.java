@@ -10,17 +10,22 @@ import java.util.List;
 public interface Messenger {
 
     Profile getProfile(Long chatId);
+
     Profile getProfile(Long chatId, String token);
 
     void setGetStartedButton(GetStartedButton button);
+
     void setGetStartedButton(GetStartedButton button, String token);
 
     void setPersistentMenu(PersistentMenu menu);
+
     void setPersistentMenu(PersistentMenu menu, String token);
 
     void setGreeting(Greeting greeting);
+
     void setGreeting(Greeting greeting, String token);
 
     void setWhitelistedDomains(List<String> domains);
+
     void setWhitelistedDomains(List<String> domains, String token);
 }

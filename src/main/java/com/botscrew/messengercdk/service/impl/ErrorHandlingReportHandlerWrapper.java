@@ -19,8 +19,7 @@ public class ErrorHandlingReportHandlerWrapper implements ReportHandler {
     public void handle(Report report) {
         try {
             originalReportHandler.handle(report);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             boolean handled = exceptionHandler.handle(e);
             if (!handled) throw e;
         }

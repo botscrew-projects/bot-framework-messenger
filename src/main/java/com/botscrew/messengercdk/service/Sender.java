@@ -10,17 +10,22 @@ import java.util.concurrent.ScheduledFuture;
 
 public interface Sender {
     void send(MessengerUser recipient, String text);
+
     ScheduledFuture send(MessengerUser recipient, String text, Integer delayMillis);
 
     void send(MessengerUser recipient, String text, List<QuickReply> quickReplies);
+
     ScheduledFuture send(MessengerUser recipient, String text, List<QuickReply> quickReplies, Integer delayMillis);
 
     void send(MessengerUser recipient, List<TemplateElement> elements);
+
     ScheduledFuture send(MessengerUser recipient, List<TemplateElement> elements, Integer delayMillis);
 
     void send(MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies);
+
     ScheduledFuture send(MessengerUser recipient, List<TemplateElement> elements, List<QuickReply> quickReplies, Integer delayMillis);
 
     void send(Request request);
+
     ScheduledFuture send(Request request, Integer delayMillis);
 }

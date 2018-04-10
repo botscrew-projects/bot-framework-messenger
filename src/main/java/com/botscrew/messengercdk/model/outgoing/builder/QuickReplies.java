@@ -2,9 +2,10 @@ package com.botscrew.messengercdk.model.outgoing.builder;
 
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
+import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.QuickReplyMessage;
+import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 import java.util.ArrayList;
@@ -12,7 +13,8 @@ import java.util.List;
 
 public class QuickReplies {
 
-    private QuickReplies() {}
+    private QuickReplies() {
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -55,7 +57,7 @@ public class QuickReplies {
         }
 
         public Request build() {
-            Request request = new Request();
+            MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
 

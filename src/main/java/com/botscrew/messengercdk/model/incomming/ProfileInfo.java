@@ -9,16 +9,16 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProfileInfo {
-	@JsonProperty("first_name")
-	private String firstName;
-	@JsonProperty("last_name")
-	private String lastName;
-	@JsonProperty("profile_pic")
-	private String profilePic;
-	@JsonProperty("gender")
-	private String gender;
-	@JsonProperty("locale")
-	private String locale;
-	@JsonProperty("timezone")
-	private Integer timezone;
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("last_name")
+    private String lastName;
+    @JsonProperty("profile_pic")
+    private String profilePic;
+    @JsonProperty("gender")
+    private String gender;
+    @JsonProperty("locale")
+    private String locale;
+    @JsonProperty("timezone")
+    private Integer timezone;
 }

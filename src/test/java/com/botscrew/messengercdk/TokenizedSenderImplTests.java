@@ -8,6 +8,7 @@ import com.botscrew.messengercdk.config.MessengerCDKConfiguration;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.Response;
 import com.botscrew.messengercdk.model.outgoing.builder.TextMessage;
+import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 import com.botscrew.messengercdk.service.TokenizedSender;
 import org.junit.Test;
@@ -89,7 +90,7 @@ public class TokenizedSenderImplTests {
 
         int size = requests.size();
         for (int i = 0; i < size; i++) {
-            Request top = requests.poll();
+            MessageRequest top = (MessageRequest) requests.poll();
             Long id = top.getRecipient().getId();
             Integer index = userIdAndCurrentMessageIndexes.get(id);
 

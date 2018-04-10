@@ -2,7 +2,7 @@ package com.botscrew.messengercdk.model.outgoing.payload;
 
 import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.element.button.Button;
-import com.botscrew.messengercdk.model.outgoing.style.TopElementStyle;
+import com.botscrew.messengercdk.model.outgoing.enums.TopElementStyle;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

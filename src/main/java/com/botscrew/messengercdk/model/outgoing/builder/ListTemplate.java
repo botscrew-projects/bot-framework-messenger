@@ -2,21 +2,23 @@ package com.botscrew.messengercdk.model.outgoing.builder;
 
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.attachment.TemplateAttachment;
 import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.element.button.Button;
+import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
+import com.botscrew.messengercdk.model.outgoing.enums.TopElementStyle;
 import com.botscrew.messengercdk.model.outgoing.message.ListTemplateMessage;
 import com.botscrew.messengercdk.model.outgoing.payload.ListTemplatePayload;
+import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
-import com.botscrew.messengercdk.model.outgoing.style.TopElementStyle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListTemplate {
 
-    private ListTemplate() {}
+    private ListTemplate() {
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -71,7 +73,7 @@ public class ListTemplate {
         }
 
         public Request build() {
-            Request request = new Request();
+            MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
 

@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 public class Report {
 
-	private String object;
-	private List<MessagingBundle> entry;
-	
+    private String object;
+    private List<MessagingBundle> entry;
+
 }

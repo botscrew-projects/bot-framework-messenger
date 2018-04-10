@@ -58,14 +58,14 @@ public class URL {
         }
 
         public URL build() {
-                UriComponents uriComponents =
-                        UriComponentsBuilder.newInstance()
-                                .scheme(protocol)
-                                .host(host)
-                                .path(path)
-                                .port(port)
-                                .query(composeParams())
-                                .build();
+            UriComponents uriComponents =
+                    UriComponentsBuilder.newInstance()
+                            .scheme(protocol)
+                            .host(host)
+                            .path(path)
+                            .port(port)
+                            .query(composeParams())
+                            .build();
 
             try {
                 return new URL(uriComponents.toUri().toURL().toString());

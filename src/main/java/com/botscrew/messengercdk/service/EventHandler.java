@@ -6,5 +6,6 @@ import com.botscrew.messengercdk.model.incomming.Messaging;
 
 public interface EventHandler {
     EventType getHandlingEventType();
+
     void handle(MessengerUser messengerUser, Messaging messaging);
 }

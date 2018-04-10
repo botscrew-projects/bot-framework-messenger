@@ -27,28 +27,28 @@ public class DefaultInterceptorsTrigger implements InterceptorsTrigger {
 
     @Override
     public void trigger(GetEvent getEvent) {
-        for ( MessengerInterceptor<GetEvent> interceptor : getEventInterceptors) {
+        for (MessengerInterceptor<GetEvent> interceptor : getEventInterceptors) {
             interceptor.onAction(getEvent);
         }
     }
 
     @Override
     public void trigger(ProcessedEvent processedEvent) {
-        for ( MessengerInterceptor<ProcessedEvent> interceptor : processedEventInterceptors) {
+        for (MessengerInterceptor<ProcessedEvent> interceptor : processedEventInterceptors) {
             interceptor.onAction(processedEvent);
         }
     }
 
     @Override
     public void trigger(BeforeSendMessage beforeSendMessage) {
-        for ( MessengerInterceptor<BeforeSendMessage> interceptor : beforeSendMessageInterceptors) {
+        for (MessengerInterceptor<BeforeSendMessage> interceptor : beforeSendMessageInterceptors) {
             interceptor.onAction(beforeSendMessage);
         }
     }
 
     @Override
     public void trigger(AfterSendMessage afterSendMessage) {
-        for ( MessengerInterceptor<AfterSendMessage> interceptor : afterSendMessageInterceptors) {
+        for (MessengerInterceptor<AfterSendMessage> interceptor : afterSendMessageInterceptors) {
             interceptor.onAction(afterSendMessage);
         }
     }

@@ -2,16 +2,18 @@ package com.botscrew.messengercdk.model.outgoing.builder;
 
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.attachment.Attachment;
 import com.botscrew.messengercdk.model.outgoing.attachment.ContentAttachment;
+import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.ContentMessage;
 import com.botscrew.messengercdk.model.outgoing.payload.ContentPayload;
+import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 public class Content {
 
-    private Content() {}
+    private Content() {
+    }
 
     public static Builder audio() {
         return new Builder(Attachment.Type.AUDIO);
@@ -81,7 +83,7 @@ public class Content {
 
             ContentMessage message = new ContentMessage(attachment);
 
-            Request request = new Request();
+            MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
             request.setMessage(message);

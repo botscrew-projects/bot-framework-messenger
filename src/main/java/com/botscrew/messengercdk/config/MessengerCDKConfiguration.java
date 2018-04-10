@@ -8,7 +8,10 @@ import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.config.property.SenderTaskExecutorProperties;
 import com.botscrew.messengercdk.controller.MessengerEventController;
 import com.botscrew.messengercdk.domain.MessengerInterceptor;
-import com.botscrew.messengercdk.domain.action.*;
+import com.botscrew.messengercdk.domain.action.AfterSendMessage;
+import com.botscrew.messengercdk.domain.action.BeforeSendMessage;
+import com.botscrew.messengercdk.domain.action.GetEvent;
+import com.botscrew.messengercdk.domain.action.ProcessedEvent;
 import com.botscrew.messengercdk.service.*;
 import com.botscrew.messengercdk.service.impl.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -105,8 +108,7 @@ public class MessengerCDKConfiguration {
             @Autowired(required = false) List<MessengerInterceptor<GetEvent>> getEventInterceptors,
             @Autowired(required = false) List<MessengerInterceptor<ProcessedEvent>> processedEventInterceptors,
             @Autowired(required = false) List<MessengerInterceptor<BeforeSendMessage>> beforeSendInterceptors,
-            @Autowired(required = false) List<MessengerInterceptor<AfterSendMessage>> afterSendInterceptors)
-    {
+            @Autowired(required = false) List<MessengerInterceptor<AfterSendMessage>> afterSendInterceptors) {
         return new DefaultInterceptorsTrigger(
                 getThisOrEmptyIfNull(getEventInterceptors),
                 getThisOrEmptyIfNull(processedEventInterceptors),
