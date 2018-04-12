@@ -115,7 +115,7 @@ You can change it in property `facebook.messenger.events-path`
 There a few page profile properties which you can edit(f.e. Get started button, persistent menu, etc.)
 
 You can do it via `Messenger` component. Here is an example:
-```
+```java
 @Autowired
 private Messenger messenger;
 
@@ -154,7 +154,7 @@ You can implement MessengerUser interface to define your own user.
 
 Also if you need to get user profile information, you can use `Messenger` component.
 
-```
+```java
 @Autowired 
 private Messenger messenger;
 
@@ -173,7 +173,7 @@ To take control over users who are writing to your bot you can implement
 and page id to your implementation(you will be able to get this user in your 
 method handlers).
 
-```
+```java
 @Component
 public class UserService implements UserProvider {
     @Override
@@ -198,7 +198,7 @@ You are able to create interceptors for next types of actions: when we get event
 after we processed event from Facebook Messenger, before we send message, after we send message.
 Below you can check examples:
 
-```
+```java
 public TextHandler implements MessengerInterceptor<GetEvent> {
     @Override
     public boolean onAction(GetEvent getEvent) {
@@ -235,7 +235,7 @@ public TextHandler implements MessengerInterceptor<AfterSendMessage> {
 You can define your exception handler for exceptions which happen inside your registered handling methods or when invoking it.
 Below you can check example:
 
-```
+```java
 public class CustomExceptionHandler implements ExceptionHandler {
     @Override
     public boolean handle(Exception e) {
@@ -264,7 +264,7 @@ in these examples which expect your access token in properties)
 
 * Simple text
 
-```
+```java
 Request request = TextMessage.builder()
                 .text("Hi there!")
                 .user(user)
@@ -276,7 +276,7 @@ sender.send(user, "Hi there!");
 
 * Text with quick replies
 
-```
+```java
 Request request = QuickReplies.builder()
                 .user(user)
                 .text("Quick replies are here")
@@ -291,7 +291,7 @@ sender.send(request);
 
 * Generic template
 
-```
+```java
 TemplateElement element = TemplateElement.builder()
             .title("Title")
             .subtitle("Subtitle")
@@ -308,7 +308,7 @@ sender.send(request);
 
 * List template
 
-```
+```java
 TemplateElement element = TemplateElement.builder()
                 .title("Title")
                 .subtitle("Subtitle")
@@ -325,7 +325,7 @@ sender.send(request);
 
 * Button template
 
-```
+```java
 Request request = ButtonTemplate.builder()
                 .addButton(new PostbackButton("Title", "button_postback"))
                 .text("Button template")
@@ -337,7 +337,7 @@ sender.send(request);
 
 * Media template
 
-```
+```java
 Request request = MediaTemplate.builder()
                 .user(user)
                 .element(new ImageElement(ATTACHMENT_ID))
@@ -348,7 +348,7 @@ sender.send(request);
 
 * Attachment
 
-```
+```java
 Request request = Attachment.builder()
                 .user(user)
                 .attachmentId(ATTACHMENT_ID)
@@ -369,7 +369,7 @@ sender.send(request);
 
 * Sender actions
 
-```
+```java
 sender.send(SenderAction.typingOn(user));
 sender.send(SenderAction.typingOff(user));
 ```
