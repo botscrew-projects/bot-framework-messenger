@@ -9,7 +9,6 @@ import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.GenericTemplateMessage;
 import com.botscrew.messengercdk.model.outgoing.payload.GenericTemplatePayload;
 import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
-import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,8 @@ public class GenericTemplate {
     public static class Builder {
         private MessengerUser user;
         private List<TemplateElement> elements;
+        private Boolean sharable;
+        private String imageAspectRatio;
         private List<QuickReply> quickReplies;
         private MessagingType messagingType;
 
@@ -65,10 +66,27 @@ public class GenericTemplate {
             return this;
         }
 
-        public Request build() {
+        public Builder makeSharable() {
+            this.sharable = true;
+            return this;
+        }
+
+        public Builder squareImageRatio() {
+            this.imageAspectRatio = "square";
+            return this;
+        }
+
+        public Builder horizontalImageRatio() {
+            this.imageAspectRatio = "horizontal";
+            return this;
+        }
+
+        public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             GenericTemplatePayload genericTemplatePayload = new GenericTemplatePayload(elements);
+            genericTemplatePayload.setSharable(this.sharable);
+            genericTemplatePayload.setImageAspectRatio(this.imageAspectRatio);
             TemplateAttachment templateAttachment = new TemplateAttachment(genericTemplatePayload);
 
             List<QuickReply> replies = quickReplies.isEmpty() ? null : quickReplies;

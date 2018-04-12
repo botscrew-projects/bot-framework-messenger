@@ -20,13 +20,35 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
         if (textAvailable(messaging)) {
             return EventType.TEXT;
         }
+        if (referralAvailable(messaging)) {
+            return EventType.REFERRAL;
+        }
         if (postbackAvailable(messaging)) {
             return EventType.POSTBACK;
+        }
+        if (readAvailable(messaging)) {
+            return EventType.READ;
+        }
+        if (deliveryAvailable(messaging)) {
+            return EventType.DELIVERY;
         }
         if (locationAvailable(messaging)) {
             return EventType.LOCATION;
         }
         return EventType.UNDEFINED;
+    }
+
+    private boolean deliveryAvailable(Messaging messaging) {
+        return messaging.getDelivery() != null;
+    }
+
+    private boolean readAvailable(Messaging messaging) {
+        return messaging.getRead() != null;
+    }
+
+    private boolean referralAvailable(Messaging messaging) {
+        return messaging.getReferral() != null ||
+                (messaging.getPostback() != null && messaging.getPostback().getReferral() != null);
     }
 
     private boolean echoAvailable(Messaging messaging) {

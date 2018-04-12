@@ -14,5 +14,8 @@ public class Messaging {
     private Long timestamp;
     private Message message;
     private Postback postback;
+    private Referral referral;
+    private Read read;
+    private Delivery delivery;
 
 }

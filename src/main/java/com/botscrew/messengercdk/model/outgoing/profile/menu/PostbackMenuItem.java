@@ -12,6 +12,22 @@ public class PostbackMenuItem extends MenuItem {
         return new Builder();
     }
 
+    public String getPayload() {
+        return payload;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
+    }
+
+    @Override
+    public String toString() {
+        return "PostbackMenuItem{" +
+                "title='" + getTitle() + '\'' +
+                "payload='" + payload + '\'' +
+                '}';
+    }
+
     public static class Builder {
         private String payload;
         private String title;
@@ -29,21 +45,5 @@ public class PostbackMenuItem extends MenuItem {
         public PostbackMenuItem build() {
             return new PostbackMenuItem(title, payload);
         }
-    }
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
-
-    @Override
-    public String toString() {
-        return "PostbackMenuItem{" +
-                "title='" + getTitle() + '\'' +
-                "payload='" + payload + '\'' +
-                '}';
     }
 }

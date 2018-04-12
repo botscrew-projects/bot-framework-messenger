@@ -1,8 +1,9 @@
 package com.botscrew.messengercdk.model.outgoing.request;
 
+import com.botscrew.botframework.sender.Message;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
 
-public abstract class Request implements com.botscrew.botframework.sender.Message {
+public abstract class Request implements Message {
 
     private UserInfo recipient;
 

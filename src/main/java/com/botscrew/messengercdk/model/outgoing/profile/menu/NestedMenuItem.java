@@ -18,6 +18,22 @@ public class NestedMenuItem extends MenuItem {
         return new Builder();
     }
 
+    public List<MenuItem> getNestedMenuItems() {
+        return nestedMenuItems;
+    }
+
+    public void setNestedMenuItems(List<MenuItem> nestedMenuItems) {
+        this.nestedMenuItems = nestedMenuItems;
+    }
+
+    @Override
+    public String toString() {
+        return "NestedMenuItem{" +
+                "title=" + getTitle() +
+                "nestedMenuItems=" + nestedMenuItems +
+                '}';
+    }
+
     public static class Builder {
         private String title;
         private List<MenuItem> nestedMenuItems = new ArrayList<>();
@@ -40,21 +56,5 @@ public class NestedMenuItem extends MenuItem {
         public NestedMenuItem build() {
             return new NestedMenuItem(title, nestedMenuItems);
         }
-    }
-
-    public List<MenuItem> getNestedMenuItems() {
-        return nestedMenuItems;
-    }
-
-    public void setNestedMenuItems(List<MenuItem> nestedMenuItems) {
-        this.nestedMenuItems = nestedMenuItems;
-    }
-
-    @Override
-    public String toString() {
-        return "NestedMenuItem{" +
-                "title=" + getTitle() +
-                "nestedMenuItems=" + nestedMenuItems +
-                '}';
     }
 }

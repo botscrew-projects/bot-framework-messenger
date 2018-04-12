@@ -9,7 +9,6 @@ import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.ButtonTemplateMessage;
 import com.botscrew.messengercdk.model.outgoing.payload.ButtonTemplatePayload;
 import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
-import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class ButtonTemplate {
             return this;
         }
 
-        public Request build() {
+        public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
 

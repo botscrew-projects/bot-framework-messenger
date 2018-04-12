@@ -9,4 +9,5 @@ import lombok.ToString;
 @ToString
 public class Postback {
     private String payload;
+    private Referral referral;
 }

@@ -6,10 +6,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ContentMessage extends Message {
+public class AttachmentMessage extends Message {
     private ContentAttachment attachment;
 
-    public ContentMessage(ContentAttachment attachment) {
+    public AttachmentMessage(ContentAttachment attachment) {
         this.attachment = attachment;
     }
 }

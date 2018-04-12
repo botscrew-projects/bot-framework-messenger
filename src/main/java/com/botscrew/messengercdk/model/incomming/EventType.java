@@ -7,5 +7,5 @@ public enum EventType {
     LOCATION,
     POSTBACK,
     ECHO,
-    UNDEFINED,
+    UNDEFINED, REFERRAL, READ, DELIVERY,
 }

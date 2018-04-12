@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TemplateElement {
     private String title;
     private String subtitle;
@@ -21,4 +22,6 @@ public class TemplateElement {
     @Singular
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Button> buttons;
+    @JsonProperty("default_action")
+    private WebAction defaultAction;
 }

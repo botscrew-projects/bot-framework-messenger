@@ -1,8 +1,6 @@
 package com.botscrew.messengercdk;
 
-import com.botscrew.botframework.container.LocationContainer;
-import com.botscrew.botframework.container.PostbackContainer;
-import com.botscrew.botframework.container.TextContainer;
+import com.botscrew.botframework.container.*;
 import com.botscrew.botframework.sender.PlatformSender;
 import com.botscrew.messengercdk.config.MessengerCDKConfiguration;
 import com.botscrew.messengercdk.model.MessengerUser;
@@ -45,6 +43,14 @@ public class TokenizedSenderImplTests {
     TextContainer textContainer;
     @MockBean
     PlatformSender platformSender;
+    @MockBean
+    ReferralContainer referralContainer;
+    @MockBean
+    ReadContainer readContainer;
+    @MockBean
+    EchoContainer echoContainer;
+    @MockBean
+    DeliveryContainer deliveryContainer;
 
     private Queue<Request> requests = new ConcurrentLinkedQueue<>();
     private final Random random = new Random();

@@ -5,7 +5,6 @@ import com.botscrew.messengercdk.model.incomming.UserInfo;
 import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.Message;
 import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
-import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 public class TextMessage {
 
@@ -18,7 +17,7 @@ public class TextMessage {
 
     public static class Builder {
         private MessengerUser user;
-        private MessagingType messagingType;
+        private MessagingType messagingType = MessagingType.RESPONSE;
         private String text;
 
         public Builder user(MessengerUser user) {
@@ -36,7 +35,7 @@ public class TextMessage {
             return this;
         }
 
-        public Request build() {
+        public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);

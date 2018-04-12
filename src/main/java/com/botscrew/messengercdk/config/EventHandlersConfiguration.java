@@ -1,12 +1,7 @@
 package com.botscrew.messengercdk.config;
 
-import com.botscrew.botframework.container.LocationContainer;
-import com.botscrew.botframework.container.PostbackContainer;
-import com.botscrew.botframework.container.TextContainer;
-import com.botscrew.messengercdk.service.impl.handler.BotFrameworkLocationEventHandler;
-import com.botscrew.messengercdk.service.impl.handler.BotFrameworkPostbackEventHandler;
-import com.botscrew.messengercdk.service.impl.handler.BotFrameworkQuickReplyEventHandler;
-import com.botscrew.messengercdk.service.impl.handler.BotFrameworkTextEventHandler;
+import com.botscrew.botframework.container.*;
+import com.botscrew.messengercdk.service.impl.handler.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,5 +31,29 @@ public class EventHandlersConfiguration {
     @ConditionalOnMissingBean(BotFrameworkTextEventHandler.class)
     public BotFrameworkTextEventHandler botFrameworkTextEventHandler(TextContainer textContainer) {
         return new BotFrameworkTextEventHandler(textContainer);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(BotFrameworkReferralHandler.class)
+    public BotFrameworkReferralHandler botFrameworkReferralHandler(ReferralContainer referralContainer) {
+        return new BotFrameworkReferralHandler(referralContainer);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(BotFrameworkReadEventHandler.class)
+    public BotFrameworkReadEventHandler botFrameworkReadEventHandler(ReadContainer readContainer) {
+        return new BotFrameworkReadEventHandler(readContainer);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(BotFrameworkEchoEventHandler.class)
+    public BotFrameworkEchoEventHandler botFrameworkEchoEventHandler(EchoContainer echoContainer) {
+        return new BotFrameworkEchoEventHandler(echoContainer);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(BotFrameworkDeliveryHandler.class)
+    public BotFrameworkDeliveryHandler botFrameworkDeliveryHandler(DeliveryContainer deliveryContainer) {
+        return new BotFrameworkDeliveryHandler(deliveryContainer);
     }
 }

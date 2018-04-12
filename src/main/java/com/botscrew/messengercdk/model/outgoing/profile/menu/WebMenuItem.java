@@ -20,6 +20,40 @@ public class WebMenuItem extends MenuItem {
         return new Builder();
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getWebViewHeightRatio() {
+        return webViewHeightRatio;
+    }
+
+    public void setWebViewHeightRatio(String webViewHeightRatio) {
+        this.webViewHeightRatio = webViewHeightRatio;
+    }
+
+    public boolean isEnableMessengerExtensions() {
+        return enableMessengerExtensions;
+    }
+
+    public void setEnableMessengerExtensions(boolean enableMessengerExtensions) {
+        this.enableMessengerExtensions = enableMessengerExtensions;
+    }
+
+    @Override
+    public String toString() {
+        return "WebMenuItem{" +
+                "title='" + getTitle() + '\'' +
+                "url='" + url + '\'' +
+                ", webViewHeightRatio='" + webViewHeightRatio + '\'' +
+                ", enableMessengerExtensions=" + enableMessengerExtensions +
+                '}';
+    }
+
     public static class Builder {
         private String url;
         private String title;
@@ -64,39 +98,5 @@ public class WebMenuItem extends MenuItem {
             item.setEnableMessengerExtensions(enableMessengerExtensions);
             return item;
         }
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getWebViewHeightRatio() {
-        return webViewHeightRatio;
-    }
-
-    public void setWebViewHeightRatio(String webViewHeightRatio) {
-        this.webViewHeightRatio = webViewHeightRatio;
-    }
-
-    public boolean isEnableMessengerExtensions() {
-        return enableMessengerExtensions;
-    }
-
-    public void setEnableMessengerExtensions(boolean enableMessengerExtensions) {
-        this.enableMessengerExtensions = enableMessengerExtensions;
-    }
-
-    @Override
-    public String toString() {
-        return "WebMenuItem{" +
-                "title='" + getTitle() + '\'' +
-                "url='" + url + '\'' +
-                ", webViewHeightRatio='" + webViewHeightRatio + '\'' +
-                ", enableMessengerExtensions=" + enableMessengerExtensions +
-                '}';
     }
 }

@@ -10,7 +10,6 @@ import com.botscrew.messengercdk.model.outgoing.enums.TopElementStyle;
 import com.botscrew.messengercdk.model.outgoing.message.ListTemplateMessage;
 import com.botscrew.messengercdk.model.outgoing.payload.ListTemplatePayload;
 import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
-import com.botscrew.messengercdk.model.outgoing.request.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,7 @@ public class ListTemplate {
             return this;
         }
 
-        public Request build() {
+        public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
