@@ -25,7 +25,7 @@
 
 
 
-Messenger CDK is quick integration with Facebook Messenger chatbots based on Bot Framework
+Messenger CDK is integration with Facebook Messenger chatbots based on Bot Framework
 
 If you would like to know more about working with Bot Framework read it here:
 
@@ -91,6 +91,16 @@ You are able to change next executor properties:
 
 `facebook.messenger.executor.keep-alive-seconds`
 
+Also you can change executor properties for Sender Executor:
+
+`facebook.messenger.sender-executor.core-pool-size`
+
+`facebook.messenger.sender-executor.max-pool-size`
+
+`facebook.messenger.sender-executor.queue-capacity`
+
+`facebook.messenger.sender-executor.keep-alive-seconds`
+
 #### Subscribe webhook
 
 By default path for events from Messenger is `/messenger/events`.
@@ -117,7 +127,10 @@ public void initMessengerProfile() {
                         new WebMenuItem("Web", "https://google.com"),
                         NestedMenuItem.builder()
                                 .title("Nested")
-                        .addMenuItem(PostbackMenuItem.builder().title("Postback").payload("PAYLOAD").build())
+                        .addMenuItem(PostbackMenuItem.builder()
+                                .title("Postback")
+                                .payload("PAYLOAD")
+                                .build())
                         .build()
                 )
         );
@@ -187,9 +200,123 @@ In case you define your own configurations Messenger CDK will not create own and
 * You can autowire `com.botscrew.messengercdk.service.TokenizedSender`
     to send messages with your custom access token
 
+Facebook sender is asynchronous, but also provides correct order of your messages(so they will be sent in the order you passed them).
+Also it contains logic for delayed messages. Below you can find examples for sending different types of messages(We use `Sender` 
+in these examples which expect your access token in properties)
+
+* Simple text
+```
+Request request = TextMessage.builder()
+                .text("Hi there!")
+                .user(user)
+                .build();
+
+        sender.send(request);
+        
+sender.send(user, "Hi there!");
+```
+
+* Text with quick replies
+```
+Request request = QuickReplies.builder()
+                .user(user)
+                .text("Quick replies are here")
+                .postback("Title", "qr_payload")
+                .location() //adds Location quick reply to the list
+                .email() // adds email quick reply to the list
+                .phone() //adds phone quick reply to the list
+                .build();
+        
+sender.send(request);
+```
+
+* Generic template
+```
+TemplateElement element = TemplateElement.builder()
+            .title("Title")
+            .subtitle("Subtitle")
+            .imageUrl(IMAGE_URL)
+            .build();
+
+Request request = GenericTemplate.builder()
+                .addElement(element)
+                .user(user)
+                .build();
+
+sender.send(request);
+```
+
+* List template
+```
+TemplateElement element = TemplateElement.builder()
+                .title("Title")
+                .subtitle("Subtitle")
+                .imageUrl(IMAGE_URL)
+                .build();
+
+Request request = ListTemplate.builder()
+                .addElement(element).addElement(element).addElement(element)
+                .user(user)
+                .build();
+
+sender.send(request);
+```
+
+* Button template
+```
+Request request = ButtonTemplate.builder()
+                .addButton(new PostbackButton("Title", "button_postback"))
+                .text("Button template")
+                .user(user)
+                .build();
+
+sender.send(request);
+```
+
+* Media template
+```
+Request request = MediaTemplate.builder()
+                .user(user)
+                .element(new ImageElement(ATTACHMENT_ID))
+                .build();
+
+        sender.send(request);
+```
+
+* Attachment
+```
+Request request = Attachment.builder()
+                .user(user)
+                .attachmentId(ATTACHMENT_ID)
+                .type(IMAGE)
+                .build();
+
+sender.send(request);
+
+request = Attachment.builder()
+                .user(user)
+                .url(IMAGE_URL)
+                .isReusable(true)
+                .type(IMAGE)
+                .build();
+
+sender.send(request);
+```
+
+* Sender actions
+```
+sender.send(SenderAction.typingOn(user));
+sender.send(SenderAction.typingOff(user));
+```
+
+
 # Development
 *Messenger CDK is under development and for now it supports next types of events from Facebook Messenger:*
 * Text
 * Postback
 * Location
+* Referral
+* Read
+* Echo
+* Delivery
 
