@@ -19,6 +19,10 @@
 
 [*Event handlers*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#event-handlers)
 
+[*Action Interceptors*] ((https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#action-interceptors))
+
+[*Exception handler*] ((https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#exception-handler))
+
 [*Rest template*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#rest-template)
 ### 3. [*Sending messages*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#sending-messages)
 ### 4. [*Development*] (https://gitlab.com/bots-crew/messenger-cdk-spring-boot-starter/blob/develop/README.md#development)
@@ -188,6 +192,60 @@ Messenger CDK contains default implementations which trigger Bot Framework.
 If you need to take care for processing some type of event, you can define your own implementation of `EventHandler` and define it as Spring Bean.
 Be careful with this feature, in this case you're not adding logic to the existing one, but overriding it.
 
+### Action interceptors
+
+You are able to create interceptors for next types of actions: when we get event from Facebook Messenger,
+after we processed event from Facebook Messenger, before we send message, after we send message.
+Below you can check examples:
+
+```
+public TextHandler implements MessengerInterceptor<GetEvent> {
+    @Override
+    public boolean onAction(GetEvent getEvent) {
+        log.info(getEvent);
+    }
+}
+
+
+public TextHandler implements MessengerInterceptor<ProcessedEvent> {
+    @Override
+    public boolean onAction(ProcessedEvent processedEvent) {
+        log.info(processedEvent);
+    }
+}
+
+
+public TextHandler implements MessengerInterceptor<BeforeSendMessage> {
+    @Override
+    public boolean onAction(BeforeSendMessage beforeSendMessage) {
+        log.info(beforeSendMessage);
+    }
+}
+
+
+public TextHandler implements MessengerInterceptor<AfterSendMessage> {
+    @Override
+    public boolean onAction(AfterSendMessage afterSendMessage) {
+        log.info(afterSendMessage);
+    }
+}
+```
+
+### Exception handler
+You can define your exception handler for exceptions which happen inside your registered handling methods or when invoking it.
+Below you can check example:
+
+```
+public class CustomExceptionHandler implements ExceptionHandler {
+    @Override
+    public boolean handle(Exception e) {
+        return false;
+    }
+}
+```
+Return type determines whether you handled exception or no. If not, it will be thrown above.
+
+
 ### Rest template
 Messenger CDK depends on Spring's `RestTemplate` and has its own configurations for `RestTemplate` and `ObjectMapper`. 
 In case you define your own configurations Messenger CDK will not create own and will use yours.
@@ -205,18 +263,19 @@ Also it contains logic for delayed messages. Below you can find examples for sen
 in these examples which expect your access token in properties)
 
 * Simple text
+
 ```
 Request request = TextMessage.builder()
                 .text("Hi there!")
                 .user(user)
                 .build();
-
-        sender.send(request);
+sender.send(request);
         
 sender.send(user, "Hi there!");
 ```
 
 * Text with quick replies
+
 ```
 Request request = QuickReplies.builder()
                 .user(user)
@@ -231,6 +290,7 @@ sender.send(request);
 ```
 
 * Generic template
+
 ```
 TemplateElement element = TemplateElement.builder()
             .title("Title")
@@ -247,6 +307,7 @@ sender.send(request);
 ```
 
 * List template
+
 ```
 TemplateElement element = TemplateElement.builder()
                 .title("Title")
@@ -263,6 +324,7 @@ sender.send(request);
 ```
 
 * Button template
+
 ```
 Request request = ButtonTemplate.builder()
                 .addButton(new PostbackButton("Title", "button_postback"))
@@ -274,16 +336,18 @@ sender.send(request);
 ```
 
 * Media template
+
 ```
 Request request = MediaTemplate.builder()
                 .user(user)
                 .element(new ImageElement(ATTACHMENT_ID))
                 .build();
 
-        sender.send(request);
+sender.send(request);
 ```
 
 * Attachment
+
 ```
 Request request = Attachment.builder()
                 .user(user)
@@ -304,6 +368,7 @@ sender.send(request);
 ```
 
 * Sender actions
+
 ```
 sender.send(SenderAction.typingOn(user));
 sender.send(SenderAction.typingOff(user));
