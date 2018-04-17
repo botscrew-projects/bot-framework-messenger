@@ -2,7 +2,7 @@ package com.botscrew.messengercdk.model.outgoing.builder;
 
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.UserInfo;
-import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
+import com.botscrew.messengercdk.model.outgoing.element.quickreply.*;
 import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.QuickReplyMessage;
 import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
@@ -48,6 +48,22 @@ public class QuickReplies {
         public Builder addQuickReply(QuickReply quickReply) {
             this.quickReplies.add(quickReply);
             return this;
+        }
+
+        public Builder postback(String title, String payload) {
+            return addQuickReply(new PostbackQuickReply(title, payload));
+        }
+
+        public Builder location() {
+            return addQuickReply(new LocationQuickReply());
+        }
+
+        public Builder phone() {
+            return addQuickReply(new PhoneQuickReply());
+        }
+
+        public Builder email() {
+            return addQuickReply(new EmailQuickReply());
         }
 
         public Builder quickReplies(List<QuickReply> quickReplies) {
