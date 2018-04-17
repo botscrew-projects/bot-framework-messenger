@@ -1,6 +1,8 @@
 package com.botscrew.messengercdk.config.property;
 
 import com.botscrew.messengercdk.util.URL;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import javax.annotation.PostConstruct;
 
 @ToString
+@Getter
+@Setter
 @ConfigurationProperties(prefix = "facebook.messenger")
 public class MessengerProperties {
 
@@ -28,12 +32,15 @@ public class MessengerProperties {
     private String graphProtocol = HTTPS;
     private String eventsPath = "/messenger/events";
     private String[] profileFields = {"first_name", "last_name", "profile_pic", "gender", "locale", "timezone"};
+    private String appId;
+    private String appAccessToken;
 
     private URL.Builder messagingUrlBuilder;
     private String defaultMessagingUrl;
 
     private URL.Builder profileUrlBuilder;
     private URL.Builder pageProfileUrlBuilder;
+    private URL.Builder graphApiSubscriptionsUrlBuilder;
 
     @PostConstruct
     public void init() {
@@ -41,6 +48,7 @@ public class MessengerProperties {
         createDefaultMessagingUrl();
         createProfileUrlBuilder();
         createPageProfileUrlBuilder();
+        createGraphApiSubscriptionsUrlBuilder();
     }
 
     public String getMessagingUrl() {
@@ -87,11 +95,39 @@ public class MessengerProperties {
                 .path("v" + graphApiVersion + "/me/messenger_profile");
     }
 
+    private void createGraphApiSubscriptionsUrlBuilder() {
+        graphApiSubscriptionsUrlBuilder = new URL.Builder()
+                .protocol(HTTPS)
+                .host(graphHost)
+                .port(graphPort)
+                .path(appId + "/subscriptions");
+    }
+
     public String getMessagingUrl(String token) {
         return messagingUrlBuilder
                 .param(ACCESS_TOKEN_PARAM, token)
                 .build()
                 .getValue();
+    }
+
+    public String getGraphApiSubscriptionsUrl() {
+        return graphApiSubscriptionsUrlBuilder
+                .path(appId + "/subscriptions")
+                .build().getValue();
+    }
+
+    public String getGraphApiSubscriptionsUrl(String appId, String appAccessToken) {
+        return graphApiSubscriptionsUrlBuilder
+                .path(appId + "/subscriptions")
+                .param("app_id", appId)
+                .param("access_token", appAccessToken)
+                .build().getValue();
+    }
+
+    public String getGraphApiSubscriptionsUrl(String customAppId) {
+        return graphApiSubscriptionsUrlBuilder
+                .path(customAppId + "/subscriptions")
+                .build().getValue();
     }
 
     private void createMessagingUrlBuilder() {
@@ -108,77 +144,5 @@ public class MessengerProperties {
                 .port(graphPort)
                 .build()
                 .getValue();
-    }
-
-    public String getVerifyToken() {
-        return verifyToken;
-    }
-
-    public void setVerifyToken(String verifyToken) {
-        this.verifyToken = verifyToken;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getGraphHost() {
-        return graphHost;
-    }
-
-    public void setGraphHost(String graphHost) {
-        this.graphHost = graphHost;
-    }
-
-    public Integer getGraphPort() {
-        return graphPort;
-    }
-
-    public void setGraphPort(Integer graphPort) {
-        this.graphPort = graphPort;
-    }
-
-    public String getGraphApiVersion() {
-        return graphApiVersion;
-    }
-
-    public void setGraphApiVersion(String graphApiVersion) {
-        this.graphApiVersion = graphApiVersion;
-    }
-
-    public String getMessagingPath() {
-        return messagingPath;
-    }
-
-    public void setMessagingPath(String messagingPath) {
-        this.messagingPath = messagingPath;
-    }
-
-    public String getGraphProtocol() {
-        return graphProtocol;
-    }
-
-    public void setGraphProtocol(String graphProtocol) {
-        this.graphProtocol = graphProtocol;
-    }
-
-    public String getEventsPath() {
-        return eventsPath;
-    }
-
-    public void setEventsPath(String eventsPath) {
-        this.eventsPath = eventsPath;
-    }
-
-    public String[] getProfileFields() {
-        return profileFields;
-    }
-
-    public void setProfileFields(String[] profileFields) {
-        this.profileFields = profileFields;
     }
 }

@@ -1,8 +1,12 @@
 package com.botscrew.messengercdk.service.impl;
 
 import com.botscrew.messengercdk.config.property.MessengerProperties;
+import com.botscrew.messengercdk.exception.GraphAPIException;
 import com.botscrew.messengercdk.exception.MessengerCDKException;
+import com.botscrew.messengercdk.model.incomming.GraphResponse;
 import com.botscrew.messengercdk.model.incomming.Profile;
+import com.botscrew.messengercdk.model.incomming.webhook.WebHookResponse;
+import com.botscrew.messengercdk.model.outgoing.element.WebHook;
 import com.botscrew.messengercdk.model.outgoing.element.button.GetStartedButton;
 import com.botscrew.messengercdk.model.outgoing.profile.Greeting;
 import com.botscrew.messengercdk.model.outgoing.profile.MessengerProfile;
@@ -103,5 +107,61 @@ public class MessengerImpl implements Messenger {
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             throw new MessengerCDKException(e.getResponseBodyAsString());
         }
+    }
+
+    @Override
+    public WebHookResponse getWebHooks() {
+        return getWebHooks(properties.getAppId(), properties.getAppAccessToken());
+    }
+
+    @Override
+    public WebHookResponse getWebHooks(String appId, String appAccessToken) {
+        String graphApiSubscriptionsUrl = properties.getGraphApiSubscriptionsUrl(appId, appAccessToken);
+        try {
+            return restTemplate.getForObject(graphApiSubscriptionsUrl, WebHookResponse.class);
+        }
+        catch (HttpClientErrorException | HttpServerErrorException e) {
+            throw new GraphAPIException(e.getResponseBodyAsString());
+        }
+    }
+
+    @Override
+    public Boolean setWebHook(WebHook webHook) {
+        if (webHook.getAppId() == null || webHook.getAppId().isEmpty()) {
+            webHook.setAppId(properties.getAppId());
+        }
+        if (webHook.getAccessToken() == null || webHook.getAccessToken().isEmpty()) {
+            webHook.setAccessToken(properties.getAccessToken());
+        }
+        if (webHook.getObject() == null || webHook.getObject().isEmpty()) {
+            webHook.setObject("page");
+        }
+
+        String url = properties.getGraphApiSubscriptionsUrl(webHook.getAppId());
+
+        try {
+            GraphResponse response = restTemplate.postForObject(url, webHook, GraphResponse.class);
+            return response.getSuccess();
+        }
+        catch (HttpClientErrorException | HttpServerErrorException e) {
+            throw new GraphAPIException(e.getResponseBodyAsString());
+        }
+    }
+
+
+
+    @Override
+    public Boolean setWebHook(String callbackUrl, List<String> fields) {
+        WebHook webHook = WebHook.builder()
+                .object("page")
+                .appId(properties.getAppId())
+                .accessToken(properties.getAppAccessToken())
+                .callbackUrl(callbackUrl)
+                .verifyToken(properties.getVerifyToken())
+                .fields(fields)
+                .build();
+
+        return setWebHook(webHook);
+
     }
 }
