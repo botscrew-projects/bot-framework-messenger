@@ -4,12 +4,35 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.botscrew</groupId>
-	<artifactId>messenger-cdk-spring-boot-starter</artifactId>
-	<version>1.0.0</version>
+	<artifactId>bot-framework-messenger-spring-boot-starter</artifactId>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>messenger-cdk</name>
-	<description>CDK for Facebook Messenger</description>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Module for working with Facebook Messenger chat-bot platform</description>
+	<url>http://botscrew.corilla.io/BotsCrew-Docs/</url>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Vlad Hanzha</name>
+			<email>vlad.hanzha@botscrew.com</email>
+			<organization>BotScrew</organization>
+			<organizationUrl>https://botscrew.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git/github.com/botscrew/bot-framework-core</connection>
+		<developerConnection>scm:git:git/github.com/botscrew/bot-framework-core</developerConnection>
+		<url>https://github.com/botscrew/bot-framework-core/</url>
+	</scm>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -82,5 +105,12 @@
             <scope>compile</scope>
 		</dependency>
 	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>MyGet</id>
+			<url>https://www.myget.org/F/bots-crew/maven</url>
+		</repository>
+	</distributionManagement>
 
 </project>

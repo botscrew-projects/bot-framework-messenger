@@ -1,10 +1,25 @@
+/*
+ * Copyright 2018 BotsCrew
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.botscrew.messengercdk.service.impl;
 
 import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.domain.action.AfterSendMessage;
 import com.botscrew.messengercdk.domain.action.BeforeSendMessage;
 import com.botscrew.messengercdk.domain.internal.LockingQueue;
-import com.botscrew.messengercdk.exception.SendAPIException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.Response;
@@ -28,7 +43,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
-
+/**
+ * Implementation of {@link TokenizedSender} used by default
+ */
 public class TokenizedSenderImpl implements TokenizedSender {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReportHandler.class);
 
@@ -134,10 +151,10 @@ public class TokenizedSenderImpl implements TokenizedSender {
         LockingQueue<Request> queue = lockingRequests.computeIfAbsent(id, k -> new LockingQueue<>());
         queue.push(request);
 
-        if (!queue.isLocked()) runRequest(token, queue);
+        if (!queue.isLocked()) startSendRequests(token, queue);
     }
 
-    private void runRequest(String token, LockingQueue<Request> lockingQueue) {
+    private void startSendRequests(String token, LockingQueue<Request> lockingQueue) {
         taskExecutor.execute(() -> {
             if (lockingQueue.tryLock()) {
                 while (true) {
@@ -145,16 +162,24 @@ public class TokenizedSenderImpl implements TokenizedSender {
                     if (!requestOpt.isPresent()) break;
 
                     Request top = requestOpt.get();
-                    try {
-                        Response response = restTemplate.postForObject(properties.getMessagingUrl(token), top, Response.class);
-                        triggerAfterMessageInterceptors(token, top, response);
-                    } catch (HttpClientErrorException | HttpServerErrorException e) {
-                        throw new SendAPIException(e.getResponseBodyAsString());
-                    }
+                    sendRequest(top, token);
                 }
             }
         });
     }
+
+    private void sendRequest(Request request, String token) {
+        try {
+            Response response = restTemplate.postForObject(properties.getMessagingUrl(token), request, Response.class);
+            triggerAfterMessageInterceptors(token, request, response);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            LOGGER.error(e.getResponseBodyAsString() + " for request: " + request);
+        }
+        catch (Exception e) {
+            LOGGER.error(e.getMessage() + " for request: " + request);
+        }
+    }
+
 
     private void triggerBeforeMessageInterceptors(String token, Request request) {
         BeforeSendMessage beforeSendMessage = new BeforeSendMessage(token, request);

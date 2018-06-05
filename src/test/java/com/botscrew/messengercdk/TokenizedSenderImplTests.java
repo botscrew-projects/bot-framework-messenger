@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 BotsCrew
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.botscrew.messengercdk;
 
 import com.botscrew.botframework.container.*;
@@ -14,8 +30,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -52,11 +70,11 @@ public class TokenizedSenderImplTests {
     @MockBean
     DeliveryContainer deliveryContainer;
 
-    private Queue<Request> requests = new ConcurrentLinkedQueue<>();
     private final Random random = new Random();
 
     @Test
     public void shouldSendMessagesInTheWayTheyAreComing() {
+        Queue<Request> requests = new ConcurrentLinkedQueue<>();
         when(restTemplate.postForObject(anyString(), any(), any())).then(invocation -> {
             Thread.sleep(10);
             Request argument = invocation.getArgument(1);
@@ -103,6 +121,32 @@ public class TokenizedSenderImplTests {
             assertEquals(index + "", top.getMessage().getText());
             userIdAndCurrentMessageIndexes.put(id, index + 1);
         }
+    }
+
+    @Test
+    public void shouldSendNextMessagesIfSomeFailed() {
+        Queue<Request> requests = new ConcurrentLinkedQueue<>();
+
+        when(restTemplate.postForObject(anyString(), any(), any()))
+                .then(invocation -> {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "First request should fail");
+        })
+        .then(invocation -> {
+            Request argument = invocation.getArgument(1);
+            requests.add(argument);
+            return new Response();
+        });
+
+        Request request = TextMessage.builder()
+                .user(createMockUser(1L))
+                .text("text")
+                .build();
+
+        tokenizedSenderImpl.send("token", request);
+        tokenizedSenderImpl.send("token", request);
+
+        tryToSleep(500);
+        assertEquals(1, requests.size());
     }
 
     private long random(int from, int to) {
