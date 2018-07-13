@@ -54,6 +54,9 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
         if (locationAvailable(messaging)) {
             return EventType.LOCATION;
         }
+        if (attachmentsAvailable(messaging)) {
+            return EventType.ATTACHMENTS;
+        }
         return EventType.UNDEFINED;
     }
 
@@ -94,6 +97,11 @@ public class DefaultEventTypeResolver implements EventTypeResolver {
             return payload != null && payload.getCoordinates() != null;
         }
         return false;
+    }
+
+    private boolean attachmentsAvailable(Messaging messaging) {
+        Message message = messaging.getMessage();
+        return message != null && !message.getAttachments().isEmpty();
     }
 
     private boolean isNotNullAndEmpty(String string) {
