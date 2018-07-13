@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.botscrew.messengercdk;
+package com.botscrew.messengercdk.service.impl;
 
 import com.botscrew.botframework.container.*;
 import com.botscrew.botframework.sender.PlatformSender;
@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -129,13 +130,13 @@ public class TokenizedSenderImplTests {
 
         when(restTemplate.postForObject(anyString(), any(), any()))
                 .then(invocation -> {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "First request should fail");
-        })
-        .then(invocation -> {
-            Request argument = invocation.getArgument(1);
-            requests.add(argument);
-            return new Response();
-        });
+                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "First request should fail");
+                })
+                .then(invocation -> {
+                    Request argument = invocation.getArgument(1);
+                    requests.add(argument);
+                    return new Response();
+                });
 
         Request request = TextMessage.builder()
                 .user(createMockUser(1L))
