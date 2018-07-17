@@ -41,7 +41,7 @@ public class MessengerProperties {
     private static final String HTTP = "http";
     private static final String HTTPS = "https";
 
-    private static final String ACCESS_TOKEN_PARAM = "access_token";
+    private static final String ACCESS_TOKEN = "access_token";
 
     private String verifyToken = "test";
     private String accessToken;
@@ -81,13 +81,13 @@ public class MessengerProperties {
 
     public String getPageProfileUrl(String token) {
         return pageProfileUrlBuilder
-                .param(ACCESS_TOKEN_PARAM, token)
+                .param(ACCESS_TOKEN, token)
                 .build().getValue();
     }
 
     public String getPageProfileUrl(String token, Map<String, String> urlParameters) {
         URL.Builder builder = pageProfileUrlBuilder
-                .param(ACCESS_TOKEN_PARAM, token);
+                .param(ACCESS_TOKEN, token);
         urlParameters.forEach(builder::param);
         return builder.build().getValue();
     }
@@ -95,14 +95,14 @@ public class MessengerProperties {
     public String getProfileUrl(String id) {
         return profileUrlBuilder
                 .path("v" + graphApiVersion + "/" + id)
-                .param(ACCESS_TOKEN_PARAM, this.accessToken)
+                .param(ACCESS_TOKEN, this.accessToken)
                 .build().getValue();
     }
 
     public String getProfileUrl(String id, String token) {
         return profileUrlBuilder
                 .path("v" + graphApiVersion + "/" + id)
-                .param(ACCESS_TOKEN_PARAM, token)
+                .param(ACCESS_TOKEN, token)
                 .build().getValue();
     }
 
@@ -132,7 +132,7 @@ public class MessengerProperties {
 
     public String getMessagingUrl(String token) {
         return messagingUrlBuilder
-                .param(ACCESS_TOKEN_PARAM, token)
+                .param(ACCESS_TOKEN, token)
                 .build()
                 .getValue();
     }
@@ -147,7 +147,7 @@ public class MessengerProperties {
         return graphApiSubscriptionsUrlBuilder
                 .path(appId + "/subscriptions")
                 .param("app_id", appId)
-                .param("access_token", appAccessToken)
+                .param(ACCESS_TOKEN, appAccessToken)
                 .build().getValue();
     }
 
@@ -167,7 +167,7 @@ public class MessengerProperties {
 
     private void createDefaultMessagingUrl() {
         defaultMessagingUrl = messagingUrlBuilder
-                .param(ACCESS_TOKEN_PARAM, accessToken)
+                .param(ACCESS_TOKEN, accessToken)
                 .port(graphPort)
                 .build()
                 .getValue();

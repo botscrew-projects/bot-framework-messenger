@@ -21,6 +21,7 @@ import com.botscrew.messengercdk.model.incomming.Messaging;
 /**
  * @deprecated Use {@link GetEvent} instead
  */
+@Deprecated
 public class PreMessageProcessingAction implements MessengerAction {
     private final Messaging messaging;
 

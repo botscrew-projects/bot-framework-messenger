@@ -41,20 +41,22 @@ public class WebHook {
     private String appId;
 
     public static class Field {
-        public static String MESSAGES = "messages";
-        public static String POSTBACKS = "messaging_postbacks";
-        public static String OPTINS = "messaging_optins";
-        public static String DELIVERIES = "message_deliveries";
-        public static String READS = "message_reads";
-        public static String PAYMENTS = "messaging_payments";
-        public static String PRE_CHECKOUTS = "messaging_pre_checkouts";
-        public static String CHECKOUT_UPDATES = "messaging_checkout_updates";
-        public static String ACCOUNT_LINKING = "messaging_account_linking";
-        public static String REFERRALS = "messaging_referrals";
-        public static String ECHOES = "message_echoes";
-        public static String GAME_PLAYS = "messaging_game_plays";
-        public static String STANDBY = "standby";
-        public static String HANDOVERS = "messaging_handovers";
-        public static String POLICY_ENFOCEMENT = "messaging_policy_enforcement";
+        private Field() {}
+
+        public static final String MESSAGES = "messages";
+        public static final String POSTBACKS = "messaging_postbacks";
+        public static final String OPTINS = "messaging_optins";
+        public static final String DELIVERIES = "message_deliveries";
+        public static final String READS = "message_reads";
+        public static final String PAYMENTS = "messaging_payments";
+        public static final String PRE_CHECKOUTS = "messaging_pre_checkouts";
+        public static final String CHECKOUT_UPDATES = "messaging_checkout_updates";
+        public static final String ACCOUNT_LINKING = "messaging_account_linking";
+        public static final String REFERRALS = "messaging_referrals";
+        public static final String ECHOES = "message_echoes";
+        public static final String GAME_PLAYS = "messaging_game_plays";
+        public static final String STANDBY = "standby";
+        public static final String HANDOVERS = "messaging_handovers";
+        public static final String POLICY_ENFOCEMENT = "messaging_policy_enforcement";
     }
 }
