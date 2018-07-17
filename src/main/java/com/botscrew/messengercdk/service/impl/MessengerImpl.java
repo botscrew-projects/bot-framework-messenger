@@ -26,8 +26,12 @@ import com.botscrew.messengercdk.model.outgoing.element.WebHook;
 import com.botscrew.messengercdk.model.outgoing.element.button.GetStartedButton;
 import com.botscrew.messengercdk.model.outgoing.profile.Greeting;
 import com.botscrew.messengercdk.model.outgoing.profile.MessengerProfile;
+import com.botscrew.messengercdk.model.outgoing.profile.ProfileFields;
 import com.botscrew.messengercdk.model.outgoing.profile.menu.PersistentMenu;
 import com.botscrew.messengercdk.service.Messenger;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -94,6 +98,24 @@ public class MessengerImpl implements Messenger {
     }
 
     @Override
+    public boolean removePersistentMenu() {
+        return removePersistentMenu(properties.getAccessToken());
+    }
+
+    @Override
+    public boolean removePersistentMenu(String token) {
+        String url = properties.getPageProfileUrl(token);
+        ProfileFields fields = new ProfileFields().withPersistentMenu();
+        try {
+            HttpEntity<ProfileFields> entity = new HttpEntity<>(fields);
+            ResponseEntity<GraphResponse> response = restTemplate.exchange(url, HttpMethod.DELETE, entity, GraphResponse.class);
+            return response.getStatusCode().is2xxSuccessful() && response.getBody().isSuccessful();
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            throw new MessengerCDKException(e.getResponseBodyAsString());
+        }
+    }
+
+    @Override
     public void setGreeting(Greeting greeting) {
         setGreeting(greeting, properties.getAccessToken());
     }
@@ -138,8 +160,7 @@ public class MessengerImpl implements Messenger {
         String graphApiSubscriptionsUrl = properties.getGraphApiSubscriptionsUrl(appId, appAccessToken);
         try {
             return restTemplate.getForObject(graphApiSubscriptionsUrl, WebHookResponse.class);
-        }
-        catch (HttpClientErrorException | HttpServerErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             throw new GraphAPIException(e.getResponseBodyAsString());
         }
     }
@@ -160,13 +181,11 @@ public class MessengerImpl implements Messenger {
 
         try {
             GraphResponse response = restTemplate.postForObject(url, webHook, GraphResponse.class);
-            return response.getSuccess();
-        }
-        catch (HttpClientErrorException | HttpServerErrorException e) {
+            return response.isSuccessful();
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             throw new GraphAPIException(e.getResponseBodyAsString());
         }
     }
-
 
 
     @Override

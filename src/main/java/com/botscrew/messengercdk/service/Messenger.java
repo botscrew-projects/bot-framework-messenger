@@ -42,6 +42,10 @@ public interface Messenger {
 
     void setPersistentMenu(PersistentMenu menu, String token);
 
+    boolean removePersistentMenu();
+
+    boolean removePersistentMenu(String token);
+
     void setGreeting(Greeting greeting);
 
     void setGreeting(Greeting greeting, String token);

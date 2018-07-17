@@ -16,7 +16,6 @@
 
 package com.botscrew.messengercdk.model.incomming;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,4 +24,9 @@ import lombok.Setter;
 public class GraphResponse {
 
     private Boolean success;
+    private String result;
+
+    public boolean isSuccessful() {
+        return success != null && success || result != null && result.equals("success");
+    }
 }
