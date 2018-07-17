@@ -20,6 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFields {
+    public static final String PERSISTENT_MENU = "persistent_menu";
+    public static final String GET_STARTED = "get_started";
+    public static final String GREETING = "greeting";
+    public static final String WHITELISTED_DOMAINS = "whitelisted_domains";
+    public static final String ACCOUNT_LINKING_URL = "account_linking_url";
+
     private final List<String> fields;
 
     public ProfileFields() {
@@ -27,27 +33,27 @@ public class ProfileFields {
     }
 
     public ProfileFields withPersistentMenu() {
-        fields.add("persistent_menu");
-        return this;
+        return with(PERSISTENT_MENU);
     }
 
     public ProfileFields withGetStarted() {
-        fields.add("get_started");
-        return this;
+        return with(GET_STARTED);
     }
 
     public ProfileFields withGreeting() {
-        fields.add("greeting");
-        return this;
+        return with(GREETING);
     }
 
     public ProfileFields withWhitelistedDomains() {
-        fields.add("whitelisted_domains");
-        return this;
+        return with(WHITELISTED_DOMAINS);
     }
 
     public ProfileFields withAccountLinkingUrl() {
-        fields.add("account_linking_url");
+        return with(ACCOUNT_LINKING_URL);
+    }
+
+    public ProfileFields with(String field) {
+        fields.add(field);
         return this;
     }
 

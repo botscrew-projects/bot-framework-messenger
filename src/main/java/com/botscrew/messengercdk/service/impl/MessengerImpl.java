@@ -29,6 +29,8 @@ import com.botscrew.messengercdk.model.outgoing.profile.MessengerProfile;
 import com.botscrew.messengercdk.model.outgoing.profile.ProfileFields;
 import com.botscrew.messengercdk.model.outgoing.profile.menu.PersistentMenu;
 import com.botscrew.messengercdk.service.Messenger;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +38,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Implementation of {@link Messenger} used by default
@@ -45,10 +47,14 @@ import java.util.List;
 public class MessengerImpl implements Messenger {
     private final RestTemplate restTemplate;
     private final MessengerProperties properties;
+    private final ObjectMapper objectMapper;
 
-    public MessengerImpl(RestTemplate restTemplate, MessengerProperties properties) {
+    public MessengerImpl(RestTemplate restTemplate,
+                         MessengerProperties properties,
+                         ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.properties = properties;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -106,13 +112,7 @@ public class MessengerImpl implements Messenger {
     public boolean removePersistentMenu(String token) {
         String url = properties.getPageProfileUrl(token);
         ProfileFields fields = new ProfileFields().withPersistentMenu();
-        try {
-            HttpEntity<ProfileFields> entity = new HttpEntity<>(fields);
-            ResponseEntity<GraphResponse> response = restTemplate.exchange(url, HttpMethod.DELETE, entity, GraphResponse.class);
-            return response.getStatusCode().is2xxSuccessful() && response.getBody().isSuccessful();
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            throw new MessengerCDKException(e.getResponseBodyAsString());
-        }
+        return tryToRemoveProfileFields(url, fields);
     }
 
     @Override
@@ -129,6 +129,61 @@ public class MessengerImpl implements Messenger {
     }
 
     @Override
+    public boolean removeGreeting() {
+        return removeGreeting(properties.getAccessToken());
+    }
+
+    @Override
+    public boolean removeGreeting(String token) {
+        String url = properties.getPageProfileUrl(token);
+        ProfileFields fields = new ProfileFields().withGreeting();
+        return tryToRemoveProfileFields(url, fields);
+    }
+
+    private boolean tryToRemoveProfileFields(String url, ProfileFields fields) {
+        try {
+            HttpEntity<ProfileFields> entity = new HttpEntity<>(fields);
+            ResponseEntity<GraphResponse> response = restTemplate.exchange(url, HttpMethod.DELETE, entity, GraphResponse.class);
+            return response.getStatusCode().is2xxSuccessful() && response.getBody().isSuccessful();
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            throw new MessengerCDKException(e.getResponseBodyAsString());
+        }
+    }
+
+    @Override
+    public List<String> getWhitelistedDomains() {
+        return getWhitelistedDomains(properties.getAccessToken());
+    }
+
+    @Override
+    public List<String> getWhitelistedDomains(String token) {
+        Map<String, String> params = new HashMap<>();
+        params.put("fields", ProfileFields.WHITELISTED_DOMAINS);
+        String url = properties.getPageProfileUrl(token, params);
+
+        try {
+            String json = restTemplate.getForObject(url, String.class);
+            JsonNode jsonNode = objectMapper.readTree(json);
+            JsonNode data = jsonNode.get("data");
+            Iterator<JsonNode> elements = data.elements();
+            if (elements.hasNext()) {
+                JsonNode first = elements.next();
+                JsonNode fields = first.get(ProfileFields.WHITELISTED_DOMAINS);
+                String[] domains = objectMapper.readValue(fields.toString(), String[].class);
+                return Arrays.asList(domains);
+            }
+            else {
+                return new ArrayList<>();
+            }
+
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            throw new MessengerCDKException(e.getResponseBodyAsString());
+        } catch (IOException e) {
+            throw new MessengerCDKException(e.getMessage());
+        }
+    }
+
+    @Override
     public void setWhitelistedDomains(List<String> domains) {
         setWhitelistedDomains(domains, this.properties.getAccessToken());
     }
@@ -139,6 +194,33 @@ public class MessengerImpl implements Messenger {
         profile.setWhitelistedDomains(domains);
 
         trySetMessengerProfile(profile, token);
+    }
+
+    @Override
+    public void addWhitelistedDomain(String domain) {
+        addWhitelistedDomain(domain, properties.getAccessToken());
+    }
+
+    @Override
+    public void addWhitelistedDomain(String domain, String token) {
+        List<String> whitelistedDomains = getWhitelistedDomains(token);
+        if (!whitelistedDomains.contains(domain)) {
+            whitelistedDomains = new ArrayList<>(whitelistedDomains);
+            whitelistedDomains.add(domain);
+        }
+        setWhitelistedDomains(whitelistedDomains, token);
+    }
+
+    @Override
+    public boolean removeWhitelistedDomains() {
+        return removeWhitelistedDomains(properties.getAccessToken());
+    }
+
+    @Override
+    public boolean removeWhitelistedDomains(String token) {
+        String url = properties.getPageProfileUrl(token);
+        ProfileFields fields = new ProfileFields().withWhitelistedDomains();
+        return tryToRemoveProfileFields(url, fields);
     }
 
     private void trySetMessengerProfile(MessengerProfile profile, String token) {

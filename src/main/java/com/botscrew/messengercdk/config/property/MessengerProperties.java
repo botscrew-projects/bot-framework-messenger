@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
 
 /**
  * Describes Facebook Messenger-specific properties used inside messenger module
@@ -82,6 +83,13 @@ public class MessengerProperties {
         return pageProfileUrlBuilder
                 .param(ACCESS_TOKEN_PARAM, token)
                 .build().getValue();
+    }
+
+    public String getPageProfileUrl(String token, Map<String, String> urlParameters) {
+        URL.Builder builder = pageProfileUrlBuilder
+                .param(ACCESS_TOKEN_PARAM, token);
+        urlParameters.forEach(builder::param);
+        return builder.build().getValue();
     }
 
     public String getProfileUrl(String id) {

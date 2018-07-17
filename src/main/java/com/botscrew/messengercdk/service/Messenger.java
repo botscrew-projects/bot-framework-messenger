@@ -50,6 +50,22 @@ public interface Messenger {
 
     void setGreeting(Greeting greeting, String token);
 
+    boolean removeGreeting();
+
+    boolean removeGreeting(String token);
+
+    List<String> getWhitelistedDomains();
+
+    List<String> getWhitelistedDomains(String token);
+
+    void addWhitelistedDomain(String domain);
+
+    void addWhitelistedDomain(String domain, String token);
+
+    boolean removeWhitelistedDomains();
+
+    boolean removeWhitelistedDomains(String token);
+
     void setWhitelistedDomains(List<String> domains);
 
     void setWhitelistedDomains(List<String> domains, String token);

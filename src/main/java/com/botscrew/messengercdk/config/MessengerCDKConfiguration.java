@@ -71,8 +71,10 @@ import java.util.List;
 public class MessengerCDKConfiguration {
 
     @Bean
-    public Messenger messenger(RestTemplate restTemplate, MessengerProperties messengerProperties) {
-        return new MessengerImpl(restTemplate, messengerProperties);
+    public Messenger messenger(RestTemplate restTemplate,
+                               MessengerProperties messengerProperties,
+                               ObjectMapper objectMapper) {
+        return new MessengerImpl(restTemplate, messengerProperties, objectMapper);
     }
 
     @Bean
