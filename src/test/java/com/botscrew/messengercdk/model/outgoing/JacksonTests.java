@@ -18,6 +18,7 @@ package com.botscrew.messengercdk.model.outgoing;
 
 import com.botscrew.messengercdk.config.MessengerCDKConfiguration;
 import com.botscrew.messengercdk.model.MessengerUser;
+import com.botscrew.messengercdk.model.outgoing.builder.Attachment;
 import com.botscrew.messengercdk.model.outgoing.builder.TextMessage;
 import com.botscrew.messengercdk.model.outgoing.request.MessageRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,6 +52,28 @@ public class JacksonTests {
                     }
                 })
                 .text(null)
+                .build();
+
+        String json = this.json.write(request).getJson();
+        assert !json.contains("text");
+    }
+
+    @Test
+    public void attachmentRequestShouldNotContainTextFieldIfIsNull() throws IOException {
+        MessageRequest request = Attachment.builder()
+                .user(new MessengerUser() {
+                    @Override
+                    public Long getChatId() {
+                        return 1L;
+                    }
+
+                    @Override
+                    public String getState() {
+                        return "default";
+                    }
+                })
+                .url("")
+                .type(com.botscrew.messengercdk.model.outgoing.attachment.Attachment.Type.IMAGE)
                 .build();
 
         String json = this.json.write(request).getJson();
