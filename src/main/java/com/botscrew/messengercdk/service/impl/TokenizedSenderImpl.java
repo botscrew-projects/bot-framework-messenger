@@ -20,6 +20,7 @@ import com.botscrew.messengercdk.config.property.MessengerProperties;
 import com.botscrew.messengercdk.domain.action.AfterSendMessage;
 import com.botscrew.messengercdk.domain.action.BeforeSendMessage;
 import com.botscrew.messengercdk.domain.internal.LockingQueue;
+import com.botscrew.messengercdk.exception.InterceptorInterruptedException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.model.incomming.Response;
@@ -31,6 +32,7 @@ import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
 import com.botscrew.messengercdk.model.outgoing.request.Request;
 import com.botscrew.messengercdk.service.InterceptorsTrigger;
 import com.botscrew.messengercdk.service.TokenizedSender;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.TaskExecutor;
@@ -46,6 +48,7 @@ import java.util.concurrent.ScheduledFuture;
 /**
  * Implementation of {@link TokenizedSender} used by default
  */
+@Slf4j
 public class TokenizedSenderImpl implements TokenizedSender {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReportHandler.class);
 
@@ -145,7 +148,13 @@ public class TokenizedSenderImpl implements TokenizedSender {
 
     private void post(String token, Request request) {
         LOGGER.debug("Posting message: \n{}", request);
-        triggerBeforeMessageInterceptors(token, request);
+        try {
+            triggerBeforeMessageInterceptors(token, request);
+        }
+        catch (InterceptorInterruptedException e) {
+            log.info(e.getMessage());
+            return;
+        }
 
         Long id = request.getRecipient().getId();
         LockingQueue<Request> queue = lockingRequests.computeIfAbsent(id, k -> new LockingQueue<>());

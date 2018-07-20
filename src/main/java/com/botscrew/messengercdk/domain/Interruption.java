@@ -14,18 +14,27 @@
  * limitations under the License.
  */
 
-package com.botscrew.messengercdk.exception;
+package com.botscrew.messengercdk.domain;
 
-/**
- * Describes exception happened while using Facebook Messenger Send API
- */
-public class SendAPIException extends MessengerCDKException {
+public class Interruption {
+    private final boolean interrupt;
+    private final String cause;
 
-    public SendAPIException(String message) {
-        super(message);
+    public Interruption(boolean interrupt) {
+        this.interrupt = interrupt;
+        this.cause = "";
     }
 
-    public SendAPIException(String message, Throwable cause) {
-        super(message, cause);
+    public Interruption(boolean interrupt, String cause) {
+        this.interrupt = interrupt;
+        this.cause = cause;
+    }
+
+    public boolean isInterrupt() {
+        return interrupt;
+    }
+
+    public String getCause() {
+        return cause;
     }
 }

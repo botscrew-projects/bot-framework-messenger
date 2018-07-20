@@ -16,11 +16,13 @@
 
 package com.botscrew.messengercdk.service.impl;
 
+import com.botscrew.messengercdk.domain.Interruption;
 import com.botscrew.messengercdk.domain.MessengerInterceptor;
 import com.botscrew.messengercdk.domain.action.AfterSendMessage;
 import com.botscrew.messengercdk.domain.action.BeforeSendMessage;
 import com.botscrew.messengercdk.domain.action.GetEvent;
 import com.botscrew.messengercdk.domain.action.ProcessedEvent;
+import com.botscrew.messengercdk.exception.InterceptorInterruptedException;
 import com.botscrew.messengercdk.service.InterceptorsTrigger;
 
 import java.util.List;
@@ -29,6 +31,7 @@ import java.util.List;
  * Implementation of {@link InterceptorsTrigger} used by default
  */
 public class DefaultInterceptorsTrigger implements InterceptorsTrigger {
+
     private final List<MessengerInterceptor<GetEvent>> getEventInterceptors;
     private final List<MessengerInterceptor<ProcessedEvent>> processedEventInterceptors;
     private final List<MessengerInterceptor<BeforeSendMessage>> beforeSendMessageInterceptors;
@@ -47,28 +50,39 @@ public class DefaultInterceptorsTrigger implements InterceptorsTrigger {
     @Override
     public void trigger(GetEvent getEvent) {
         for (MessengerInterceptor<GetEvent> interceptor : getEventInterceptors) {
-            interceptor.onAction(getEvent);
+            Interruption interruption = interceptor.onAction(getEvent);
+            check(interruption);
         }
     }
 
     @Override
     public void trigger(ProcessedEvent processedEvent) {
         for (MessengerInterceptor<ProcessedEvent> interceptor : processedEventInterceptors) {
-            interceptor.onAction(processedEvent);
+            Interruption interruption = interceptor.onAction(processedEvent);
+            check(interruption);
         }
     }
 
     @Override
     public void trigger(BeforeSendMessage beforeSendMessage) {
         for (MessengerInterceptor<BeforeSendMessage> interceptor : beforeSendMessageInterceptors) {
-            interceptor.onAction(beforeSendMessage);
+            Interruption interruption = interceptor.onAction(beforeSendMessage);
+            check(interruption);
         }
     }
 
     @Override
     public void trigger(AfterSendMessage afterSendMessage) {
         for (MessengerInterceptor<AfterSendMessage> interceptor : afterSendMessageInterceptors) {
-            interceptor.onAction(afterSendMessage);
+            Interruption interruption = interceptor.onAction(afterSendMessage);
+            check(interruption);
+        }
+    }
+
+    private void check(Interruption interruption) {
+        if (interruption.isInterrupt()) {
+            String message = "Interceptor interrupted execution with reason: " + interruption.getCause();
+            throw new InterceptorInterruptedException(message);
         }
     }
 }

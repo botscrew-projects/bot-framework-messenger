@@ -18,6 +18,7 @@ package com.botscrew.messengercdk.service.impl;
 
 import com.botscrew.messengercdk.domain.action.GetEvent;
 import com.botscrew.messengercdk.domain.action.ProcessedEvent;
+import com.botscrew.messengercdk.exception.InterceptorInterruptedException;
 import com.botscrew.messengercdk.exception.MessengerCDKException;
 import com.botscrew.messengercdk.model.MessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
@@ -99,7 +100,14 @@ public class DefaultReportHandler implements ReportHandler {
 
             MessengerUser user = userProvider.getByChatIdAndPageId(userId, messengerBot.getPageId());
 
-            triggerGetEventInterceptors(messaging, type, user, messengerBot);
+            try {
+                triggerGetEventInterceptors(messaging, type, user, messengerBot);
+            }
+            catch (InterceptorInterruptedException e) {
+                log.info(e.getMessage());
+                continue;
+            }
+
             EventHandler handler = eventHandlers.get(type);
             if (handler != null) {
                 handler.handle(user, messaging);
@@ -111,9 +119,9 @@ public class DefaultReportHandler implements ReportHandler {
     }
 
     private void triggerGetEventInterceptors(Messaging messaging,
-                                             EventType type,
-                                             MessengerUser messengerUser,
-                                             MessengerBot messengerBot) {
+                                                EventType type,
+                                                MessengerUser messengerUser,
+                                                MessengerBot messengerBot) {
         GetEvent getEvent = new GetEvent(messaging, type, messengerUser, messengerBot);
         interceptorsTrigger.trigger(getEvent);
     }

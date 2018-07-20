@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package com.botscrew.messengercdk.domain;
+package com.botscrew.messengercdk.exception;
 
-import com.botscrew.messengercdk.domain.action.MessengerAction;
+public class InterceptorInterruptedException extends MessengerCDKException {
+    public InterceptorInterruptedException(String message) {
+        super(message);
+    }
 
-/**
- * Abstraction for interceptors working inside messenger module
- * @param <E> Type of action
- */
-public interface MessengerInterceptor<E extends MessengerAction> {
-
-    Interruption onAction(E e);
+    public InterceptorInterruptedException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

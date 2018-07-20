@@ -16,10 +16,12 @@
 
 package com.botscrew.messengercdk.exception;
 
+import com.botscrew.botframework.exception.BotFrameworkException;
+
 /**
  * Describes exception happened inside messenger module
  */
-public class MessengerCDKException extends RuntimeException {
+public class MessengerCDKException extends BotFrameworkException {
 
     public MessengerCDKException(String message) {
         super(message);
