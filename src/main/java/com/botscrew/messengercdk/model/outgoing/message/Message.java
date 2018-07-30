@@ -16,7 +16,12 @@
 
 package com.botscrew.messengercdk.model.outgoing.message;
 
+import com.botscrew.messengercdk.model.outgoing.element.button.PostbackButton;
+import com.botscrew.messengercdk.model.outgoing.element.button.ShareButton;
+import com.botscrew.messengercdk.model.outgoing.element.button.WebButton;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

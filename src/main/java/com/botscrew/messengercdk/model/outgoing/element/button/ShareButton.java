@@ -48,7 +48,7 @@ public class ShareButton extends Button {
         return shareContent;
     }
 
-    public void setShareContent(MessageRequest request) {
+    public void shareContent(MessageRequest request) {
         this.shareContent = request.getMessage();
     }
 }

@@ -16,15 +16,30 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.button;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type",
+        visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = PostbackButton.class, name = "postback"),
+        @JsonSubTypes.Type(value = ShareButton.class, name = "element_share"),
+        @JsonSubTypes.Type(value = WebButton.class, name = "web_url"),
+})
 public abstract class Button {
 
     private String title;
     private String type;
+
+    public Button() {
+    }
 
     public Button(String type, String title) {
         this.type = type;

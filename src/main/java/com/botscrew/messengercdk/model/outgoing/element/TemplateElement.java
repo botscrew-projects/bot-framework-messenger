@@ -19,10 +19,7 @@ package com.botscrew.messengercdk.model.outgoing.element;
 import com.botscrew.messengercdk.model.outgoing.element.button.Button;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Singular;
+import lombok.*;
 
 import java.util.List;
 
@@ -30,6 +27,8 @@ import java.util.List;
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
+@AllArgsConstructor
 public class TemplateElement {
     private String title;
     private String subtitle;

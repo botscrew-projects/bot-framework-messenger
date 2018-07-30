@@ -34,4 +34,10 @@ public class Messaging {
     private Read read;
     private Delivery delivery;
 
+    public Messaging() {
+    }
+
+    public Messaging(Message message) {
+        this.message = message;
+    }
 }

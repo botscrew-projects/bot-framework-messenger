@@ -31,6 +31,9 @@ public class WebButton extends Button {
     @JsonProperty("fallback_url")
     private String fallbackUrl;
 
+    public WebButton() {
+    }
+
     public WebButton(String title, String url) {
         super("web_url", title);
         this.url = url;

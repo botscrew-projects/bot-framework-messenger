@@ -30,4 +30,10 @@ public class Report {
     private String object;
     private List<MessagingBundle> entry;
 
+    public Report() {
+    }
+
+    public Report(List<MessagingBundle> entry) {
+        this.entry = entry;
+    }
 }

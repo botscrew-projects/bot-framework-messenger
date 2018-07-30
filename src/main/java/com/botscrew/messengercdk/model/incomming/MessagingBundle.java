@@ -31,4 +31,10 @@ public class MessagingBundle {
     private Long time;
     private List<Messaging> messaging;
 
+    public MessagingBundle() {
+    }
+
+    public MessagingBundle(List<Messaging> messaging) {
+        this.messaging = messaging;
+    }
 }

@@ -33,6 +33,9 @@ public class WebAction {
     @JsonProperty("fallback_url")
     private String fallbackUrl;
 
+    public WebAction() {
+    }
+
     public WebAction(String url) {
         this.url = url;
     }
