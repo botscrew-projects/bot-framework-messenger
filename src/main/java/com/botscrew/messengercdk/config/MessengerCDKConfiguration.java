@@ -71,6 +71,7 @@ import java.util.List;
 public class MessengerCDKConfiguration {
 
     @Bean
+    @ConditionalOnMissingBean(Messenger.class)
     public Messenger messenger(RestTemplate restTemplate,
                                MessengerProperties messengerProperties,
                                ObjectMapper objectMapper) {
@@ -78,6 +79,7 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(TokenizedSender.class)
     public TokenizedSender messageSender(RestTemplate restTemplate,
                                          MessengerProperties messengerProperties,
                                          @Qualifier("defaultSenderTaskScheduler") ThreadPoolTaskScheduler scheduler,
@@ -102,6 +104,7 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(EventTypeResolver.class)
     public EventTypeResolver eventTypeResolver() {
         return new DefaultEventTypeResolver();
     }
@@ -164,11 +167,13 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(SubscriptionReviewer.class)
     public SubscriptionReviewer subscriptionReviewer(MessengerProperties properties) {
         return new DefaultSubscriptionReviewer(properties);
     }
 
     @Bean
+    @ConditionalOnMissingBean(MessengerEventController.class)
     public MessengerEventController messengerEventController(ReportHandler reportHandler,
                                                              SubscriptionReviewer subscriptionReviewer) {
         return new MessengerEventController(reportHandler, subscriptionReviewer);
