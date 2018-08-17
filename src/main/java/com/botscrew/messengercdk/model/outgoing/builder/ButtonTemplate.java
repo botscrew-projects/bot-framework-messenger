@@ -43,6 +43,7 @@ public class ButtonTemplate {
         private String text;
         private List<Button> buttons;
         private MessagingType messagingType;
+        private String tag;
 
         public Builder() {
             buttons = new ArrayList<>();
@@ -74,9 +75,15 @@ public class ButtonTemplate {
             return this;
         }
 
+        public Builder tag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
         public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
+            request.setTag(this.tag);
 
             ButtonTemplatePayload payload = new ButtonTemplatePayload(text, buttons);
             Attachment attachment = new TemplateAttachment(payload);

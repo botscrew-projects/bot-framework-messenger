@@ -45,6 +45,7 @@ public class ListTemplate {
         private List<Button> buttons;
         private TopElementStyle topElementStyle;
         private MessagingType messagingType;
+        private String tag;
 
         public Builder() {
             elements = new ArrayList<>();
@@ -87,10 +88,16 @@ public class ListTemplate {
             return this;
         }
 
+        public Builder tag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
         public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
+            request.setTag(tag);
 
             ListTemplatePayload listTemplatePayload = new ListTemplatePayload(elements, buttons, topElementStyle);
             TemplateAttachment templateAttachment = new TemplateAttachment(listTemplatePayload);

@@ -18,13 +18,16 @@ package com.botscrew.messengercdk.model.outgoing.request;
 
 import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.Message;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MessageRequest extends Request {
 
     @JsonProperty("messaging_type")
     private MessagingType messagingType;
     private Message message;
+    private String tag;
 
     public MessagingType getMessagingType() {
         return messagingType;
@@ -40,6 +43,14 @@ public class MessageRequest extends Request {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     @Override

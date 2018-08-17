@@ -40,6 +40,7 @@ public class QuickReplies {
         private MessagingType messagingType;
         private String text;
         private List<QuickReply> quickReplies;
+        private String tag;
 
         public Builder() {
             messagingType = MessagingType.RESPONSE;
@@ -87,10 +88,16 @@ public class QuickReplies {
             return this;
         }
 
+        public Builder tag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
         public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
+            request.setTag(tag);
 
             QuickReplyMessage message = new QuickReplyMessage(text, quickReplies);
             request.setMessage(message);

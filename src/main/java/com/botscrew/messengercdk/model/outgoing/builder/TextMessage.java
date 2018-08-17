@@ -35,6 +35,7 @@ public class TextMessage {
         private MessengerUser user;
         private MessagingType messagingType = MessagingType.RESPONSE;
         private String text;
+        private String tag;
 
         public Builder user(MessengerUser user) {
             this.user = user;
@@ -51,11 +52,17 @@ public class TextMessage {
             return this;
         }
 
+        public Builder tag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
         public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
             request.setMessage(new Message(text));
+            request.setTag(tag);
             return request;
         }
 

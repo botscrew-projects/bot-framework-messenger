@@ -40,6 +40,7 @@ public class MediaTemplate {
         private MediaElement element;
         private MessengerUser user;
         private MessagingType messagingType = MessagingType.RESPONSE;
+        private String tag;
 
         public Builder element(MediaElement element) {
             this.element = element;
@@ -56,10 +57,16 @@ public class MediaTemplate {
             return this;
         }
 
+        public Builder tag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
         public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
             request.setMessagingType(messagingType);
+            request.setTag(tag);
 
             MediaPayload payload = new MediaPayload(Collections.singletonList(element));
             TemplateAttachment attachment = new TemplateAttachment(payload);

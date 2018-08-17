@@ -45,6 +45,7 @@ public class GenericTemplate {
         private String imageAspectRatio;
         private List<QuickReply> quickReplies;
         private MessagingType messagingType;
+        private String tag;
 
         Builder() {
             this.elements = new ArrayList<>();
@@ -97,9 +98,15 @@ public class GenericTemplate {
             return this;
         }
 
+        public Builder tag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
         public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setRecipient(new UserInfo(user.getChatId()));
+            request.setTag(tag);
             GenericTemplatePayload genericTemplatePayload = new GenericTemplatePayload(elements);
             genericTemplatePayload.setSharable(this.sharable);
             genericTemplatePayload.setImageAspectRatio(this.imageAspectRatio);

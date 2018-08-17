@@ -39,6 +39,7 @@ public class Attachment {
         private Long attachmentId;
         private String url;
         private Boolean isReusable;
+        private String tag;
 
         public Builder user(MessengerUser user) {
             this.user = user;
@@ -70,10 +71,16 @@ public class Attachment {
             return this;
         }
 
+        public Builder tag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
         public MessageRequest build() {
             MessageRequest request = new MessageRequest();
             request.setMessagingType(messagingType);
             request.setRecipient(new UserInfo(user.getChatId()));
+            request.setTag(this.tag);
 
             AttachmentPayload payload = new AttachmentPayload(url, isReusable);
             payload.setAttachmentId(attachmentId);
