@@ -52,7 +52,7 @@ public class MessengerProperties {
     private String graphProtocol = HTTPS;
     private String eventsPath = "/messenger/events";
     private String[] profileFields = {"first_name", "last_name", "profile_pic", "gender", "locale", "timezone"};
-    private String appId;
+    private Long appId;
     private String appAccessToken;
 
     private URL.Builder messagingUrlBuilder;
@@ -143,15 +143,15 @@ public class MessengerProperties {
                 .build().getValue();
     }
 
-    public String getGraphApiSubscriptionsUrl(String appId, String appAccessToken) {
+    public String getGraphApiSubscriptionsUrl(Long appId, String appAccessToken) {
         return graphApiSubscriptionsUrlBuilder
                 .path(appId + "/subscriptions")
-                .param("app_id", appId)
+                .param("app_id", Long.toString(appId))
                 .param(ACCESS_TOKEN, appAccessToken)
                 .build().getValue();
     }
 
-    public String getGraphApiSubscriptionsUrl(String customAppId) {
+    public String getGraphApiSubscriptionsUrl(Long customAppId) {
         return graphApiSubscriptionsUrlBuilder
                 .path(customAppId + "/subscriptions")
                 .build().getValue();
