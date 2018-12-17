@@ -17,6 +17,7 @@
 package com.botscrew.messengercdk.model.outgoing.profile;
 
 import com.botscrew.messengercdk.model.outgoing.element.button.GetStartedButton;
+import com.botscrew.messengercdk.model.outgoing.profile.Greeting;
 import com.botscrew.messengercdk.model.outgoing.profile.menu.PersistentMenu;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -16,6 +16,7 @@
 
 package com.botscrew.messengercdk.model.outgoing.profile.menu;
 
+import com.botscrew.messengercdk.model.outgoing.profile.menu.MenuItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -69,8 +70,8 @@ public class NestedMenuItem extends MenuItem {
             return this;
         }
 
-        public NestedMenuItem build() {
-            return new NestedMenuItem(title, nestedMenuItems);
+        public com.botscrew.messengercdk.model.outgoing.profile.menu.NestedMenuItem build() {
+            return new com.botscrew.messengercdk.model.outgoing.profile.menu.NestedMenuItem(title, nestedMenuItems);
         }
     }
 }

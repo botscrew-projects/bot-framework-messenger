@@ -16,6 +16,8 @@
 
 package com.botscrew.messengercdk.model.incomming;
 
+import com.botscrew.messengercdk.model.incomming.Attachment;
+import com.botscrew.messengercdk.model.incomming.Postback;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

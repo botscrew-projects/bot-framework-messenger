@@ -76,7 +76,7 @@ public class URL {
             return this;
         }
 
-        public URL build() {
+        public com.botscrew.messengercdk.util.URL build() {
             UriComponents uriComponents =
                     UriComponentsBuilder.newInstance()
                             .scheme(protocol)
@@ -87,7 +87,7 @@ public class URL {
                             .build();
 
             try {
-                return new URL(uriComponents.toUri().toURL().toString());
+                return new com.botscrew.messengercdk.util.URL(uriComponents.toUri().toURL().toString());
             } catch (MalformedURLException e) {
                 throw new MessengerCDKException("Cannot build messaging url!");
             }

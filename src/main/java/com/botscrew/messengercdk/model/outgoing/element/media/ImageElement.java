@@ -16,6 +16,8 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.media;
 
+import com.botscrew.messengercdk.model.outgoing.element.media.MediaElement;
+
 public class ImageElement extends MediaElement {
     private static final String TYPE = "image";
 

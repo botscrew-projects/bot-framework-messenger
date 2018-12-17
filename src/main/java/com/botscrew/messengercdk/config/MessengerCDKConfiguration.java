@@ -18,6 +18,7 @@ package com.botscrew.messengercdk.config;
 
 import com.botscrew.botframework.domain.user.Platform;
 import com.botscrew.botframework.sender.PlatformSender;
+import com.botscrew.messengercdk.config.EventHandlersConfiguration;
 import com.botscrew.messengercdk.config.property.ExecutorProperties;
 import com.botscrew.messengercdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messengercdk.config.property.MessengerProperties;
@@ -35,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +50,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
 import org.springframework.http.converter.xml.SourceHttpMessageConverter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -77,21 +80,28 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(MessengerSender.class)
-    public MessengerSender messageSender(RestTemplate restTemplate,
-                                                       MessengerProperties messengerProperties,
-                                                       PlatformSender platformSender,
-                                                       @Qualifier("tokenizedSenderTaskExecutor") TaskExecutor taskExecutor,
-                                                       InterceptorsTrigger interceptorsTrigger) {
-        MessengerSender sender = new MessengerSender(
+    @ConditionalOnMissingBean(TokenizedSender.class)
+    public TokenizedSender messageSender(RestTemplate restTemplate,
+                                         MessengerProperties messengerProperties,
+                                         @Qualifier("defaultSenderTaskScheduler") ThreadPoolTaskScheduler scheduler,
+                                         PlatformSender platformSender,
+                                         @Qualifier("tokenizedSenderTaskExecutor") TaskExecutor taskExecutor,
+                                         InterceptorsTrigger interceptorsTrigger) {
+        TokenizedSender tokenizedSender = new TokenizedSenderImpl(
                 restTemplate,
+                messengerProperties,
+                scheduler,
                 taskExecutor,
-                interceptorsTrigger,
-                messengerProperties
-        );
+                interceptorsTrigger);
 
-        platformSender.addSender(Platform.FB_MESSENGER, sender);
-        return sender;
+        platformSender.addSender(Platform.FB_MESSENGER, tokenizedSender);
+        return tokenizedSender;
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "facebook.messenger.access-token")
+    public Sender sender(TokenizedSender tokenizedSender, MessengerProperties messengerProperties) {
+        return new DefaultSender(tokenizedSender, messengerProperties);
     }
 
     @Bean
@@ -213,5 +223,13 @@ public class MessengerCDKConfiguration {
         executor.setKeepAliveSeconds(properties.getKeepAliveSeconds());
         executor.initialize();
         return executor;
+    }
+
+    @Bean(name = "defaultSenderTaskScheduler")
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+        scheduler.setPoolSize(5);
+        scheduler.initialize();
+        return scheduler;
     }
 }

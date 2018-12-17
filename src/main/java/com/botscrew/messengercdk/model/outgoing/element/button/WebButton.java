@@ -16,6 +16,7 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.button;
 
+import com.botscrew.messengercdk.model.outgoing.element.button.Button;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -134,8 +135,8 @@ public class WebButton extends Button {
             return this;
         }
 
-        public WebButton build() {
-            WebButton webButton = new WebButton(this.title, url);
+        public com.botscrew.messengercdk.model.outgoing.element.button.WebButton build() {
+            com.botscrew.messengercdk.model.outgoing.element.button.WebButton webButton = new com.botscrew.messengercdk.model.outgoing.element.button.WebButton(this.title, url);
             webButton.setMessengerExtensions(this.messengerExtensions);
             webButton.setWebviewHeightRation(this.webviewHeightRation);
             webButton.setFallbackUrl(this.fallbackUrl);

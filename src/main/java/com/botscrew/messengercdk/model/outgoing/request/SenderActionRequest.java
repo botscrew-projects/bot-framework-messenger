@@ -18,6 +18,7 @@ package com.botscrew.messengercdk.model.outgoing.request;
 
 import com.botscrew.messengercdk.model.incomming.UserInfo;
 import com.botscrew.messengercdk.model.outgoing.enums.SenderAction;
+import com.botscrew.messengercdk.model.outgoing.request.Request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SenderActionRequest extends Request {

@@ -85,8 +85,8 @@ public class WebAction {
             return this;
         }
 
-        public WebAction build() {
-            WebAction action = new WebAction(url);
+        public com.botscrew.messengercdk.model.outgoing.element.WebAction build() {
+            com.botscrew.messengercdk.model.outgoing.element.WebAction action = new com.botscrew.messengercdk.model.outgoing.element.WebAction(url);
             action.setMessengerExtensions(this.messengerExtensions);
             action.setWebviewHeightRation(this.webviewHeightRation);
             action.setFallbackUrl(this.fallbackUrl);

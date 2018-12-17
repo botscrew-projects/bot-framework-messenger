@@ -16,6 +16,9 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.button;
 
+import com.botscrew.messengercdk.model.outgoing.element.button.PostbackButton;
+import com.botscrew.messengercdk.model.outgoing.element.button.ShareButton;
+import com.botscrew.messengercdk.model.outgoing.element.button.WebButton;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
@@ -25,7 +28,6 @@ import lombok.Setter;
 @Setter
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "type",
         visible = true)
 @JsonSubTypes({

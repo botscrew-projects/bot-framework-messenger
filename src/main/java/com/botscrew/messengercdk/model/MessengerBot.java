@@ -19,25 +19,13 @@ package com.botscrew.messengercdk.model;
 import com.botscrew.botframework.domain.user.Bot;
 import com.botscrew.botframework.domain.user.Platform;
 
-public class MessengerBot implements Bot {
-    private String accessToken;
-    private Long pageId;
-
-    public MessengerBot(Long pageId, String accessToken) {
-        this.pageId = pageId;
-        this.accessToken = accessToken;
-    }
-
+public interface MessengerBot extends Bot {
     @Override
-    public Platform getPlatform() {
+    default Platform getPlatform() {
         return Platform.FB_MESSENGER;
     }
 
-    public Long getPageId() {
-        return pageId;
-    }
+    Long getPageId();
 
-    public String getAccessToken() {
-        return accessToken;
-    }
+    String getAccessToken();
 }

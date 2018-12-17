@@ -17,6 +17,7 @@
 package com.botscrew.messengercdk.model.outgoing.payload;
 
 import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
+import com.botscrew.messengercdk.model.outgoing.payload.TemplatePayload;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

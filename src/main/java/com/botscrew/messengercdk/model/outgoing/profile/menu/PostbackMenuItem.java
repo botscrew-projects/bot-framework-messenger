@@ -16,6 +16,8 @@
 
 package com.botscrew.messengercdk.model.outgoing.profile.menu;
 
+import com.botscrew.messengercdk.model.outgoing.profile.menu.MenuItem;
+
 public class PostbackMenuItem extends MenuItem {
     private String payload;
 
@@ -58,8 +60,8 @@ public class PostbackMenuItem extends MenuItem {
             return this;
         }
 
-        public PostbackMenuItem build() {
-            return new PostbackMenuItem(title, payload);
+        public com.botscrew.messengercdk.model.outgoing.profile.menu.PostbackMenuItem build() {
+            return new com.botscrew.messengercdk.model.outgoing.profile.menu.PostbackMenuItem(title, payload);
         }
     }
 }

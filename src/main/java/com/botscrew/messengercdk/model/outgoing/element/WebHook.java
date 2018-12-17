@@ -38,7 +38,7 @@ public class WebHook {
     @JsonProperty("access_token")
     private String accessToken;
     @JsonIgnore
-    private Long appId;
+    private String appId;
 
     public static class Field {
         private Field() {}

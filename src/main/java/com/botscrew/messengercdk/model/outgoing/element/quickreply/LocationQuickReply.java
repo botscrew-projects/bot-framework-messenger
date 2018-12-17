@@ -16,6 +16,8 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.quickreply;
 
+import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
+
 public class LocationQuickReply extends QuickReply {
 
     public LocationQuickReply() {

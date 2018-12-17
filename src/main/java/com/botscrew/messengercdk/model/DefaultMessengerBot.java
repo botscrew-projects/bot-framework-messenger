@@ -14,20 +14,30 @@
  * limitations under the License.
  */
 
-package com.botscrew.messengercdk.model.outgoing.attachment;
+package com.botscrew.messengercdk.model;
 
-import com.botscrew.messengercdk.model.outgoing.attachment.Attachment;
-import com.botscrew.messengercdk.model.outgoing.element.media.MediaElement;
-import lombok.Getter;
-import lombok.Setter;
+import com.botscrew.messengercdk.model.MessengerBot;
 
-@Getter
-@Setter
-public class MediaAttachment extends Attachment {
-    private MediaElement payload;
+/**
+ * @author Den Boyko
+ * @version 1.0
+ */
+public class DefaultMessengerBot implements MessengerBot {
+    private String accessToken;
+    private Long appId;
 
-    public MediaAttachment(Attachment.Type type, MediaElement payload) {
-        super(type);
-        this.payload = payload;
+    public DefaultMessengerBot(Long appId, String accessToken) {
+        this.appId = appId;
+        this.accessToken = accessToken;
+    }
+
+    @Override
+    public Long getPageId() {
+        return appId;
+    }
+
+    @Override
+    public String getAccessToken() {
+        return accessToken;
     }
 }

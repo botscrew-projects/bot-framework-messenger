@@ -16,6 +16,9 @@
 
 package com.botscrew.messengercdk.config.property;
 
+import com.botscrew.messengercdk.config.property.HandlerTaskExecutorProperties;
+import com.botscrew.messengercdk.config.property.SenderTaskExecutorProperties;
+
 /**
  * Abstraction for executor properties
  * Describes 4 properties:

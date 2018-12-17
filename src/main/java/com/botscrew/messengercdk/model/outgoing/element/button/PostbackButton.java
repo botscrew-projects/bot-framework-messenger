@@ -16,6 +16,7 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.button;
 
+import com.botscrew.messengercdk.model.outgoing.element.button.Button;
 import lombok.Getter;
 import lombok.Setter;
 

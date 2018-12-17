@@ -72,7 +72,7 @@ public interface Messenger {
 
     WebHookResponse getWebHooks();
 
-    WebHookResponse getWebHooks(Long appId, String appAccessToken);
+    WebHookResponse getWebHooks(String appId, String appAccessToken);
 
     Boolean setWebHook(WebHook webHook);
 

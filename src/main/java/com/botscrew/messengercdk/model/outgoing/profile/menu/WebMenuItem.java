@@ -16,6 +16,7 @@
 
 package com.botscrew.messengercdk.model.outgoing.profile.menu;
 
+import com.botscrew.messengercdk.model.outgoing.profile.menu.MenuItem;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -108,8 +109,8 @@ public class WebMenuItem extends MenuItem {
             return this;
         }
 
-        public WebMenuItem build() {
-            WebMenuItem item = new WebMenuItem(title, url);
+        public com.botscrew.messengercdk.model.outgoing.profile.menu.WebMenuItem build() {
+            com.botscrew.messengercdk.model.outgoing.profile.menu.WebMenuItem item = new com.botscrew.messengercdk.model.outgoing.profile.menu.WebMenuItem(title, url);
             item.setWebViewHeightRatio(webViewHeightRatio);
             item.setEnableMessengerExtensions(enableMessengerExtensions);
             return item;

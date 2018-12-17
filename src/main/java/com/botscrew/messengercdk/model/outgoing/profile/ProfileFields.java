@@ -32,27 +32,27 @@ public class ProfileFields {
         this.fields = new ArrayList<>();
     }
 
-    public ProfileFields withPersistentMenu() {
+    public com.botscrew.messengercdk.model.outgoing.profile.ProfileFields withPersistentMenu() {
         return with(PERSISTENT_MENU);
     }
 
-    public ProfileFields withGetStarted() {
+    public com.botscrew.messengercdk.model.outgoing.profile.ProfileFields withGetStarted() {
         return with(GET_STARTED);
     }
 
-    public ProfileFields withGreeting() {
+    public com.botscrew.messengercdk.model.outgoing.profile.ProfileFields withGreeting() {
         return with(GREETING);
     }
 
-    public ProfileFields withWhitelistedDomains() {
+    public com.botscrew.messengercdk.model.outgoing.profile.ProfileFields withWhitelistedDomains() {
         return with(WHITELISTED_DOMAINS);
     }
 
-    public ProfileFields withAccountLinkingUrl() {
+    public com.botscrew.messengercdk.model.outgoing.profile.ProfileFields withAccountLinkingUrl() {
         return with(ACCOUNT_LINKING_URL);
     }
 
-    public ProfileFields with(String field) {
+    public com.botscrew.messengercdk.model.outgoing.profile.ProfileFields with(String field) {
         fields.add(field);
         return this;
     }

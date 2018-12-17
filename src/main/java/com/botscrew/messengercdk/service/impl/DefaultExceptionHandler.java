@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * Implementation of {@link ExceptionHandler} used by default
  */
 public class DefaultExceptionHandler implements ExceptionHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(com.botscrew.messengercdk.service.impl.DefaultExceptionHandler.class);
 
     @Override
     public boolean handle(Exception e) {

@@ -16,6 +16,7 @@
 
 package com.botscrew.messengercdk.model.incomming;
 
+import com.botscrew.messengercdk.model.incomming.AdvertisementReferral;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Profile {

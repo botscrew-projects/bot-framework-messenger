@@ -17,7 +17,7 @@
 package com.botscrew.messengercdk.service.impl;
 
 import com.botscrew.botframework.domain.user.Bot;
-import com.botscrew.messengercdk.model.MessengerBot;
+import com.botscrew.messengercdk.model.DefaultMessengerBot;
 import com.botscrew.messengercdk.model.MessengerUser;
 import com.botscrew.messengercdk.service.UserProvider;
 
@@ -31,7 +31,7 @@ public class DefaultUserProvider implements UserProvider {
         return new MessengerUser() {
             @Override
             public Bot getBot() {
-                return new MessengerBot(pageId, null);
+                return new DefaultMessengerBot(pageId, null);
             }
 
             @Override

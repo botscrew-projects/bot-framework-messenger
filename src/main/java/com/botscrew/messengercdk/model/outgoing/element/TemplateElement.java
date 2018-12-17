@@ -16,6 +16,7 @@
 
 package com.botscrew.messengercdk.model.outgoing.element;
 
+import com.botscrew.messengercdk.model.outgoing.element.WebAction;
 import com.botscrew.messengercdk.model.outgoing.element.button.Button;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

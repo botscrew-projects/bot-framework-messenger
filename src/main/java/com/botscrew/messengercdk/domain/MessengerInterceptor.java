@@ -16,6 +16,7 @@
 
 package com.botscrew.messengercdk.domain;
 
+import com.botscrew.messengercdk.domain.Interruption;
 import com.botscrew.messengercdk.domain.action.MessengerAction;
 
 /**

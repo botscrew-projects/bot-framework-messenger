@@ -16,6 +16,8 @@
 
 package com.botscrew.messengercdk.domain.action;
 
+import com.botscrew.messengercdk.domain.action.GetEvent;
+import com.botscrew.messengercdk.domain.action.MessengerAction;
 import com.botscrew.messengercdk.model.incomming.Messaging;
 
 /**

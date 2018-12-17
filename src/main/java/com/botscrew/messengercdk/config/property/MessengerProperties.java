@@ -36,7 +36,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "facebook.messenger")
 public class MessengerProperties {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessengerProperties.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(com.botscrew.messengercdk.config.property.MessengerProperties.class);
 
     private static final String HTTP = "http";
     private static final String HTTPS = "https";
@@ -52,7 +52,7 @@ public class MessengerProperties {
     private String graphProtocol = HTTPS;
     private String eventsPath = "/messenger/events";
     private String[] profileFields = {"first_name", "last_name", "profile_pic", "gender", "locale", "timezone"};
-    private Long appId;
+    private String appId;
     private String appAccessToken;
 
     private URL.Builder messagingUrlBuilder;
@@ -143,15 +143,15 @@ public class MessengerProperties {
                 .build().getValue();
     }
 
-    public String getGraphApiSubscriptionsUrl(Long appId, String appAccessToken) {
+    public String getGraphApiSubscriptionsUrl(String appId, String appAccessToken) {
         return graphApiSubscriptionsUrlBuilder
                 .path(appId + "/subscriptions")
-                .param("app_id", Long.toString(appId))
+                .param("app_id", appId)
                 .param(ACCESS_TOKEN, appAccessToken)
                 .build().getValue();
     }
 
-    public String getGraphApiSubscriptionsUrl(Long customAppId) {
+    public String getGraphApiSubscriptionsUrl(String customAppId) {
         return graphApiSubscriptionsUrlBuilder
                 .path(customAppId + "/subscriptions")
                 .build().getValue();

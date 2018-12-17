@@ -16,6 +16,8 @@
 
 package com.botscrew.messengercdk.exception;
 
+import com.botscrew.messengercdk.exception.MessengerCDKException;
+
 public class InterceptorInterruptedException extends MessengerCDKException {
     public InterceptorInterruptedException(String message) {
         super(message);
