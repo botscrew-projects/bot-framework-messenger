@@ -40,4 +40,5 @@ public class Message {
     private Postback quickReply;
     @JsonProperty("app_id")
     private Long appId;
+    private String metadata;
 }

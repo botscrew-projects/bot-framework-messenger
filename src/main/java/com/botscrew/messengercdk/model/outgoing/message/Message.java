@@ -27,6 +27,7 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Message {
     private String text;
+    private String metadata;
 
     public Message() {
     }

@@ -28,5 +28,5 @@ public class Postback {
     private String payload;
     private String title;
     private Referral referral;
+    private String metadata;
 }
-

@@ -5,7 +5,7 @@
 
 	<groupId>com.botscrew</groupId>
 	<artifactId>bot-framework-messenger-spring-boot-starter</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
@@ -28,17 +28,17 @@
 		</developer>
 	</developers>
 
-	<scm>
-		<connection>scm:git:git/github.com/botscrew/bot-framework-messenger</connection>
-		<developerConnection>scm:git:git/github.com/botscrew/bot-framework-messenger</developerConnection>
-		<url>https://github.com/botscrew/bot-framework-messenger</url>
-	</scm>
+	<!--<scm>-->
+		<!--<connection>scm:git:git/github.com/botscrew/bot-framework-messenger</connection>-->
+		<!--<developerConnection>scm:git:git/github.com/botscrew/bot-framework-messenger</developerConnection>-->
+		<!--<url>https://github.com/botscrew/bot-framework-messenger</url>-->
+	<!--</scm>-->
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>9</version>
-	</parent>
+	<!--<parent>-->
+		<!--<groupId>org.sonatype.oss</groupId>-->
+		<!--<artifactId>oss-parent</artifactId>-->
+		<!--<version>9</version>-->
+	<!--</parent>-->
 
 	<dependencyManagement>
 		<dependencies>
@@ -53,27 +53,27 @@
 	</dependencyManagement>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-gpg-plugin</artifactId>
-					<version>1.5</version>
-					<executions>
-						<execution>
-							<id>sign-artifacts</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>sign</goal>
-							</goals>
-							<configuration>
-								<keyname>${gpg.keyname}</keyname>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<!--<pluginManagement>-->
+			<!--<plugins>-->
+				<!--<plugin>-->
+					<!--<groupId>org.apache.maven.plugins</groupId>-->
+					<!--<artifactId>maven-gpg-plugin</artifactId>-->
+					<!--<version>1.5</version>-->
+					<!--<executions>-->
+						<!--<execution>-->
+							<!--<id>sign-artifacts</id>-->
+							<!--<phase>verify</phase>-->
+							<!--<goals>-->
+								<!--<goal>sign</goal>-->
+							<!--</goals>-->
+							<!--<configuration>-->
+								<!--<keyname>${gpg.keyname}</keyname>-->
+							<!--</configuration>-->
+						<!--</execution>-->
+					<!--</executions>-->
+				<!--</plugin>-->
+			<!--</plugins>-->
+		<!--</pluginManagement>-->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -104,20 +104,20 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.apache.maven.plugins</groupId>-->
+				<!--<artifactId>maven-gpg-plugin</artifactId>-->
+				<!--<version>1.6</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>sign-artifacts</id>-->
+						<!--<phase>verify</phase>-->
+						<!--<goals>-->
+							<!--<goal>sign</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
