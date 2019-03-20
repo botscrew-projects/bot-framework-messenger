@@ -47,7 +47,7 @@ public class MessengerProperties {
     private String accessToken;
     private String graphHost = "graph.facebook.com";
     private Integer graphPort = 443;
-    private String graphApiVersion = "2.6";
+    private String graphApiVersion = "3.2";
     private String messagingPath = "/me/messages";
     private String graphProtocol = HTTPS;
     private String eventsPath = "/messenger/events";
