@@ -19,6 +19,7 @@ package com.botscrew.messengercdk.config;
 import com.botscrew.botframework.domain.user.Platform;
 import com.botscrew.botframework.sender.PlatformSender;
 import com.botscrew.messengercdk.config.EventHandlersConfiguration;
+import com.botscrew.messengercdk.config.cuncurrency.CustomRejectedExecutionHandler;
 import com.botscrew.messengercdk.config.property.ExecutorProperties;
 import com.botscrew.messengercdk.config.property.HandlerTaskExecutorProperties;
 import com.botscrew.messengercdk.config.property.MessengerProperties;
@@ -56,6 +57,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionHandler;
 
 /**
  * Main Spring configuration for messenger module
@@ -221,6 +223,7 @@ public class MessengerCDKConfiguration {
         executor.setMaxPoolSize(properties.getMaxPoolSize());
         executor.setQueueCapacity(properties.getQueueCapacity());
         executor.setKeepAliveSeconds(properties.getKeepAliveSeconds());
+        executor.setRejectedExecutionHandler(rejectedExecutionHandler());
         executor.initialize();
         return executor;
     }
@@ -231,5 +234,10 @@ public class MessengerCDKConfiguration {
         scheduler.setPoolSize(5);
         scheduler.initialize();
         return scheduler;
+    }
+
+    @Bean
+    public RejectedExecutionHandler rejectedExecutionHandler(){
+        return new CustomRejectedExecutionHandler();
     }
 }
