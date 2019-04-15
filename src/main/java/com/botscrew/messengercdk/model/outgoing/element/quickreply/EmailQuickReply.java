@@ -16,8 +16,6 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.quickreply;
 
-import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
-
 public class EmailQuickReply extends QuickReply {
     public EmailQuickReply() {
         super("user_email");

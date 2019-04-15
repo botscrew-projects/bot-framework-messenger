@@ -16,8 +16,6 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.quickreply;
 
-import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
-
 public class PhoneQuickReply extends QuickReply {
     public PhoneQuickReply() {
         super("user_phone_number");

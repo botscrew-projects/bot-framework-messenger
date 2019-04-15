@@ -134,8 +134,8 @@ public class WebButton extends Button {
             return this;
         }
 
-        public com.botscrew.messengercdk.model.outgoing.element.button.WebButton build() {
-            com.botscrew.messengercdk.model.outgoing.element.button.WebButton webButton = new com.botscrew.messengercdk.model.outgoing.element.button.WebButton(this.title, url);
+        public WebButton build() {
+            WebButton webButton = new WebButton(this.title, url);
             webButton.setMessengerExtensions(this.messengerExtensions);
             webButton.setWebviewHeightRation(this.webviewHeightRation);
             webButton.setFallbackUrl(this.fallbackUrl);

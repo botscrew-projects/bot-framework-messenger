@@ -25,10 +25,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Coordinates {
-
     @JsonProperty("long")
     private Double longitude;
     @JsonProperty("lat")
     private Double latitude;
-
 }

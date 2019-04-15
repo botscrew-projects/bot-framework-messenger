@@ -18,7 +18,6 @@ package com.botscrew.messengercdk.model.outgoing.request;
 
 import com.botscrew.messengercdk.model.outgoing.enums.MessagingType;
 import com.botscrew.messengercdk.model.outgoing.message.Message;
-import com.botscrew.messengercdk.model.outgoing.request.Request;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

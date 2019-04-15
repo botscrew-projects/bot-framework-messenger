@@ -16,7 +16,6 @@
 
 package com.botscrew.messengercdk.model.outgoing.profile.menu;
 
-import com.botscrew.messengercdk.model.outgoing.profile.menu.MenuItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

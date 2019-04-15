@@ -16,7 +16,6 @@
 
 package com.botscrew.messengercdk.model.incomming.webhook;
 
-import com.botscrew.messengercdk.model.incomming.webhook.GraphField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,5 +32,4 @@ public class GraphWebHook {
     private String callbackUrl;
     private Boolean active;
     private List<GraphField> fields;
-
 }

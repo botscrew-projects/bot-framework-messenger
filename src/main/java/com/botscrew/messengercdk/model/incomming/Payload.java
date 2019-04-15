@@ -16,7 +16,6 @@
 
 package com.botscrew.messengercdk.model.incomming;
 
-import com.botscrew.messengercdk.model.incomming.Coordinates;
 import com.botscrew.messengercdk.model.outgoing.element.TemplateElement;
 import com.botscrew.messengercdk.model.outgoing.element.button.Button;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,18 +30,14 @@ import java.util.List;
 @ToString
 public class Payload {
     private String url;
-
     private Coordinates coordinates;
-
     @JsonProperty("template_type")
     private String templateType;
-
     private Boolean sharable;
     private List<Button> buttons;
     private List<TemplateElement> elements;
     @JsonProperty("image_aspect_ratio")
     private String imageAspectRatio;
-
     @JsonProperty("attachment_id")
     private Long attachmentId;
     @JsonProperty("is_reusable")

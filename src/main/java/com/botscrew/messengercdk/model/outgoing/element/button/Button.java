@@ -34,7 +34,6 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = WebButton.class, name = "web_url"),
 })
 public abstract class Button {
-
     private String title;
     private String type;
 

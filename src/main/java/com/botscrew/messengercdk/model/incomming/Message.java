@@ -16,8 +16,6 @@
 
 package com.botscrew.messengercdk.model.incomming;
 
-import com.botscrew.messengercdk.model.incomming.Attachment;
-import com.botscrew.messengercdk.model.incomming.Postback;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +27,6 @@ import java.util.List;
 @Setter
 @ToString
 public class Message {
-
     @JsonProperty("is_echo")
     private boolean isEcho;
     private String mid;

@@ -16,8 +16,6 @@
 
 package com.botscrew.messengercdk.model.outgoing.element.quickreply;
 
-import com.botscrew.messengercdk.model.outgoing.element.quickreply.QuickReply;
-
 public class PostbackQuickReply extends QuickReply {
     private String title;
     private String payload;

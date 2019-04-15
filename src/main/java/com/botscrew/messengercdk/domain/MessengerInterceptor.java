@@ -16,7 +16,6 @@
 
 package com.botscrew.messengercdk.domain;
 
-import com.botscrew.messengercdk.domain.Interruption;
 import com.botscrew.messengercdk.domain.action.MessengerAction;
 
 /**
@@ -24,6 +23,5 @@ import com.botscrew.messengercdk.domain.action.MessengerAction;
  * @param <E> Type of action
  */
 public interface MessengerInterceptor<E extends MessengerAction> {
-
     Interruption onAction(E e);
 }

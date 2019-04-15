@@ -16,7 +16,6 @@
 
 package com.botscrew.messengercdk.model.outgoing.attachment;
 
-import com.botscrew.messengercdk.model.outgoing.attachment.Attachment;
 import com.botscrew.messengercdk.model.outgoing.payload.AttachmentPayload;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +29,4 @@ public class ContentAttachment extends Attachment {
         super(type);
         this.payload = payload;
     }
-
-
 }

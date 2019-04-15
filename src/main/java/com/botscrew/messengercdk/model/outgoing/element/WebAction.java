@@ -23,7 +23,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WebAction {
-
     private String type = "web_url";
     private String url;
     @JsonProperty("messenger_extensions")
@@ -85,8 +84,8 @@ public class WebAction {
             return this;
         }
 
-        public com.botscrew.messengercdk.model.outgoing.element.WebAction build() {
-            com.botscrew.messengercdk.model.outgoing.element.WebAction action = new com.botscrew.messengercdk.model.outgoing.element.WebAction(url);
+        public WebAction build() {
+            WebAction action = new WebAction(url);
             action.setMessengerExtensions(this.messengerExtensions);
             action.setWebviewHeightRation(this.webviewHeightRation);
             action.setFallbackUrl(this.fallbackUrl);

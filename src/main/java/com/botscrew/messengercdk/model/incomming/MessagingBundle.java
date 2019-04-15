@@ -16,7 +16,6 @@
 
 package com.botscrew.messengercdk.model.incomming;
 
-import com.botscrew.messengercdk.model.incomming.Messaging;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,7 +26,6 @@ import java.util.List;
 @Setter
 @ToString
 public class MessagingBundle {
-
     private String id;
     private Long time;
     private List<Messaging> messaging;

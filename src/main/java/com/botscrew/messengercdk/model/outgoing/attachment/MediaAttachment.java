@@ -16,7 +16,6 @@
 
 package com.botscrew.messengercdk.model.outgoing.attachment;
 
-import com.botscrew.messengercdk.model.outgoing.attachment.Attachment;
 import com.botscrew.messengercdk.model.outgoing.element.media.MediaElement;
 import lombok.Getter;
 import lombok.Setter;
