@@ -36,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,15 +62,13 @@ import java.util.concurrent.RejectedExecutionHandler;
  * Imports {@link EventHandlersConfiguration}
  */
 @Configuration
-@EnableConfigurationProperties(value = {
+@EnableConfigurationProperties({
         MessengerProperties.class,
         HandlerTaskExecutorProperties.class,
         SenderTaskExecutorProperties.class
-
 })
 @Import(EventHandlersConfiguration.class)
 public class MessengerCDKConfiguration {
-
     @Bean
     @ConditionalOnMissingBean(Messenger.class)
     public Messenger messenger(RestTemplate restTemplate,
@@ -80,11 +79,11 @@ public class MessengerCDKConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(MessengerSender.class)
-    public MessengerSender messageSender(RestTemplate restTemplate,
-                                         MessengerProperties messengerProperties,
-                                         PlatformSender platformSender,
-                                         @Qualifier("messengerSenderTaskExecutor") TaskExecutor taskExecutor,
-                                         InterceptorsTrigger interceptorsTrigger) {
+    public MessengerSender defaultMessengerSender(RestTemplate restTemplate,
+                                                  MessengerProperties messengerProperties,
+                                                  PlatformSender platformSender,
+                                                  @Qualifier("messengerSenderTaskExecutor") TaskExecutor taskExecutor,
+                                                  InterceptorsTrigger interceptorsTrigger) {
         MessengerSender sender = new MessengerSender(
                 restTemplate,
                 taskExecutor,
@@ -203,7 +202,7 @@ public class MessengerCDKConfiguration {
     }
 
     @Bean(name = "messengerSenderTaskExecutor")
-    public TaskExecutor messageSendingTaskExecutor(SenderTaskExecutorProperties properties) {
+    public TaskExecutor messengerSenderTaskExecutor(SenderTaskExecutorProperties properties) {
         return createExecutorWithProperties(properties);
     }
 
