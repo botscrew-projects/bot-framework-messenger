@@ -238,7 +238,7 @@ public class MessengerImpl implements Messenger {
     }
 
     @Override
-    public WebHookResponse getWebHooks(String appId, String appAccessToken) {
+    public WebHookResponse getWebHooks(Long appId, String appAccessToken) {
         String graphApiSubscriptionsUrl = properties.getGraphApiSubscriptionsUrl(appId, appAccessToken);
         try {
             return restTemplate.getForObject(graphApiSubscriptionsUrl, WebHookResponse.class);
@@ -249,7 +249,7 @@ public class MessengerImpl implements Messenger {
 
     @Override
     public Boolean setWebHook(WebHook webHook) {
-        if (webHook.getAppId() == null || webHook.getAppId().isEmpty()) {
+        if (webHook.getAppId() == null) {
             webHook.setAppId(properties.getAppId());
         }
         if (webHook.getAccessToken() == null || webHook.getAccessToken().isEmpty()) {
