@@ -32,7 +32,7 @@ import java.util.Optional;
 public class URL {
     private final String value;
 
-    URL(String value) {
+    private URL(String value) {
         this.value = value;
     }
 
@@ -76,7 +76,7 @@ public class URL {
             return this;
         }
 
-        public com.botscrew.messengercdk.util.URL build() {
+        public URL build() {
             UriComponents uriComponents =
                     UriComponentsBuilder.newInstance()
                             .scheme(protocol)
@@ -85,9 +85,8 @@ public class URL {
                             .port(port)
                             .query(composeParams())
                             .build();
-
             try {
-                return new com.botscrew.messengercdk.util.URL(uriComponents.toUri().toURL().toString());
+                return new URL(uriComponents.toUri().toURL().toString());
             } catch (MalformedURLException e) {
                 throw new MessengerCDKException("Cannot build messaging url!");
             }

@@ -16,8 +16,6 @@
 
 package com.botscrew.messengercdk.exception;
 
-import com.botscrew.messengercdk.exception.MessengerCDKException;
-
 /**
  * Describes action happened while using Facebook Graph API
  */
